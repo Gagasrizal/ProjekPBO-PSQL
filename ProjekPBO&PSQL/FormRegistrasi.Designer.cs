@@ -67,7 +67,6 @@
             label2.Size = new Size(106, 28);
             label2.TabIndex = 2;
             label2.Text = "Username";
-            label2.Click += this.label2_Click;
             // 
             // label3
             // 
@@ -88,7 +87,6 @@
             label4.Size = new Size(64, 28);
             label4.TabIndex = 4;
             label4.Text = "Email";
-            label4.Click += this.label4_Click;
             // 
             // label5
             // 
@@ -181,7 +179,6 @@
             button2.TabIndex = 15;
             button2.Text = "Cancel";
             button2.UseVisualStyleBackColor = false;
-            button2.Click += this.button2_Click;
             // 
             // pictureBox1
             // 
