@@ -8,11 +8,16 @@ using System.Windows.Forms;
 
 namespace ProjekPBO_PSQL
 {
-    public partial class Form1 : Form
+    public partial class MenuProfilPem : Form
     {
-        public Form1()
+        public MenuProfilPem()
         {
             InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+
         }
     }
 }
