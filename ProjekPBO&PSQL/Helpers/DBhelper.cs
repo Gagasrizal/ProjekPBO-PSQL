@@ -5,7 +5,7 @@ namespace ProjekPBO_PSQL.Helpers
 {
     public static class DBHelper
     {
-        private const string ConnString = "Host=localhost;Port=7721;Username=postgres;Password=OLAA12;Database=greenPOS;Include Error Detail=true";
+        private const string ConnString = "Host=localhost;Port=5432;Username=postgres;Password=54321;Database=ProjekPsql&Pbo;Include Error Detail=true";
 
         public static NpgsqlConnection BukaKoneksi()
         {
