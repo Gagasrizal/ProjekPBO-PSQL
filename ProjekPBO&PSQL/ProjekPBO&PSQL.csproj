@@ -25,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <Folder Include="Models\Entity\" />
+    <Folder Include="Models\Context\" />
   </ItemGroup>
 
 </Project>

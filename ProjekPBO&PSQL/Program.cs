@@ -3,7 +3,7 @@ namespace ProjekPBO_PSQL
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        ///  The main entry point for the application.y
         /// </summary>
         [STAThread]
         static void Main()
