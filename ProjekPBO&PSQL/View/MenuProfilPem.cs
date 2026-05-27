@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ProjekPBO_PSQL
+namespace ProjekPBO_PSQL.View
 {
     public partial class MenuProfilPem : Form
     {
