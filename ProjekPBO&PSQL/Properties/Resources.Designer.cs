@@ -63,6 +63,36 @@ namespace ProjekPBO_PSQL.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Desain_tanpa_judul {
+            get {
+                object obj = ResourceManager.GetObject("Desain tanpa judul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Desain_tanpa_judul__1_ {
+            get {
+                object obj = ResourceManager.GetObject("Desain tanpa judul (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HyperChessOI {
+            get {
+                object obj = ResourceManager.GetObject("HyperChessOI", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Logo_Chess_HC {
             get {
                 object obj = ResourceManager.GetObject("Logo Chess HC", resourceCulture);
