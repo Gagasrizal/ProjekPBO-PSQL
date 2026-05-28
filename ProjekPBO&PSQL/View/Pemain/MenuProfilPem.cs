@@ -17,6 +17,13 @@ namespace ProjekPBO_PSQL.View.Pemain
 
         private void InitializeComponent()
         {
+            SuspendLayout();
+            // 
+            // MenuProfilPem
+            // 
+            ClientSize = new Size(800, 450);
+            Name = "MenuProfilPem";
+            ResumeLayout(false);
 
         }
     }
