@@ -42,11 +42,11 @@
             textBox4 = new TextBox();
             textBox5 = new TextBox();
             textBox6 = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            pictureBox1 = new PictureBox();
             label8 = new Label();
+            pictureBox1 = new PictureBox();
+            roundedButton1 = new RoundedButton();
+            roundedButton2 = new RoundedButton();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -56,7 +56,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(349, 68);
+            label1.Location = new Point(352, 61);
             label1.Name = "label1";
             label1.Size = new Size(79, 21);
             label1.TabIndex = 1;
@@ -68,7 +68,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Silver;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(149, 155);
             label2.Name = "label2";
             label2.Size = new Size(97, 25);
@@ -81,7 +81,7 @@
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Silver;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(149, 221);
             label3.Name = "label3";
             label3.Size = new Size(81, 25);
@@ -94,7 +94,7 @@
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Silver;
+            label4.ForeColor = Color.White;
             label4.Location = new Point(149, 188);
             label4.Name = "label4";
             label4.Size = new Size(58, 25);
@@ -107,7 +107,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.Silver;
+            label5.ForeColor = Color.White;
             label5.Location = new Point(149, 254);
             label5.Name = "label5";
             label5.Size = new Size(78, 25);
@@ -120,7 +120,7 @@
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Silver;
+            label6.ForeColor = Color.White;
             label6.Location = new Point(149, 287);
             label6.Name = "label6";
             label6.Size = new Size(92, 25);
@@ -133,7 +133,7 @@
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.Silver;
+            label7.ForeColor = Color.White;
             label7.Location = new Point(149, 122);
             label7.Name = "label7";
             label7.Size = new Size(97, 25);
@@ -189,42 +189,6 @@
             textBox6.TabIndex = 13;
             textBox6.TextChanged += textBox6_TextChanged;
             // 
-            // button1
-            // 
-            button1.BackColor = Color.White;
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(623, 374);
-            button1.Name = "button1";
-            button1.Size = new Size(131, 37);
-            button1.TabIndex = 14;
-            button1.Text = "Confirm";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.Transparent;
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(50, 374);
-            button2.Name = "button2";
-            button2.Size = new Size(131, 37);
-            button2.TabIndex = 15;
-            button2.Text = "Cancel";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.WhiteSmoke;
-            pictureBox1.BackgroundImageLayout = ImageLayout.None;
-            pictureBox1.Image = Properties.Resources.Logo_Chess_HC;
-            pictureBox1.Location = new Point(1, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(111, 113);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 16;
-            pictureBox1.TabStop = false;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -237,6 +201,52 @@
             label8.TabIndex = 17;
             label8.Text = "Hyper Chess";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.Desain_tanpa_judul__1_1;
+            pictureBox1.Location = new Point(-1, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(111, 111);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 18;
+            pictureBox1.TabStop = false;
+            // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = Color.LightSlateGray;
+            roundedButton1.BackgroundColor = Color.LightSlateGray;
+            roundedButton1.BorderColor = Color.PaleVioletRed;
+            roundedButton1.BorderRadius = 5;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton1.ForeColor = Color.White;
+            roundedButton1.Location = new Point(636, 374);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(131, 37);
+            roundedButton1.TabIndex = 19;
+            roundedButton1.Text = "Confirm";
+            roundedButton1.TextColor = Color.White;
+            roundedButton1.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton2
+            // 
+            roundedButton2.BackColor = Color.LightSlateGray;
+            roundedButton2.BackgroundColor = Color.LightSlateGray;
+            roundedButton2.BorderColor = Color.PaleVioletRed;
+            roundedButton2.BorderRadius = 5;
+            roundedButton2.FlatAppearance.BorderSize = 0;
+            roundedButton2.FlatStyle = FlatStyle.Flat;
+            roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton2.ForeColor = Color.White;
+            roundedButton2.Location = new Point(50, 374);
+            roundedButton2.Name = "roundedButton2";
+            roundedButton2.Size = new Size(131, 37);
+            roundedButton2.TabIndex = 20;
+            roundedButton2.Text = "Cancel";
+            roundedButton2.TextColor = Color.White;
+            roundedButton2.UseVisualStyleBackColor = false;
+            // 
             // FormRegistrasi
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -244,10 +254,10 @@
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(800, 451);
-            Controls.Add(label8);
+            Controls.Add(roundedButton2);
+            Controls.Add(roundedButton1);
             Controls.Add(pictureBox1);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(label8);
             Controls.Add(textBox6);
             Controls.Add(textBox5);
             Controls.Add(textBox4);
@@ -285,10 +295,10 @@
         private TextBox textBox4;
         private TextBox textBox5;
         private TextBox textBox6;
-        private Button button1;
-        private Button button2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private PictureBox pictureBox1;
         private Label label8;
+        private PictureBox pictureBox1;
+        private RoundedButton roundedButton1;
+        private RoundedButton roundedButton2;
     }
 }

@@ -63,6 +63,16 @@ namespace ProjekPBO_PSQL.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BackgroundHitam {
+            get {
+                object obj = ResourceManager.GetObject("BackgroundHitam", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Desain_tanpa_judul {
             get {
                 object obj = ResourceManager.GetObject("Desain tanpa judul", resourceCulture);
@@ -76,6 +86,16 @@ namespace ProjekPBO_PSQL.Properties {
         internal static System.Drawing.Bitmap Desain_tanpa_judul__1_ {
             get {
                 object obj = ResourceManager.GetObject("Desain tanpa judul (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Desain_tanpa_judul__1_1 {
+            get {
+                object obj = ResourceManager.GetObject("Desain tanpa judul (1)1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

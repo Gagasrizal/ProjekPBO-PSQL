@@ -34,11 +34,11 @@
             label2 = new Label();
             label3 = new Label();
             textBox2 = new TextBox();
-            button1 = new Button();
-            linkLabel1 = new LinkLabel();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             label4 = new Label();
             pictureBox1 = new PictureBox();
+            roundedButton1 = new RoundedButton();
+            roundedButton2 = new RoundedButton();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -48,7 +48,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(330, 31);
+            label1.Location = new Point(350, 29);
             label1.Name = "label1";
             label1.Size = new Size(139, 31);
             label1.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(246, 171);
+            textBox1.Location = new Point(269, 171);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(297, 27);
             textBox1.TabIndex = 1;
@@ -69,7 +69,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Transparent;
-            label2.Location = new Point(128, 173);
+            label2.Location = new Point(151, 173);
             label2.Name = "label2";
             label2.Size = new Size(97, 25);
             label2.TabIndex = 2;
@@ -82,7 +82,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Transparent;
-            label3.Location = new Point(128, 206);
+            label3.Location = new Point(151, 206);
             label3.Name = "label3";
             label3.Size = new Size(92, 25);
             label3.TabIndex = 3;
@@ -91,32 +91,10 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(246, 204);
+            textBox2.Location = new Point(269, 204);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(297, 27);
             textBox2.TabIndex = 4;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Transparent;
-            button1.Location = new Point(648, 385);
-            button1.Name = "button1";
-            button1.Size = new Size(140, 54);
-            button1.TabIndex = 5;
-            button1.Text = "Confirm";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(260, 371);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(244, 20);
-            linkLabel1.TabIndex = 7;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Didn't Have Account? Sign Up Here";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // label4
             // 
@@ -124,7 +102,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(365, 73);
+            label4.Location = new Point(385, 71);
             label4.Name = "label4";
             label4.Size = new Size(65, 20);
             label4.TabIndex = 8;
@@ -136,12 +114,46 @@
             pictureBox1.BackgroundImageLayout = ImageLayout.None;
             pictureBox1.ErrorImage = (Image)resources.GetObject("pictureBox1.ErrorImage");
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(149, 126);
+            pictureBox1.Size = new Size(111, 111);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 9;
             pictureBox1.TabStop = false;
+            // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = Color.Green;
+            roundedButton1.BackgroundColor = Color.Green;
+            roundedButton1.BorderColor = Color.PaleVioletRed;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.ForeColor = Color.White;
+            roundedButton1.Location = new Point(260, 374);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(320, 37);
+            roundedButton1.TabIndex = 10;
+            roundedButton1.Text = "Didn't Have Account? Sign Up Here";
+            roundedButton1.TextColor = Color.White;
+            roundedButton1.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton2
+            // 
+            roundedButton2.BackColor = Color.LightSlateGray;
+            roundedButton2.BackgroundColor = Color.LightSlateGray;
+            roundedButton2.BorderColor = Color.PaleVioletRed;
+            roundedButton2.BorderRadius = 5;
+            roundedButton2.FlatAppearance.BorderSize = 0;
+            roundedButton2.FlatStyle = FlatStyle.Flat;
+            roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton2.ForeColor = Color.White;
+            roundedButton2.Location = new Point(653, 374);
+            roundedButton2.Name = "roundedButton2";
+            roundedButton2.Size = new Size(131, 37);
+            roundedButton2.TabIndex = 20;
+            roundedButton2.Text = "Confirm";
+            roundedButton2.TextColor = Color.White;
+            roundedButton2.UseVisualStyleBackColor = false;
             // 
             // FormLogin
             // 
@@ -149,10 +161,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.HyperChessOI;
             ClientSize = new Size(822, 451);
+            Controls.Add(roundedButton2);
+            Controls.Add(roundedButton1);
             Controls.Add(pictureBox1);
             Controls.Add(label4);
-            Controls.Add(linkLabel1);
-            Controls.Add(button1);
             Controls.Add(textBox2);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -173,10 +185,10 @@
         private Label label2;
         private Label label3;
         private TextBox textBox2;
-        private Button button1;
-        private LinkLabel linkLabel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Label label4;
         private PictureBox pictureBox1;
+        private RoundedButton roundedButton1;
+        private RoundedButton roundedButton2;
     }
 }
