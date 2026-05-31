@@ -246,6 +246,7 @@
             roundedButton2.Text = "Cancel";
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
+            roundedButton2.Click += roundedButton2_Click;
             // 
             // FormRegistrasi
             // 

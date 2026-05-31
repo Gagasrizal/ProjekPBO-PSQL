@@ -52,7 +52,7 @@ namespace ProjekPBO_PSQL.Helpers
 
         }
 
-        //scalar
+        //scalar 
         public static object? EksekusiScalar(string query, NpgsqlParameter[]? parameters = null)
         {
             using var conn = BukaKoneksi();

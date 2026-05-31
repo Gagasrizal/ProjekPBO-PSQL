@@ -70,7 +70,7 @@ namespace ProjekPBO_PSQL
 
         private void label7_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -106,6 +106,13 @@ namespace ProjekPBO_PSQL
         private void FormRegistrasi_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void roundedButton2_Click(object sender, EventArgs e)
+        {
+            FormLogin login = new FormLogin();
+            login.Show();
+            this.Hide();
         }
     }
 }
