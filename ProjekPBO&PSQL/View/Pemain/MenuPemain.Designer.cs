@@ -45,9 +45,10 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.Desain_tanpa_judul__1_1;
-            pictureBox1.Location = new Point(720, 1);
+            pictureBox1.Location = new Point(630, 1);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(80, 80);
+            pictureBox1.Size = new Size(70, 60);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
@@ -57,8 +58,9 @@
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox2.BackgroundImage = Properties.Resources.BackgroundHitam;
             pictureBox2.Location = new Point(0, 0);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(150, 450);
+            pictureBox2.Size = new Size(131, 338);
             pictureBox2.TabIndex = 4;
             pictureBox2.TabStop = false;
             // 
@@ -68,9 +70,9 @@
             label1.BackColor = Color.FromArgb(38, 48, 54);
             label1.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 9);
+            label1.Location = new Point(10, 7);
             label1.Name = "label1";
-            label1.Size = new Size(131, 23);
+            label1.Size = new Size(106, 18);
             label1.TabIndex = 5;
             label1.Text = "HyperChess";
             // 
@@ -81,9 +83,9 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(12, 60);
+            linkLabel1.Location = new Point(10, 45);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(57, 21);
+            linkLabel1.Size = new Size(47, 17);
             linkLabel1.TabIndex = 6;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
@@ -96,9 +98,9 @@
             linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(12, 102);
+            linkLabel2.Location = new Point(10, 76);
             linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(117, 21);
+            linkLabel2.Size = new Size(96, 17);
             linkLabel2.TabIndex = 7;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Tournament";
@@ -111,9 +113,9 @@
             linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(12, 140);
+            linkLabel3.Location = new Point(10, 105);
             linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(117, 42);
+            linkLabel3.Size = new Size(96, 34);
             linkLabel3.TabIndex = 8;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Daftar\r\nTournament";
@@ -125,9 +127,9 @@
             linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(12, 204);
+            linkLabel4.Location = new Point(10, 153);
             linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(118, 21);
+            linkLabel4.Size = new Size(97, 17);
             linkLabel4.TabIndex = 9;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Cari Pemain";
@@ -139,9 +141,9 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(12, 249);
+            linkLabel5.Location = new Point(10, 187);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(106, 42);
+            linkLabel5.Size = new Size(87, 34);
             linkLabel5.TabIndex = 10;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "History\r\nPermainan";
@@ -156,13 +158,15 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(12, 403);
+            roundedButton1.Location = new Point(10, 302);
+            roundedButton1.Margin = new Padding(3, 2, 3, 2);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(125, 35);
+            roundedButton1.Size = new Size(109, 26);
             roundedButton1.TabIndex = 11;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // linkLabel6
             // 
@@ -171,19 +175,19 @@
             linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel6.LinkColor = Color.Silver;
-            linkLabel6.Location = new Point(12, 312);
+            linkLabel6.Location = new Point(10, 234);
             linkLabel6.Name = "linkLabel6";
-            linkLabel6.Size = new Size(99, 42);
+            linkLabel6.Size = new Size(82, 34);
             linkLabel6.TabIndex = 12;
             linkLabel6.TabStop = true;
             linkLabel6.Text = "Baca\r\nPeraturan\r\n";
             // 
             // MenuPemain
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.HyperChessOI;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(linkLabel6);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
@@ -194,6 +198,7 @@
             Controls.Add(label1);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "MenuPemain";
             Text = "MenuPemain";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

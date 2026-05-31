@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
             linkLabel3 = new LinkLabel();
@@ -37,28 +36,11 @@
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             label1 = new Label();
+            roundedButton1 = new RoundedButton();
+            linkLabel6 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
-            // roundedButton1
-            // 
-            roundedButton1.BackColor = Color.FromArgb(217, 217, 217);
-            roundedButton1.BackgroundColor = Color.FromArgb(217, 217, 217);
-            roundedButton1.BorderColor = Color.PaleVioletRed;
-            roundedButton1.BorderRadius = 5;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(10, 302);
-            roundedButton1.Margin = new Padding(3, 2, 3, 2);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(109, 26);
-            roundedButton1.TabIndex = 20;
-            roundedButton1.Text = "LogOut";
-            roundedButton1.TextColor = Color.Black;
-            roundedButton1.UseVisualStyleBackColor = false;
             // 
             // linkLabel5
             // 
@@ -88,6 +70,7 @@
             linkLabel4.TabIndex = 18;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel3
             // 
@@ -102,6 +85,7 @@
             linkLabel3.TabIndex = 17;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Lihat Data\r\nPemain";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -116,6 +100,7 @@
             linkLabel2.TabIndex = 16;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Buat \r\nTournament";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -131,6 +116,7 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // pictureBox2
             // 
@@ -142,6 +128,7 @@
             pictureBox2.Size = new Size(131, 338);
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // pictureBox1
             // 
@@ -166,12 +153,41 @@
             label1.TabIndex = 14;
             label1.Text = "HyperChess";
             // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = Color.FromArgb(217, 217, 217);
+            roundedButton1.BackgroundColor = Color.FromArgb(217, 217, 217);
+            roundedButton1.BorderColor = Color.PaleVioletRed;
+            roundedButton1.BorderRadius = 5;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton1.ForeColor = Color.Black;
+            roundedButton1.Location = new Point(10, 301);
+            roundedButton1.Margin = new Padding(3, 2, 3, 2);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(109, 26);
+            roundedButton1.TabIndex = 21;
+            roundedButton1.Text = "LogOut";
+            roundedButton1.TextColor = Color.Black;
+            roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
+            // 
+            // linkLabel6
+            // 
+            linkLabel6.AutoSize = true;
+            linkLabel6.Location = new Point(653, 239);
+            linkLabel6.Name = "linkLabel6";
+            linkLabel6.Size = new Size(0, 15);
+            linkLabel6.TabIndex = 22;
+            // 
             // MenuAdmin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.HyperChessOI;
             ClientSize = new Size(700, 338);
+            Controls.Add(linkLabel6);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel4);
@@ -201,5 +217,6 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Label label1;
+        private LinkLabel linkLabel6;
     }
 }
