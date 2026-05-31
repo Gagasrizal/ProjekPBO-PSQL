@@ -14,5 +14,10 @@ namespace ProjekPBO_PSQL
         {
             InitializeComponent();
         }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }

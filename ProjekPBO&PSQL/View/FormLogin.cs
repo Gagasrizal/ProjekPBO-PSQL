@@ -32,31 +32,6 @@ namespace ProjekPBO_PSQL
 
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FormRegistrasi regis = new FormRegistrasi();
-            regis.Show();
-            this.Hide();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string username = textBox1.Text;
-            string password = textBox2.Text;
-
-            if (username == "admin" && password == "123")
-            {
-                MessageBox.Show("Login berhasil!");
-
-                Form home = new Form();
-                home.Show();
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Login gagal!");
-            }
-        }
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -72,5 +47,25 @@ namespace ProjekPBO_PSQL
         {
 
         }
+
+        private void roundedButton2_Click(object sender, EventArgs e)
+        {
+            string username = textBox1.Text;
+            string password = textBox2.Text;
+
+            if (username == "admin" && password == "123")
+            {
+                MessageBox.Show("Login berhasil!");
+
+                MenuAdmin adminForm = new MenuAdmin();
+                adminForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Login gagal!");
+            }
+        }
+
     }
 }
