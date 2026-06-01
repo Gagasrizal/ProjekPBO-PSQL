@@ -90,6 +90,7 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -119,6 +120,7 @@
             linkLabel3.TabIndex = 8;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Daftar\r\nTournament";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel4
             // 
@@ -133,6 +135,7 @@
             linkLabel4.TabIndex = 9;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Cari Pemain";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel5
             // 
@@ -147,6 +150,7 @@
             linkLabel5.TabIndex = 10;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "History\r\nPermainan";
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // roundedButton1
             // 
@@ -181,6 +185,7 @@
             linkLabel6.TabIndex = 12;
             linkLabel6.TabStop = true;
             linkLabel6.Text = "Baca\r\nPeraturan\r\n";
+            linkLabel6.LinkClicked += linkLabel6_LinkClicked;
             // 
             // MenuPemain
             // 

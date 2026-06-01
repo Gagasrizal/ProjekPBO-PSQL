@@ -48,18 +48,19 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(350, 29);
+            label1.Location = new Point(306, 22);
             label1.Name = "label1";
-            label1.Size = new Size(139, 31);
+            label1.Size = new Size(116, 25);
             label1.TabIndex = 0;
             label1.Text = "HyperChess";
             label1.Click += label1_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(269, 171);
+            textBox1.Location = new Point(235, 128);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(297, 27);
+            textBox1.Size = new Size(260, 23);
             textBox1.TabIndex = 1;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -69,9 +70,9 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Transparent;
-            label2.Location = new Point(151, 173);
+            label2.Location = new Point(132, 130);
             label2.Name = "label2";
-            label2.Size = new Size(97, 25);
+            label2.Size = new Size(80, 20);
             label2.TabIndex = 2;
             label2.Text = "Username";
             label2.Click += label2_Click;
@@ -82,18 +83,19 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Transparent;
-            label3.Location = new Point(151, 205);
+            label3.Location = new Point(132, 154);
             label3.Name = "label3";
-            label3.Size = new Size(92, 25);
+            label3.Size = new Size(76, 20);
             label3.TabIndex = 3;
             label3.Text = "Password";
             label3.Click += label3_Click;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(269, 204);
+            textBox2.Location = new Point(235, 153);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(297, 27);
+            textBox2.Size = new Size(260, 23);
             textBox2.TabIndex = 4;
             // 
             // label4
@@ -102,9 +104,9 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(385, 71);
+            label4.Location = new Point(337, 53);
             label4.Name = "label4";
-            label4.Size = new Size(65, 20);
+            label4.Size = new Size(53, 16);
             label4.TabIndex = 8;
             label4.Text = "Sign In";
             label4.Click += label4_Click;
@@ -115,8 +117,9 @@
             pictureBox1.ErrorImage = (Image)resources.GetObject("pictureBox1.ErrorImage");
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(111, 111);
+            pictureBox1.Size = new Size(97, 83);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 9;
             pictureBox1.TabStop = false;
@@ -129,9 +132,10 @@
             roundedButton1.FlatAppearance.BorderSize = 0;
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(261, 373);
+            roundedButton1.Location = new Point(228, 280);
+            roundedButton1.Margin = new Padding(3, 2, 3, 2);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(320, 37);
+            roundedButton1.Size = new Size(280, 28);
             roundedButton1.TabIndex = 10;
             roundedButton1.Text = "Didn't Have Account? Sign Up Here";
             roundedButton1.TextColor = Color.White;
@@ -148,9 +152,10 @@
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(653, 373);
+            roundedButton2.Location = new Point(571, 280);
+            roundedButton2.Margin = new Padding(3, 2, 3, 2);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(131, 37);
+            roundedButton2.Size = new Size(115, 28);
             roundedButton2.TabIndex = 20;
             roundedButton2.Text = "Confirm";
             roundedButton2.TextColor = Color.White;
@@ -159,10 +164,10 @@
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.HyperChessOI;
-            ClientSize = new Size(822, 451);
+            ClientSize = new Size(719, 338);
             Controls.Add(roundedButton2);
             Controls.Add(roundedButton1);
             Controls.Add(pictureBox1);
@@ -172,8 +177,9 @@
             Controls.Add(label2);
             Controls.Add(textBox1);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FormLogin";
-            Text = "zzzzzz";
+            Text = "FormLogin";
             Load += FormLogin_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

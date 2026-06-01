@@ -23,6 +23,7 @@ namespace ProjekPBO_PSQL.View.Pemain
             // 
             ClientSize = new Size(800, 450);
             Name = "MenuProfilPem";
+            Text = "MenuProfilPemain";
             ResumeLayout(false);
 
         }

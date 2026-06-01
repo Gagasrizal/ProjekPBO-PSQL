@@ -50,20 +50,26 @@ namespace ProjekPBO_PSQL
 
         private void roundedButton2_Click(object sender, EventArgs e)
         {
-            string username = textBox1.Text;
+            string username = textBox1.Text.Trim();
             string password = textBox2.Text;
 
             if (username == "admin" && password == "123")
             {
-                MessageBox.Show("Login berhasil!");
+                MessageBox.Show("Login berhasil! Selamat datang, Admin.");
 
                 MenuAdmin adminForm = new MenuAdmin();
                 adminForm.Show();
                 this.Hide();
             }
+            else if (username == "pemain" && password == "123")
+            {
+                WelcomePemain welcome = new WelcomePemain(username);
+                welcome.Show();
+                this.Hide();
+            }
             else
             {
-                MessageBox.Show("Login gagal!");
+                MessageBox.Show("Login gagal! Periksa username atau password.");
             }
         }
 
