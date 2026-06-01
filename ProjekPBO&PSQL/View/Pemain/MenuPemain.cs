@@ -51,5 +51,10 @@ namespace ProjekPBO_PSQL
         {
 
         }
+
+        private void MenuPemain_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

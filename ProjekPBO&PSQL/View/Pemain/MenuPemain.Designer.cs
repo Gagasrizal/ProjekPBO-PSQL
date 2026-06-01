@@ -206,6 +206,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "MenuPemain";
             Text = "MenuPemain";
+            Load += MenuPemain_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);

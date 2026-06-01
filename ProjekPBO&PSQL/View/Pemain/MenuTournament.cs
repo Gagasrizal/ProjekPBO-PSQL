@@ -14,5 +14,10 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             InitializeComponent();
         }
+
+        private void MenuTournament_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
