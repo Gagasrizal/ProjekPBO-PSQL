@@ -14,7 +14,7 @@ namespace ProjekPBO_PSQL
     {
         //Fields
         private int borderSize = 0;
-        private int borderRadius = 20; // Langsung di-set 20 agar otomatis melengkung
+        private int borderRadius = 20;
         private Color borderColor = Color.PaleVioletRed;
 
         // Field tambahan untuk efek klik
@@ -27,7 +27,12 @@ namespace ProjekPBO_PSQL
         public int BorderSize
         {
             get { return borderSize; }
-            set { borderSize = value; this.Invalidate(); }
+            set
+            {
+                // Pengaman agar border tidak minus
+                borderSize = value < 0 ? 0 : value;
+                this.Invalidate();
+            }
         }
 
         [Category("RJ Code Advance")]
@@ -36,7 +41,11 @@ namespace ProjekPBO_PSQL
         public int BorderRadius
         {
             get { return borderRadius; }
-            set { borderRadius = value; this.Invalidate(); }
+            set
+            {
+                borderRadius = value;
+                this.Invalidate();
+            }
         }
 
         [Category("RJ Code Advance")]
@@ -85,20 +94,20 @@ namespace ProjekPBO_PSQL
         {
             base.OnMouseDown(mevent);
             isPressed = true;
-            this.Invalidate(); // Gambar ulang tombol dengan kondisi ditekan
+            this.Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
             isPressed = false;
-            this.Invalidate(); // Kembalikan ke bentuk semula
+            this.Invalidate();
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            isPressed = false; // Jaga-jaga jika mouse digeser keluar tombol saat ditekan
+            isPressed = false;
             this.Invalidate();
         }
 
@@ -107,6 +116,11 @@ namespace ProjekPBO_PSQL
         {
             GraphicsPath path = new GraphicsPath();
             float curveSize = radius * 2F;
+
+            // Pengaman jika ukuran tombol terlalu kecil dibanding radius
+            if (curveSize > rect.Width) curveSize = rect.Width;
+            if (curveSize > rect.Height) curveSize = rect.Height;
+            if (curveSize <= 0) curveSize = 1; // Mencegah nilai 0 atau minus
 
             path.StartFigure();
             path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
@@ -122,26 +136,38 @@ namespace ProjekPBO_PSQL
             base.OnPaint(pevent);
 
             Rectangle rectSurface = this.ClientRectangle;
-            Rectangle rectBorder = Rectangle.Inflate(rectSurface, -borderSize, -borderSize);
+
+            // Perbaikan kalkulasi ukuran kotak border agar pas di tengah garis (PenAlignment.Center/Inset)
+            Rectangle rectBorder = rectSurface;
+            if (borderSize > 0)
+            {
+                rectBorder = new Rectangle(
+                    rectSurface.X + borderSize / 2,
+                    rectSurface.Y + borderSize / 2,
+                    rectSurface.Width - borderSize,
+                    rectSurface.Height - borderSize
+                );
+            }
 
             pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            pevent.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
 
-            // Logika Menggelapkan Warna Saat Ditekan
             Color currentBackColor = this.BackColor;
             Color currentBorderColor = this.BorderColor;
 
             if (isPressed)
             {
-                // Menggelapkan warna background sebesar 15% saat diklik
                 currentBackColor = ControlPaint.Dark(this.BackColor, 0.15f);
                 currentBorderColor = ControlPaint.Dark(this.BorderColor, 0.15f);
             }
 
             if (borderRadius > 2) // Rounded button
             {
+                // Pengaman rumus radius border agar tidak pernah bernilai 0 atau negatif
+                int borderRadiusCalc = borderRadius - (borderSize / 2);
+                if (borderRadiusCalc < 1) borderRadiusCalc = 1;
+
                 using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
-                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
+                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadiusCalc))
                 using (Brush brushBackend = new SolidBrush(currentBackColor))
                 using (Pen penBorder = new Pen(currentBorderColor, borderSize))
                 {
@@ -150,7 +176,7 @@ namespace ProjekPBO_PSQL
 
                     if (borderSize >= 1)
                     {
-                        penBorder.Alignment = PenAlignment.Inset;
+                        penBorder.Alignment = PenAlignment.Center; // Menggunakan Center agar border simetris
                         pevent.Graphics.DrawPath(penBorder, pathBorder);
                     }
                 }
@@ -179,7 +205,6 @@ namespace ProjekPBO_PSQL
             Rectangle textBounds = this.ClientRectangle;
             if (isPressed)
             {
-                // Jika ditekan, geser teks ke kanan bawah sebesar 2 piksel
                 textBounds.Offset(2, 2);
             }
 

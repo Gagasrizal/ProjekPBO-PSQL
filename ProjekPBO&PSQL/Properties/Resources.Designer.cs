@@ -63,9 +63,39 @@ namespace ProjekPBO_PSQL.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ADMIN_WELCOME {
+            get {
+                object obj = ResourceManager.GetObject("ADMIN WELCOME", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aturan_bg {
+            get {
+                object obj = ResourceManager.GetObject("aturan bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BackgroundHitam {
             get {
                 object obj = ResourceManager.GetObject("BackgroundHitam", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cari_pemain {
+            get {
+                object obj = ResourceManager.GetObject("Cari pemain", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +133,29 @@ namespace ProjekPBO_PSQL.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap hISTORY_pERMAINAN {
+            get {
+                object obj = ResourceManager.GetObject("hISTORY pERMAINAN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HyperChessOI {
             get {
                 object obj = ResourceManager.GetObject("HyperChessOI", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lIHAT_dATA_tOURNAMENT {
+            get {
+                object obj = ResourceManager.GetObject("lIHAT dATA tOURNAMENT", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +176,26 @@ namespace ProjekPBO_PSQL.Properties {
         internal static System.Drawing.Bitmap Logo_Chess_HC1 {
             get {
                 object obj = ResourceManager.GetObject("Logo Chess HC1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pendaftaran_Tournament {
+            get {
+                object obj = ResourceManager.GetObject("Pendaftaran Tournament", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Profil {
+            get {
+                object obj = ResourceManager.GetObject("Profil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

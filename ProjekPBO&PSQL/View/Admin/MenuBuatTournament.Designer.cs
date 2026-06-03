@@ -28,14 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuBuatTournament));
             SuspendLayout();
             // 
             // MenuBuatTournament
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(800, 451);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "MenuBuatTournament";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuBuatTournament";
             ResumeLayout(false);
         }
