@@ -8,62 +8,85 @@ namespace ProjekPBO_PSQL
 {
     public class roundedpanel : Panel
     {
-        private int borderRadius = 30;
-        private int bgOpacity = 125;
-        private Color panelColor = Color.FromArgb(40, 60, 70);
+        private int _borderRadius = 20;
+        private int _opacity = 125;
+        private Color _customBackColor = Color.FromArgb(50, 60, 70);
 
+        // 1. Default Value untuk Kelengkungan Sudut (20)
         [Category("Custom Properties")]
-        [DefaultValue(30)]
+        [DefaultValue(20)]
         public int BorderRadius
         {
-            get { return borderRadius; }
-            set { borderRadius = value < 0 ? 0 : value; this.Invalidate(); }
-        }
-
-        [Category("Custom Properties")]
-        [Description("Mengatur transparansi background (0 = Tembus Pandang, 255 = Padat).")]
-        [DefaultValue(125)]
-        public int BgOpacity
-        {
-            get { return bgOpacity; }
+            get { return _borderRadius; }
             set
             {
-                if (value < 0) bgOpacity = 0;
-                else if (value > 255) bgOpacity = 255;
-                else bgOpacity = value;
-
+                _borderRadius = value;
+                UpdateRegion();
                 this.Invalidate();
             }
         }
 
+        // 2. Default Value untuk Transparansi (125)
         [Category("Custom Properties")]
-        [DefaultValue(typeof(Color), "40, 60, 70")]
-        public Color PanelColor
+        [DefaultValue(125)]
+        public int Opacity
         {
-            get { return panelColor; }
-            set { panelColor = value; this.Invalidate(); }
+            get { return _opacity; }
+            set
+            {
+                _opacity = Math.Max(0, Math.Min(255, value));
+                this.Invalidate();
+            }
+        }
+
+        // 3. Default Value untuk Warna Kustom (Abu-abu gelap tema Hyper Chess: R=50, G=60, B=70)
+        [Category("Custom Properties")]
+        [Description("Warna latar belakang kustom untuk panel melengkung.")]
+        [DefaultValue(typeof(Color), "50, 60, 70")] // Siasat default value untuk tipe data Color
+        public Color CustomBackColor
+        {
+            get { return _customBackColor; }
+            set
+            {
+                _customBackColor = value;
+                this.Invalidate();
+            }
         }
 
         public roundedpanel()
         {
-            // Mengaktifkan fitur transparansi tingkat lanjut pada kontrol
-            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            this.SetStyle(ControlStyles.Opaque, false);
             this.SetStyle(ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            this.BackColor = Color.Transparent;
-            this.Size = new Size(300, 150);
+            base.BackColor = Color.Transparent;
         }
 
-        // KUNCI UTAMA: Memaksa Windows Forms mendukung transparansi lapisan (WS_EX_TRANSPARENT)
-        protected override CreateParams CreateParams
+        protected override void OnParentChanged(EventArgs e)
         {
-            get
+            base.OnParentChanged(e);
+            if (this.Parent != null)
             {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
-                return cp;
+                this.Parent.Invalidate();
+            }
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            base.OnResize(eventargs);
+            UpdateRegion();
+            this.Invalidate();
+        }
+
+        private void UpdateRegion()
+        {
+            if (this.Width > 0 && this.Height > 0)
+            {
+                using (GraphicsPath path = GetRoundedPath(this.ClientRectangle, _borderRadius))
+                {
+                    this.Region = new Region(path);
+                }
             }
         }
 
@@ -71,37 +94,39 @@ namespace ProjekPBO_PSQL
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            // Buat warna semi-transparan berdasarkan nilai BgOpacity
-            Color semiTransparentColor = Color.FromArgb(bgOpacity, panelColor.R, panelColor.G, panelColor.B);
+            Color finalPanelColor = Color.FromArgb(_opacity, _customBackColor);
 
-            if (borderRadius > 2 && Width > borderRadius && Height > borderRadius)
+            using (SolidBrush brush = new SolidBrush(finalPanelColor))
             {
-                using (GraphicsPath gp = new GraphicsPath())
+                using (GraphicsPath path = GetRoundedPath(this.ClientRectangle, _borderRadius))
                 {
-                    float curveSize = borderRadius * 2F;
-                    gp.StartFigure();
-                    gp.AddArc(0, 0, curveSize, curveSize, 180, 90);
-                    gp.AddArc(Width - curveSize, 0, curveSize, curveSize, 270, 90);
-                    gp.AddArc(Width - curveSize, Height - curveSize, curveSize, curveSize, 0, 90);
-                    gp.AddArc(0, Height - curveSize, curveSize, curveSize, 90, 90);
-                    gp.CloseFigure();
-
-                    this.Region = new Region(gp);
-
-                    using (Brush brush = new SolidBrush(semiTransparentColor))
-                    {
-                        e.Graphics.FillPath(brush, gp);
-                    }
+                    e.Graphics.FillPath(brush, path);
                 }
             }
-            else
+        }
+
+        private GraphicsPath GetRoundedPath(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            int diameter = radius * 2;
+
+            if (radius <= 0)
             {
-                this.Region = new Region(this.ClientRectangle);
-                using (Brush brush = new SolidBrush(semiTransparentColor))
-                {
-                    e.Graphics.FillRectangle(brush, this.ClientRectangle);
-                }
+                path.AddRectangle(rect);
+                return path;
             }
+
+            if (diameter > rect.Width) diameter = rect.Width;
+            if (diameter > rect.Height) diameter = rect.Height;
+
+            path.StartFigure();
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+
+            return path;
         }
     }
 }

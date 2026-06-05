@@ -61,12 +61,12 @@
             linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(11, 101);
+            linkLabel2.Location = new Point(11, 100);
             linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(117, 21);
+            linkLabel2.Size = new Size(117, 42);
             linkLabel2.TabIndex = 7;
             linkLabel2.TabStop = true;
-            linkLabel2.Text = "Tournament";
+            linkLabel2.Text = "List\r\nTournament";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel3
@@ -76,7 +76,7 @@
             linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(11, 140);
+            linkLabel3.Location = new Point(11, 160);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(117, 42);
             linkLabel3.TabIndex = 8;
@@ -91,7 +91,7 @@
             linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 204);
+            linkLabel4.Location = new Point(11, 220);
             linkLabel4.Name = "linkLabel4";
             linkLabel4.Size = new Size(118, 21);
             linkLabel4.TabIndex = 9;
@@ -106,12 +106,12 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 249);
+            linkLabel5.Location = new Point(11, 260);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(106, 42);
+            linkLabel5.Size = new Size(129, 42);
             linkLabel5.TabIndex = 10;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "History\r\nPermainan";
+            linkLabel5.Text = "History\r\nPertandingan";
             linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // roundedButton1
@@ -140,7 +140,7 @@
             linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel6.LinkColor = Color.Silver;
-            linkLabel6.Location = new Point(11, 312);
+            linkLabel6.Location = new Point(11, 320);
             linkLabel6.Name = "linkLabel6";
             linkLabel6.Size = new Size(99, 42);
             linkLabel6.TabIndex = 12;

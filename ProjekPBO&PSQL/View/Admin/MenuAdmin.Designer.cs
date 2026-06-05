@@ -45,7 +45,7 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 318);
+            linkLabel5.Location = new Point(11, 280);
             linkLabel5.Name = "linkLabel5";
             linkLabel5.Size = new Size(122, 42);
             linkLabel5.TabIndex = 19;
@@ -60,7 +60,7 @@
             linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 242);
+            linkLabel4.Location = new Point(11, 220);
             linkLabel4.Name = "linkLabel4";
             linkLabel4.Size = new Size(117, 42);
             linkLabel4.TabIndex = 18;
@@ -75,7 +75,7 @@
             linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(11, 177);
+            linkLabel3.Location = new Point(11, 160);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(100, 42);
             linkLabel3.TabIndex = 17;
@@ -90,7 +90,7 @@
             linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(11, 114);
+            linkLabel2.Location = new Point(11, 100);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(117, 42);
             linkLabel2.TabIndex = 16;
@@ -105,7 +105,7 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(11, 72);
+            linkLabel1.Location = new Point(11, 60);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(57, 21);
             linkLabel1.TabIndex = 15;

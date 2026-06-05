@@ -8,14 +8,19 @@ using System.Windows.Forms;
 
 namespace ProjekPBO_PSQL.View.Pemain
 {
-    public partial class MenuDaftarTour : Form
+    public partial class MenuDaftarTourFormulir : Form
     {
-        public MenuDaftarTour()
+        public MenuDaftarTourFormulir()
         {
             InitializeComponent();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

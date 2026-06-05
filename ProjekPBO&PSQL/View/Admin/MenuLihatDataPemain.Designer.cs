@@ -29,7 +29,138 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuLihatDataPemain));
+            roundedButton1 = new RoundedButton();
+            linkLabel5 = new LinkLabel();
+            linkLabel4 = new LinkLabel();
+            linkLabel3 = new LinkLabel();
+            linkLabel2 = new LinkLabel();
+            linkLabel1 = new LinkLabel();
+            dataGridView1 = new DataGridView();
+            comboBox1 = new ComboBox();
+            comboBox2 = new ComboBox();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
+            // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = Color.FromArgb(217, 217, 217);
+            roundedButton1.BackgroundColor = Color.FromArgb(217, 217, 217);
+            roundedButton1.BorderColor = Color.PaleVioletRed;
+            roundedButton1.BorderRadius = 5;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton1.ForeColor = Color.Black;
+            roundedButton1.Location = new Point(12, 406);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(125, 35);
+            roundedButton1.TabIndex = 27;
+            roundedButton1.Text = "LogOut";
+            roundedButton1.TextColor = Color.Black;
+            roundedButton1.UseVisualStyleBackColor = false;
+            // 
+            // linkLabel5
+            // 
+            linkLabel5.AutoSize = true;
+            linkLabel5.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel5.LinkColor = Color.Silver;
+            linkLabel5.Location = new Point(11, 280);
+            linkLabel5.Name = "linkLabel5";
+            linkLabel5.Size = new Size(122, 42);
+            linkLabel5.TabIndex = 26;
+            linkLabel5.TabStop = true;
+            linkLabel5.Text = "Lihat Data\r\nPembayaran";
+            // 
+            // linkLabel4
+            // 
+            linkLabel4.AutoSize = true;
+            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel4.LinkColor = Color.Silver;
+            linkLabel4.Location = new Point(11, 220);
+            linkLabel4.Name = "linkLabel4";
+            linkLabel4.Size = new Size(117, 42);
+            linkLabel4.TabIndex = 25;
+            linkLabel4.TabStop = true;
+            linkLabel4.Text = "Lihat Data\r\nTournament";
+            // 
+            // linkLabel3
+            // 
+            linkLabel3.AutoSize = true;
+            linkLabel3.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel3.LinkColor = Color.Silver;
+            linkLabel3.Location = new Point(11, 160);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(100, 42);
+            linkLabel3.TabIndex = 24;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Lihat Data\r\nPemain";
+            // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel2.LinkColor = Color.Silver;
+            linkLabel2.Location = new Point(11, 100);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(117, 42);
+            linkLabel2.TabIndex = 23;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Buat \r\nTournament";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel1.LinkColor = Color.Silver;
+            linkLabel1.Location = new Point(11, 60);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(57, 21);
+            linkLabel1.TabIndex = 22;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Profil";
+            linkLabel1.TextAlign = ContentAlignment.TopRight;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(165, 100);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(623, 339);
+            dataGridView1.TabIndex = 28;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox1.ForeColor = Color.DimGray;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(165, 53);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(210, 28);
+            comboBox1.TabIndex = 29;
+            comboBox1.Text = "Pilih Tournament";
+            // 
+            // comboBox2
+            // 
+            comboBox2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox2.ForeColor = Color.DimGray;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "Babak 1", "Babak 2", "Babak 3", "Babak 4", "Babak 5", "Babak 6", "Babak 7" });
+            comboBox2.Location = new Point(401, 53);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(210, 28);
+            comboBox2.TabIndex = 30;
+            comboBox2.Text = "Pilih Babak";
             // 
             // MenuLihatDataPemain
             // 
@@ -38,12 +169,33 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 451);
+            Controls.Add(comboBox2);
+            Controls.Add(comboBox1);
+            Controls.Add(dataGridView1);
+            Controls.Add(roundedButton1);
+            Controls.Add(linkLabel5);
+            Controls.Add(linkLabel4);
+            Controls.Add(linkLabel3);
+            Controls.Add(linkLabel2);
+            Controls.Add(linkLabel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "MenuLihatDataPemain";
             Text = "MenuLihatDataPemain";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private RoundedButton roundedButton1;
+        private LinkLabel linkLabel5;
+        private LinkLabel linkLabel4;
+        private LinkLabel linkLabel3;
+        private LinkLabel linkLabel2;
+        private LinkLabel linkLabel1;
+        private DataGridView dataGridView1;
+        private ComboBox comboBox1;
+        private ComboBox comboBox2;
     }
 }

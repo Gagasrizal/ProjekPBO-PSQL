@@ -14,5 +14,25 @@ namespace ProjekPBO_PSQL.View.Pemain
         {
             InitializeComponent();
         }
+
+        private void roundedpanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void transparentTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void transparentTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void roundedButton2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

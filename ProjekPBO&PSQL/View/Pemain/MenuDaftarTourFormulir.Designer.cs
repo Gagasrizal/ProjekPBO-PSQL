@@ -1,6 +1,6 @@
-﻿namespace ProjekPBO_PSQL.View.Admin
+﻿namespace ProjekPBO_PSQL.View.Pemain
 {
-    partial class MenuBuatTournament
+    partial class MenuDaftarTourFormulir
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuBuatTournament));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuDaftarTourFormulir));
+            linkLabel6 = new LinkLabel();
             roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
@@ -36,21 +37,32 @@
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             label1 = new Label();
-            textBox1 = new TextBox();
             label2 = new Label();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
             label3 = new Label();
             label4 = new Label();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
             label5 = new Label();
+            comboBox1 = new ComboBox();
+            textBox1 = new TextBox();
             label6 = new Label();
-            dateTimePicker1 = new DateTimePicker();
             label7 = new Label();
-            comboBox3 = new ComboBox();
+            label8 = new Label();
             roundedButton2 = new RoundedButton();
+            roundedButton3 = new RoundedButton();
             SuspendLayout();
+            // 
+            // linkLabel6
+            // 
+            linkLabel6.AutoSize = true;
+            linkLabel6.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel6.LinkColor = Color.Silver;
+            linkLabel6.Location = new Point(11, 320);
+            linkLabel6.Name = "linkLabel6";
+            linkLabel6.Size = new Size(99, 42);
+            linkLabel6.TabIndex = 38;
+            linkLabel6.TabStop = true;
+            linkLabel6.Text = "Baca\r\nPeraturan\r\n";
             // 
             // roundedButton1
             // 
@@ -58,14 +70,15 @@
             roundedButton1.BackgroundColor = Color.FromArgb(217, 217, 217);
             roundedButton1.BorderColor = Color.PaleVioletRed;
             roundedButton1.BorderRadius = 5;
-            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatAppearance.BorderColor = Color.Black;
+            roundedButton1.FlatAppearance.BorderSize = 10;
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(12, 407);
+            roundedButton1.Location = new Point(12, 403);
             roundedButton1.Name = "roundedButton1";
             roundedButton1.Size = new Size(125, 35);
-            roundedButton1.TabIndex = 27;
+            roundedButton1.TabIndex = 37;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
@@ -77,12 +90,12 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 280);
+            linkLabel5.Location = new Point(11, 260);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(122, 42);
-            linkLabel5.TabIndex = 26;
+            linkLabel5.Size = new Size(129, 42);
+            linkLabel5.TabIndex = 36;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "Lihat Data\r\nPembayaran";
+            linkLabel5.Text = "History\r\nPertandingan";
             // 
             // linkLabel4
             // 
@@ -93,10 +106,10 @@
             linkLabel4.LinkColor = Color.Silver;
             linkLabel4.Location = new Point(11, 220);
             linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(117, 42);
-            linkLabel4.TabIndex = 25;
+            linkLabel4.Size = new Size(118, 21);
+            linkLabel4.TabIndex = 35;
             linkLabel4.TabStop = true;
-            linkLabel4.Text = "Lihat Data\r\nTournament";
+            linkLabel4.Text = "Cari Pemain";
             // 
             // linkLabel3
             // 
@@ -107,10 +120,10 @@
             linkLabel3.LinkColor = Color.Silver;
             linkLabel3.Location = new Point(11, 160);
             linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(100, 42);
-            linkLabel3.TabIndex = 24;
+            linkLabel3.Size = new Size(117, 42);
+            linkLabel3.TabIndex = 34;
             linkLabel3.TabStop = true;
-            linkLabel3.Text = "Lihat Data\r\nPemain";
+            linkLabel3.Text = "Daftar\r\nTournament";
             // 
             // linkLabel2
             // 
@@ -122,9 +135,9 @@
             linkLabel2.Location = new Point(11, 100);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(117, 42);
-            linkLabel2.TabIndex = 23;
+            linkLabel2.TabIndex = 33;
             linkLabel2.TabStop = true;
-            linkLabel2.Text = "Buat \r\nTournament";
+            linkLabel2.Text = "List\r\nTournament";
             // 
             // linkLabel1
             // 
@@ -136,7 +149,7 @@
             linkLabel1.Location = new Point(11, 60);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(57, 21);
-            linkLabel1.TabIndex = 22;
+            linkLabel1.TabIndex = 32;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
@@ -145,119 +158,91 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Arial Rounded MT Bold", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(184, 88);
+            label1.Location = new Point(363, 103);
             label1.Name = "label1";
-            label1.Size = new Size(256, 20);
-            label1.TabIndex = 28;
-            label1.Text = "Masukkan Nama Tournament :";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(184, 116);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(256, 27);
-            textBox1.TabIndex = 29;
+            label1.Size = new Size(218, 39);
+            label1.TabIndex = 39;
+            label1.Text = "UFC CHESS";
+            label1.Click += label1_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(184, 302);
+            label2.Location = new Point(442, 160);
             label2.Name = "label2";
-            label2.Size = new Size(71, 20);
-            label2.TabIndex = 30;
-            label2.Text = "Babak :";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7" });
-            comboBox1.Location = new Point(184, 329);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(195, 28);
-            comboBox1.TabIndex = 31;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Rapid (10+0)", "Blitz    (5+0)", "Bullet  (1+0)" });
-            comboBox2.Location = new Point(184, 183);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(195, 28);
-            comboBox2.TabIndex = 32;
+            label2.Size = new Size(61, 21);
+            label2.TabIndex = 40;
+            label2.Text = "Rapid";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(184, 160);
+            label3.Location = new Point(257, 202);
             label3.Name = "label3";
-            label3.Size = new Size(107, 20);
-            label3.TabIndex = 33;
-            label3.Text = "Tipe Game :";
+            label3.Size = new Size(246, 21);
+            label3.TabIndex = 41;
+            label3.Text = "Pilih Metode Pembayaran :";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(549, 88);
+            label4.Location = new Point(689, 62);
             label4.Name = "label4";
-            label4.Size = new Size(174, 20);
-            label4.TabIndex = 34;
-            label4.Text = "Harga Pendaftaran :";
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(549, 111);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(228, 27);
-            textBox2.TabIndex = 35;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(549, 184);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(228, 27);
-            textBox3.TabIndex = 36;
+            label4.Size = new Size(37, 21);
+            label4.TabIndex = 42;
+            label4.Text = "id :";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(549, 161);
+            label5.Location = new Point(732, 62);
             label5.Name = "label5";
-            label5.Size = new Size(77, 20);
-            label5.TabIndex = 37;
-            label5.Text = "Hadiah :";
+            label5.Size = new Size(65, 21);
+            label5.TabIndex = 43;
+            label5.Text = "74302";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "BCA", "MANDIRI", "BNI", "BRI", "BSI" });
+            comboBox1.Location = new Point(257, 226);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(384, 28);
+            comboBox1.TabIndex = 44;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(257, 293);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(384, 27);
+            textBox1.TabIndex = 45;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(184, 371);
+            label6.Location = new Point(257, 269);
             label6.Name = "label6";
-            label6.Size = new Size(195, 20);
-            label6.TabIndex = 38;
-            label6.Text = "Tanggal Pelaksanaan :";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(184, 394);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 27);
-            dateTimePicker1.TabIndex = 39;
+            label6.Size = new Size(188, 21);
+            label6.TabIndex = 46;
+            label6.Text = "Masukkan Nominal :";
             // 
             // label7
             // 
@@ -265,77 +250,97 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(184, 232);
+            label7.Location = new Point(162, 403);
             label7.Name = "label7";
-            label7.Size = new Size(124, 20);
-            label7.TabIndex = 40;
-            label7.Text = "Time Control :";
+            label7.Size = new Size(341, 40);
+            label7.TabIndex = 47;
+            label7.Text = "Pendaftaran di tutup Sebelum Kompetisi\r\nDilaksanakan. Pada Tanggal :";
             // 
-            // comboBox3
+            // label8
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "1 Menit (Bullet)", "1 Menit + 1 Detik (Bullet)", "2 Menit + 1 Detik (Bullet)", "3 Menit (Blitz)", "3 Menit + 2 Detik (Blitz)", "5 Menit (Blitz)", "5 Menit + 5 Detik (Blitz)", "10 Menit (Rapid)", "15 Menit + 10 Detik (Rapid)", "30 Menit (Rapid)", "60 Menit (Classical)", "90 Menit + 30 Detik (Classical)" });
-            comboBox3.Location = new Point(184, 255);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(195, 28);
-            comboBox3.TabIndex = 41;
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(414, 422);
+            label8.Name = "label8";
+            label8.Size = new Size(148, 21);
+            label8.TabIndex = 48;
+            label8.Text = "20 januari 2026";
             // 
             // roundedButton2
             // 
-            roundedButton2.BackColor = Color.FromArgb(126, 217, 87);
-            roundedButton2.BackgroundColor = Color.FromArgb(126, 217, 87);
+            roundedButton2.BackColor = Color.FromArgb(0, 255, 64);
+            roundedButton2.BackgroundColor = Color.FromArgb(0, 255, 64);
             roundedButton2.BorderColor = Color.PaleVioletRed;
             roundedButton2.BorderRadius = 5;
-            roundedButton2.FlatAppearance.BorderSize = 0;
+            roundedButton2.FlatAppearance.BorderColor = Color.Black;
+            roundedButton2.FlatAppearance.BorderSize = 100;
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(630, 394);
+            roundedButton2.ForeColor = Color.FromArgb(64, 64, 64);
+            roundedButton2.Location = new Point(698, 413);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(125, 27);
-            roundedButton2.TabIndex = 42;
-            roundedButton2.Text = "Create";
-            roundedButton2.TextColor = Color.White;
+            roundedButton2.Size = new Size(90, 25);
+            roundedButton2.TabIndex = 49;
+            roundedButton2.Text = "Bayar";
+            roundedButton2.TextColor = Color.FromArgb(64, 64, 64);
             roundedButton2.UseVisualStyleBackColor = false;
             // 
-            // MenuBuatTournament
+            // roundedButton3
+            // 
+            roundedButton3.BackColor = Color.Red;
+            roundedButton3.BackgroundColor = Color.Red;
+            roundedButton3.BorderColor = Color.PaleVioletRed;
+            roundedButton3.BorderRadius = 5;
+            roundedButton3.FlatAppearance.BorderColor = Color.Black;
+            roundedButton3.FlatAppearance.BorderSize = 100;
+            roundedButton3.FlatStyle = FlatStyle.Flat;
+            roundedButton3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton3.ForeColor = Color.FromArgb(64, 64, 64);
+            roundedButton3.Location = new Point(593, 413);
+            roundedButton3.Name = "roundedButton3";
+            roundedButton3.Size = new Size(90, 25);
+            roundedButton3.TabIndex = 50;
+            roundedButton3.Text = "Batal";
+            roundedButton3.TextColor = Color.FromArgb(64, 64, 64);
+            roundedButton3.UseVisualStyleBackColor = false;
+            // 
+            // MenuDaftarTourFormulir
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 451);
+            ClientSize = new Size(800, 450);
+            Controls.Add(roundedButton3);
             Controls.Add(roundedButton2);
-            Controls.Add(comboBox3);
+            Controls.Add(label8);
             Controls.Add(label7);
-            Controls.Add(dateTimePicker1);
             Controls.Add(label6);
+            Controls.Add(textBox1);
+            Controls.Add(comboBox1);
             Controls.Add(label5);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
             Controls.Add(label2);
-            Controls.Add(textBox1);
             Controls.Add(label1);
+            Controls.Add(linkLabel6);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel4);
             Controls.Add(linkLabel3);
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "MenuBuatTournament";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "MenuBuatTournament";
+            Name = "MenuDaftarTourFormulir";
+            Text = "MenuDaftarTourFormulir";
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
+        private LinkLabel linkLabel6;
         private RoundedButton roundedButton1;
         private LinkLabel linkLabel5;
         private LinkLabel linkLabel4;
@@ -343,19 +348,16 @@
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
         private Label label1;
-        private TextBox textBox1;
         private Label label2;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
         private Label label3;
         private Label label4;
-        private TextBox textBox2;
-        private TextBox textBox3;
         private Label label5;
+        private ComboBox comboBox1;
+        private TextBox textBox1;
         private Label label6;
-        private DateTimePicker dateTimePicker1;
         private Label label7;
-        private ComboBox comboBox3;
+        private Label label8;
         private RoundedButton roundedButton2;
+        private RoundedButton roundedButton3;
     }
 }

@@ -47,20 +47,7 @@ namespace ProjekPBO_PSQL
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" ||
-                textBox4.Text == "" || textBox5.Text == "" || textBox6.Text == "")
-            {
-                MessageBox.Show("Semua data harus diisi!");
-                return;
-            }
-
-            if (textBox5.Text != textBox6.Text)
-            {
-                MessageBox.Show("Password tidak sama!");
-                return;
-            }
-
-            MessageBox.Show("Registrasi berhasil!\nUsername: " + textBox2.Text);
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
