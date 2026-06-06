@@ -168,6 +168,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuHistoryPermainan";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuHistoryPermainan";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

@@ -151,6 +151,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "LihatDataTournament";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "LihatDataTournament";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

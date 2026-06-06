@@ -333,6 +333,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuDaftarTourFormulir";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuDaftarTourFormulir";
             ResumeLayout(false);
             PerformLayout();

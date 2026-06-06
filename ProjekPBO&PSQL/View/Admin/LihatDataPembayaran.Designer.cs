@@ -152,6 +152,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "LihatDataPembayaran";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "LihatDataPembayaran";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

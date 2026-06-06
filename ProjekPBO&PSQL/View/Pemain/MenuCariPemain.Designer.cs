@@ -37,9 +37,9 @@
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             roundedpanel1 = new roundedpanel();
-            roundedpanel2 = new roundedpanel();
-            textBox1 = new TextBox();
             roundedButton2 = new RoundedButton();
+            textBox1 = new TextBox();
+            roundedpanel2 = new roundedpanel();
             roundedpanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -159,24 +159,6 @@
             roundedpanel1.Size = new Size(525, 29);
             roundedpanel1.TabIndex = 48;
             // 
-            // roundedpanel2
-            // 
-            roundedpanel2.BackColor = Color.Transparent;
-            roundedpanel2.BorderRadius = 30;
-            roundedpanel2.CustomBackColor = Color.White;
-            roundedpanel2.Location = new Point(226, 160);
-            roundedpanel2.Name = "roundedpanel2";
-            roundedpanel2.Opacity = 150;
-            roundedpanel2.Size = new Size(516, 268);
-            roundedpanel2.TabIndex = 49;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(0, 1);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(345, 27);
-            textBox1.TabIndex = 50;
-            // 
             // roundedButton2
             // 
             roundedButton2.BackColor = Color.White;
@@ -197,6 +179,24 @@
             roundedButton2.UseVisualStyleBackColor = false;
             roundedButton2.Click += roundedButton2_Click;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(0, 1);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(345, 27);
+            textBox1.TabIndex = 50;
+            // 
+            // roundedpanel2
+            // 
+            roundedpanel2.BackColor = Color.Transparent;
+            roundedpanel2.BorderRadius = 30;
+            roundedpanel2.CustomBackColor = Color.White;
+            roundedpanel2.Location = new Point(226, 160);
+            roundedpanel2.Name = "roundedpanel2";
+            roundedpanel2.Opacity = 150;
+            roundedpanel2.Size = new Size(516, 268);
+            roundedpanel2.TabIndex = 49;
+            // 
             // MenuCariPemain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -214,6 +214,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuCariPemain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuCariPemain";
             roundedpanel1.ResumeLayout(false);
             roundedpanel1.PerformLayout();

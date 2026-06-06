@@ -156,6 +156,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuAdmin";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuAdmin";
             ResumeLayout(false);
             PerformLayout();

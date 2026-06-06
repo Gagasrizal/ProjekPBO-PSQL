@@ -171,6 +171,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuAturan";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuAturan";
             ResumeLayout(false);
             PerformLayout();

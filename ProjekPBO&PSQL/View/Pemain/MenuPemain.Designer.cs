@@ -163,6 +163,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuPemain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuPemain";
             Load += MenuPemain_Load;
             ResumeLayout(false);

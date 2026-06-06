@@ -222,6 +222,7 @@
             roundedButton1.Text = "Confirm";
             roundedButton1.TextColor = Color.White;
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // roundedButton2
             // 

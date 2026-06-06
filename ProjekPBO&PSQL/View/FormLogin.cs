@@ -1,3 +1,7 @@
+using Npgsql;
+using ProjekPBO_PSQL.Helpers;
+using ProjekPBO_PSQL.View.Pemain;
+using ProjekPBO_PSQL.Models; // Tambahkan ini agar program mengenali objek 'User'
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,13 +9,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Npgsql;
-using ProjekPBO_PSQL.Helpers;
 
 namespace ProjekPBO_PSQL
 {
     public partial class FormLogin : Form
     {
+        // 1. Buat instance DBHelper agar bisa memanggil fungsi query database
+        private DBHelper dbHelper = new DBHelper();
+
         public FormLogin()
         {
             InitializeComponent();
@@ -27,10 +32,16 @@ namespace ProjekPBO_PSQL
 
         }
 
+        // CATATAN: Pastikan nama textBox1 ini adalah TextBox untuk USERNAME kamu di Design.
+        // Jika di design namanya berbeda, sesuaikan variabel di bawah.
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
+
+        // CATATAN: Jika kamu punya textBox2 untuk PASSWORD, pastikan namanya sesuai.
+        // Di kode bawaanmu belum muncul event TextChanged untuk password, tidak apa-apa, 
+        // kita bisa langsung panggil nama komponen TextBox-nya di dalam tombol Confirm.
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -41,7 +52,6 @@ namespace ProjekPBO_PSQL
         {
 
         }
-
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -58,57 +68,69 @@ namespace ProjekPBO_PSQL
 
         }
 
+        // =======================================================================
+        // TOMBOL CONFIRM (LOGIN)
+        // =======================================================================
         private void roundedButton2_Click(object sender, EventArgs e)
         {
-            string username = textBox1.Text.Trim();
-            string password = textBox2.Text; // production: gunakan hashing
+            // Ambil input dari TextBox di Form. 
+            // PENTING: textBox1 untuk username, textBox2 untuk password (sesuaikan dengan nama komponenmu)
+            string usernameInput = textBox1.Text.Trim();
+            string passwordInput = textBox2.Text.Trim();
+
+            // Validasi jika ada input yang masih kosong
+            if (string.IsNullOrEmpty(usernameInput) || string.IsNullOrEmpty(passwordInput))
+            {
+                MessageBox.Show("Username dan Password tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             try
             {
-                var dt = DbHelper.ExecuteQuery(
-                    "SELECT role, nama FROM users WHERE username = @u AND password = @p LIMIT 1",
-                    new NpgsqlParameter("@u", username),
-                    new NpgsqlParameter("@p", password)
-                );
+                // Panggil fungsi AuthenticateUser dari DBHelper.cs
+                User userTerlogin = dbHelper.AuthenticateUser(usernameInput, passwordInput);
 
-                if (dt.Rows.Count > 0)
+                if (userTerlogin != null)
                 {
-                    string role = dt.Rows[0]["role"].ToString();
-                    string nama = dt.Rows[0]["nama"].ToString();
+                    MessageBox.Show($"Selamat datang kembali, {userTerlogin.username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    if (role == "admin")
+                    // SEKARANG SUDAH FIX: menggunakan isAdmin sesuai dengan isi User.cs kamu
+                    if (userTerlogin.isAdmin)
                     {
-                        MessageBox.Show($"Login berhasil! Selamat datang, {nama} (Admin).");
-                        MenuAdmin adminForm = new MenuAdmin();
-                        adminForm.Show();
-                        this.Hide();
-                    }
-                    else if (role == "pemain")
-                    {
-                        MessageBox.Show($"Login berhasil! Selamat datang, {nama}.");
-                        MenuPemain pemainForm = new MenuPemain();
-                        pemainForm.Show();
-                        this.Hide();
+                        // Jika admin, arahkan ke Form Admin kamu
+                        MessageBox.Show("Anda masuk sebagai Admin.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // MenuAdmin adminForm = new MenuAdmin();
+                        // adminForm.Show();
                     }
                     else
                     {
-                        MessageBox.Show("Login berhasil, tapi role tidak dikenali.");
+                        // Jika pemain, arahkan ke MenuPemain.cs
+                        MenuPemain pemainForm = new MenuPemain();
+                        pemainForm.Show();
                     }
+
+                    this.Hide(); // Sembunyikan FormLogin setelah berhasil masuk
                 }
                 else
                 {
-                    MessageBox.Show("Login gagal! Periksa username atau password.");
+                    // Jika data tidak ditemukan di database atau password salah
+                    MessageBox.Show("Username atau Password salah! Silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal koneksi ke database: " + ex.Message);
+                // Menangkap error jika ada kendala pada koneksi PostgreSQL atau query
+                MessageBox.Show($"Terjadi kesalahan koneksi database: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // =======================================================================
+        // TOMBOL SIGN UP (PINDAH HALAMAN)
+        // =======================================================================
         private void roundedButton1_Click_1(object sender, EventArgs e)
         {
-            FormRegistrasi registr= new FormRegistrasi();
+            FormRegistrasi registr = new FormRegistrasi();
             registr.Show();
             this.Hide();
         }

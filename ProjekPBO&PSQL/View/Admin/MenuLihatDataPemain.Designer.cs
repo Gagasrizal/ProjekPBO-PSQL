@@ -180,6 +180,7 @@
             Controls.Add(linkLabel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "MenuLihatDataPemain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuLihatDataPemain";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

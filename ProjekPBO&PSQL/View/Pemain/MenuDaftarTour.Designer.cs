@@ -169,6 +169,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuDaftarTour";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuPemainDaftarTour";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
