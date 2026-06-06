@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Label label21;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuProfilPem));
             roundedpanel1 = new roundedpanel();
             label20 = new Label();
@@ -53,7 +52,8 @@
             linkLabel3 = new LinkLabel();
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
-            label21 = new Label();
+            linkLabel6 = new LinkLabel();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -65,19 +65,7 @@
             roundedpanel1.Opacity = 200;
             roundedpanel1.Size = new Size(613, 97);
             roundedpanel1.TabIndex = 113;
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.BackColor = Color.Transparent;
-            label21.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label21.ForeColor = Color.Transparent;
-            label21.Location = new Point(340, 426);
-            label21.Name = "label21";
-            label21.Size = new Size(233, 18);
-            label21.TabIndex = 112;
-            label21.Text = "Account Created on 26 Jan 2026";
-            label21.TextAlign = ContentAlignment.TopCenter;
+            roundedpanel1.Paint += roundedpanel1_Paint;
             // 
             // label20
             // 
@@ -92,6 +80,7 @@
             label20.TabIndex = 111;
             label20.Text = "082330505712";
             label20.TextAlign = ContentAlignment.TopCenter;
+            label20.Click += label20_Click;
             // 
             // label18
             // 
@@ -106,6 +95,7 @@
             label18.TabIndex = 110;
             label18.Text = "28 January 2006";
             label18.TextAlign = ContentAlignment.TopCenter;
+            label18.Click += label18_Click;
             // 
             // label17
             // 
@@ -120,6 +110,7 @@
             label17.TabIndex = 109;
             label17.Text = "Gagas@gmail.com";
             label17.TextAlign = ContentAlignment.TopCenter;
+            label17.Click += label17_Click;
             // 
             // label15
             // 
@@ -144,6 +135,7 @@
             label14.TabIndex = 106;
             label14.Text = "Indonesia";
             label14.TextAlign = ContentAlignment.TopCenter;
+            label14.Click += label14_Click;
             // 
             // label13
             // 
@@ -158,6 +150,7 @@
             label13.TabIndex = 107;
             label13.Text = "1000";
             label13.TextAlign = ContentAlignment.TopCenter;
+            label13.Click += label13_Click;
             // 
             // label12
             // 
@@ -172,6 +165,7 @@
             label12.TabIndex = 105;
             label12.Text = "RJalsn";
             label12.TextAlign = ContentAlignment.TopCenter;
+            label12.Click += label12_Click;
             // 
             // label11
             // 
@@ -186,6 +180,7 @@
             label11.TabIndex = 104;
             label11.Text = "Description";
             label11.TextAlign = ContentAlignment.TopCenter;
+            label11.Click += label11_Click;
             // 
             // label10
             // 
@@ -200,6 +195,7 @@
             label10.TabIndex = 103;
             label10.Text = "Email\r\n";
             label10.TextAlign = ContentAlignment.TopCenter;
+            label10.Click += label10_Click;
             // 
             // label9
             // 
@@ -214,6 +210,7 @@
             label9.TabIndex = 102;
             label9.Text = "Birth Date";
             label9.TextAlign = ContentAlignment.TopCenter;
+            label9.Click += label9_Click;
             // 
             // label7
             // 
@@ -228,6 +225,7 @@
             label7.TabIndex = 101;
             label7.Text = "Handphone Number\r\n";
             label7.TextAlign = ContentAlignment.TopCenter;
+            label7.Click += label7_Click;
             // 
             // label6
             // 
@@ -242,6 +240,7 @@
             label6.TabIndex = 100;
             label6.Text = "Elo Rating";
             label6.TextAlign = ContentAlignment.TopCenter;
+            label6.Click += label6_Click;
             // 
             // label5
             // 
@@ -256,6 +255,7 @@
             label5.TabIndex = 99;
             label5.Text = "Country";
             label5.TextAlign = ContentAlignment.TopCenter;
+            label5.Click += label5_Click;
             // 
             // label4
             // 
@@ -270,6 +270,7 @@
             label4.TabIndex = 98;
             label4.Text = "Username";
             label4.TextAlign = ContentAlignment.TopCenter;
+            label4.Click += label4_Click;
             // 
             // roundedPictureBox1
             // 
@@ -311,6 +312,7 @@
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // linkLabel5
             // 
@@ -319,12 +321,13 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(12, 281);
+            linkLabel5.Location = new Point(12, 265);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(122, 42);
+            linkLabel5.Size = new Size(129, 42);
             linkLabel5.TabIndex = 94;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "Lihat Data\r\nPembayaran";
+            linkLabel5.Text = "History \r\nPertandingan";
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // linkLabel4
             // 
@@ -335,10 +338,11 @@
             linkLabel4.LinkColor = Color.Silver;
             linkLabel4.Location = new Point(12, 221);
             linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(117, 42);
+            linkLabel4.Size = new Size(118, 21);
             linkLabel4.TabIndex = 93;
             linkLabel4.TabStop = true;
-            linkLabel4.Text = "Lihat Data\r\nTournament";
+            linkLabel4.Text = "Cari Pemain";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel3
             // 
@@ -349,10 +353,11 @@
             linkLabel3.LinkColor = Color.Silver;
             linkLabel3.Location = new Point(12, 161);
             linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(100, 42);
+            linkLabel3.Size = new Size(117, 42);
             linkLabel3.TabIndex = 92;
             linkLabel3.TabStop = true;
-            linkLabel3.Text = "Lihat Data\r\nPemain";
+            linkLabel3.Text = "Daftar\r\nTournament";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -366,7 +371,8 @@
             linkLabel2.Size = new Size(117, 42);
             linkLabel2.TabIndex = 91;
             linkLabel2.TabStop = true;
-            linkLabel2.Text = "Buat \r\nTournament";
+            linkLabel2.Text = "List\r\nTournament";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -382,6 +388,37 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // linkLabel6
+            // 
+            linkLabel6.AutoSize = true;
+            linkLabel6.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel6.LinkColor = Color.Silver;
+            linkLabel6.Location = new Point(13, 326);
+            linkLabel6.Name = "linkLabel6";
+            linkLabel6.Size = new Size(99, 42);
+            linkLabel6.TabIndex = 114;
+            linkLabel6.TabStop = true;
+            linkLabel6.Text = "Baca\r\nPeraturan";
+            linkLabel6.LinkClicked += linkLabel6_LinkClicked;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Arial", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Transparent;
+            label1.ImageAlign = ContentAlignment.MiddleLeft;
+            label1.Location = new Point(324, 426);
+            label1.Name = "label1";
+            label1.Size = new Size(155, 19);
+            label1.TabIndex = 115;
+            label1.Text = "Gagas@gmail.com";
+            label1.TextAlign = ContentAlignment.TopCenter;
+            label1.Click += label1_Click;
             // 
             // MenuProfilPem
             // 
@@ -390,8 +427,9 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
+            Controls.Add(linkLabel6);
             Controls.Add(roundedpanel1);
-            Controls.Add(label21);
             Controls.Add(label20);
             Controls.Add(label18);
             Controls.Add(label17);
@@ -448,5 +486,7 @@
         private LinkLabel linkLabel3;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
+        private LinkLabel linkLabel6;
+        private Label label1;
     }
 }

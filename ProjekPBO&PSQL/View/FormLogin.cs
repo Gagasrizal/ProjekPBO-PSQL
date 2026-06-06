@@ -105,8 +105,8 @@ namespace ProjekPBO_PSQL
                     }
                     else
                     {
-                        // Jika pemain, arahkan ke MenuPemain.cs
-                        MenuPemain pemainForm = new MenuPemain();
+                        // Jika pemain, arahkan ke MenuPemain.cs dengan MELEMPAR data userTerlogin
+                        MenuPemain pemainForm = new MenuPemain(userTerlogin); // <--- TAMBAHKAN userTerlogin DI SINI
                         pemainForm.Show();
                     }
 

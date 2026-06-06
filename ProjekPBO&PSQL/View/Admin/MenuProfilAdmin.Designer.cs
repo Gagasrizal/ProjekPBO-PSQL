@@ -98,10 +98,10 @@
             linkLabel5.LinkColor = Color.Silver;
             linkLabel5.Location = new Point(11, 280);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(117, 42);
+            linkLabel5.Size = new Size(122, 42);
             linkLabel5.TabIndex = 26;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "Baca \r\nTournament";
+            linkLabel5.Text = "Lihat Data \r\nPembayaran";
             linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // linkLabel4
@@ -113,10 +113,10 @@
             linkLabel4.LinkColor = Color.Silver;
             linkLabel4.Location = new Point(11, 220);
             linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(129, 42);
+            linkLabel4.Size = new Size(117, 42);
             linkLabel4.TabIndex = 25;
             linkLabel4.TabStop = true;
-            linkLabel4.Text = "History \r\nPertandingan";
+            linkLabel4.Text = "Lihat Data \r\nTournament";
             linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel3
@@ -128,10 +128,10 @@
             linkLabel3.LinkColor = Color.Silver;
             linkLabel3.Location = new Point(11, 160);
             linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(117, 42);
+            linkLabel3.Size = new Size(105, 42);
             linkLabel3.TabIndex = 24;
             linkLabel3.TabStop = true;
-            linkLabel3.Text = "Daftar \r\nTournament";
+            linkLabel3.Text = "Lihat Data \r\nPemain";
             linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
@@ -146,7 +146,7 @@
             linkLabel2.Size = new Size(117, 42);
             linkLabel2.TabIndex = 23;
             linkLabel2.TabStop = true;
-            linkLabel2.Text = "List \r\nTournament";
+            linkLabel2.Text = "Buat\r\nTournament";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1

@@ -27,7 +27,7 @@ namespace ProjekPBO_PSQL.Helpers
             long count = (long)cmd.ExecuteScalar();
             return count > 0;
         }
-        public bool RegisterUser(User user, detail_User detail)
+        public bool RegisterUser(User user, Detail_User detail)
         {
             using var conn = GetConnection();
             conn.Open();
@@ -35,41 +35,51 @@ namespace ProjekPBO_PSQL.Helpers
 
             try
             {
-                // 1. INSERT KE TABEL USERS (Kolom: passwords)
+                // 1. INSERT KE TABEL USERS
                 string userQuery = @"INSERT INTO users (username, passwords, email, is_admin)
                              VALUES (@username, @password, @email, @is_admin)
                              RETURNING id_user";
 
+                // Di dalam DBHelper.cs -> Method RegisterUser
                 using var userCmd = new NpgsqlCommand(userQuery, conn);
-                userCmd.Parameters.AddWithValue("@username", user.username);
-                userCmd.Parameters.AddWithValue("@password", user.password); // Map ke kolom passwords
-                userCmd.Parameters.AddWithValue("@email", user.email);
-                userCmd.Parameters.AddWithValue("@is_admin", false); // Pendaftar baru otomatis player biasa
+                userCmd.Parameters.AddWithValue("@username", user.username); // Pastikan huruf kecil 'username'
+                userCmd.Parameters.AddWithValue("@password", user.password); // Pastikan huruf kecil 'password'
+                userCmd.Parameters.AddWithValue("@email", user.email);       // Pastikan huruf kecil 'email'
+                userCmd.Parameters.AddWithValue("@is_admin", false);
 
-                int idUser = Convert.ToInt32(userCmd.ExecuteScalar());
+                // Eksekusi dan ambil ID yang baru digenerate secara aman
+                object userIdObj = userCmd.ExecuteScalar();
+                if (userIdObj == null)
+                {
+                    throw new Exception("Gagal mendapatkan ID User baru.");
+                }
+                int idUser = Convert.ToInt32(userIdObj);
 
-                // 2. INSERT KE TABEL DETAIL_USER (Sesuai gambar pgAdmin terbaru kamu)
+                // 2. INSERT KE TABEL DETAIL_USER
                 string detailQuery = @"INSERT INTO detail_user (id_user, nama_lengkap, negara, no_telepon, tanggal_lahir, elo_rating, created_at, deskripsi)
-                               VALUES (@id_user, @nama_lengkap, @negara, @no_telepon, @tanggal_lahir, 1200, @created_at, @deskripsi)"; 
+                               VALUES (@id_user, @nama_lengkap, @negara, @no_telepon, @tanggal_lahir, 1200, @created_at, @deskripsi)";
 
                 using var detailCmd = new NpgsqlCommand(detailQuery, conn);
                 detailCmd.Parameters.AddWithValue("@id_user", idUser);
-                detailCmd.Parameters.AddWithValue("@nama_lengkap", detail.nama_lengkap);
-                detailCmd.Parameters.AddWithValue("@negara", detail.negara);
-                detailCmd.Parameters.AddWithValue("@no_telepon", detail.no_telepon);
-                detailCmd.Parameters.AddWithValue("@tanggal_lahir", detail.tanggal_lahir.Date);
-                detailCmd.Parameters.AddWithValue("@created_at", DateTime.Now.Date);
-                detailCmd.Parameters.AddWithValue("@deskripsi", detail.deskripsi ?? (object)DBNull.Value);
+                detailCmd.Parameters.AddWithValue("@nama_lengkap", detail.Nama_lengkap);
+                detailCmd.Parameters.AddWithValue("@negara", detail.Negara);
+                detailCmd.Parameters.AddWithValue("@no_telepon", detail.No_telepon);
+                detailCmd.Parameters.AddWithValue("@tanggal_lahir", detail.Tanggal_lahir.Date);
+                detailCmd.Parameters.AddWithValue("@created_at", DateTime.Today); // Menggunakan tanggal hari ini saja tanpa jam
+
+                // Solusi penanganan NULL di PostgreSQL
+                detailCmd.Parameters.AddWithValue("@deskripsi", string.IsNullOrEmpty(detail.Deskripsi) ? (object)DBNull.Value : detail.Deskripsi);
 
                 detailCmd.ExecuteNonQuery();
+
+                // COMMIT SEBAGAI TANDA DATA FIX DISIMPAN
                 transaction.Commit();
                 return true;
             }
-            catch (Exception ex)   // <-- INI LETAK CATCH
+            catch (Exception ex)
             {
-                transaction.Rollback();  // batalkan perubahan
-                // Lempar ulang exception agar form menangkapnya
-                throw new Exception($"Gagal menyimpan data: {ex.Message}", ex);
+                transaction.Rollback();  // Batalkan jika ada error di tengah jalan
+                throw new Exception($"Gagal menyimpan data ke Database: {ex.Message}", ex);
             }
         }
         //cek email
@@ -135,6 +145,34 @@ namespace ProjekPBO_PSQL.Helpers
             }
 
             return null; // Mengembalikan null jika user tidak ditemukan
+        }
+        public Detail_User GetDetailUserByUserId(int idUser)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+
+            string query = @"SELECT id_detail_user, id_user, nama_lengkap, negara, no_telepon, tanggal_lahir, elo_rating, created_at, deskripsi 
+                     FROM detail_user 
+                     WHERE id_user = @id_user";
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id_user", idUser);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Detail_User(
+                    reader.GetInt32(0),                                      // id_detail_user
+                    reader.GetString(2),                                     // nama_lengkap
+                    reader.GetString(3),                                     // negara
+                    reader.GetString(4),                                     // no_telepon
+                    reader.GetDateTime(5),                                   // tanggal_lahir
+                    reader.GetInt32(6),                                      // elo_rating
+                    reader.GetDateTime(7),                                   // created_at
+                    reader.IsDBNull(8) ? "" : reader.GetString(8)            // deskripsi
+                );
+            }
+            return null;
         }
     }
 }

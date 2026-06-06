@@ -52,6 +52,7 @@
             linkLabel6.TabIndex = 31;
             linkLabel6.TabStop = true;
             linkLabel6.Text = "Baca\r\nPeraturan\r\n";
+            linkLabel6.LinkClicked += linkLabel6_LinkClicked;
             // 
             // roundedButton1
             // 
@@ -70,6 +71,7 @@
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // linkLabel5
             // 
@@ -84,6 +86,7 @@
             linkLabel5.TabIndex = 29;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "History\r\nPertandingan";
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // linkLabel4
             // 
@@ -98,6 +101,7 @@
             linkLabel4.TabIndex = 28;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Cari Pemain";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel3
             // 
@@ -112,6 +116,7 @@
             linkLabel3.TabIndex = 27;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Daftar\r\nTournament";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -126,6 +131,7 @@
             linkLabel2.TabIndex = 26;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "List\r\nTournament";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -141,6 +147,7 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // linkLabel7
             // 
@@ -154,6 +161,7 @@
             linkLabel7.TabIndex = 32;
             linkLabel7.TabStop = true;
             linkLabel7.Text = resources.GetString("linkLabel7.Text");
+            linkLabel7.LinkClicked += linkLabel7_LinkClicked;
             // 
             // MenuAturan
             // 

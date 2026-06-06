@@ -1,6 +1,6 @@
 ﻿using ProjekPBO_PSQL.View.Admin;
 using ProjekPBO_PSQL.View.Pemain;
-using ProjekPBO_PSQL.Models; // Ditambahkan agar class User bisa dikenali
+using ProjekPBO_PSQL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,27 +13,27 @@ namespace ProjekPBO_PSQL
 {
     public partial class MenuPemain : Form
     {
-        // Variabel global untuk menyimpan data user yang sedang login
+        // Variabel global untuk menyimpan sesi data user yang sedang login
         private User userLogin;
 
-        // Constructor diubah untuk menerima parameter objek User dari FormLogin
+        // Konstruktor Utama menerima data User yang dikirim dari FormLogin
         public MenuPemain(User user)
         {
             InitializeComponent();
-            this.userLogin = user; // Simpan data user terlogin
+            this.userLogin = user;
         }
 
         private void MenuPemain_Load(object sender, EventArgs e)
         {
-
+            // Bisa dikosongkan
         }
 
         // =======================================================================
-        // 1. MENU PROFIL -> Menuju MenuProfilPem.cs
+        // 1. MENU PROFIL -> Menuju MenuProfilPem.cs dengan membawa data user aktif
         // =======================================================================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Mengoper data userLogin ke MenuProfilPem agar data profil bisa ditampilkan
+            // Mengoper data userLogin ke MenuProfilPem agar bisa membaca database profile
             MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
             profilForm.Show();
             this.Hide();
@@ -44,7 +44,7 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuTournament listForm = new MenuTournament();
+            MenuTournament listForm = new MenuTournament(this.userLogin);
             listForm.Show();
             this.Hide();
         }
@@ -54,7 +54,7 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuDaftarTour daftarForm = new MenuDaftarTour();
+            MenuDaftarTour daftarForm = new MenuDaftarTour(this.userLogin);
             daftarForm.Show();
             this.Hide();
         }
@@ -64,7 +64,7 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuCariPemain cariForm = new MenuCariPemain();
+            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
             cariForm.Show();
             this.Hide();
         }
@@ -74,7 +74,7 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuHistoryPermainan historyForm = new MenuHistoryPermainan();
+            MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
             historyForm.Show();
             this.Hide();
         }
@@ -84,7 +84,7 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuAturan peraturanForm = new MenuAturan();
+            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
             peraturanForm.Show();
             this.Hide();
         }
@@ -100,7 +100,7 @@ namespace ProjekPBO_PSQL
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); // Menutup MenuPemain dengan aman
+                this.Close();
             }
         }
     }
