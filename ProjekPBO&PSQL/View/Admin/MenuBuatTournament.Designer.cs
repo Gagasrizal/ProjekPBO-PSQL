@@ -36,19 +36,19 @@
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             label1 = new Label();
-            textBox1 = new TextBox();
+            NamaTournament = new TextBox();
             label2 = new Label();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            Babak = new ComboBox();
+            TipeGame = new ComboBox();
             label3 = new Label();
             label4 = new Label();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            HargaPendaftaran = new TextBox();
+            Hadiah = new TextBox();
             label5 = new Label();
             label6 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            TanggalPelaksanaan = new DateTimePicker();
             label7 = new Label();
-            comboBox3 = new ComboBox();
+            TimeControl = new ComboBox();
             roundedButton2 = new RoundedButton();
             SuspendLayout();
             // 
@@ -153,12 +153,13 @@
             label1.TabIndex = 28;
             label1.Text = "Masukkan Nama Tournament :";
             // 
-            // textBox1
+            // NamaTournament
             // 
-            textBox1.Location = new Point(184, 116);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(256, 27);
-            textBox1.TabIndex = 29;
+            NamaTournament.Location = new Point(184, 116);
+            NamaTournament.Name = "NamaTournament";
+            NamaTournament.Size = new Size(256, 27);
+            NamaTournament.TabIndex = 29;
+            NamaTournament.TextChanged += textBox1_TextChanged;
             // 
             // label2
             // 
@@ -172,23 +173,25 @@
             label2.TabIndex = 30;
             label2.Text = "Babak :";
             // 
-            // comboBox1
+            // Babak
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7" });
-            comboBox1.Location = new Point(184, 329);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(195, 28);
-            comboBox1.TabIndex = 31;
+            Babak.FormattingEnabled = true;
+            Babak.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7" });
+            Babak.Location = new Point(184, 329);
+            Babak.Name = "Babak";
+            Babak.Size = new Size(195, 28);
+            Babak.TabIndex = 31;
+            Babak.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
-            // comboBox2
+            // TipeGame
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Rapid (10+0)", "Blitz    (5+0)", "Bullet  (1+0)" });
-            comboBox2.Location = new Point(184, 183);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(195, 28);
-            comboBox2.TabIndex = 32;
+            TipeGame.FormattingEnabled = true;
+            TipeGame.Items.AddRange(new object[] { "Rapid (10+0)", "Blitz    (5+0)", "Bullet  (1+0)" });
+            TipeGame.Location = new Point(184, 183);
+            TipeGame.Name = "TipeGame";
+            TipeGame.Size = new Size(195, 28);
+            TipeGame.TabIndex = 32;
+            TipeGame.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
             // label3
             // 
@@ -214,19 +217,21 @@
             label4.TabIndex = 34;
             label4.Text = "Harga Pendaftaran :";
             // 
-            // textBox2
+            // HargaPendaftaran
             // 
-            textBox2.Location = new Point(549, 111);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(228, 27);
-            textBox2.TabIndex = 35;
+            HargaPendaftaran.Location = new Point(549, 111);
+            HargaPendaftaran.Name = "HargaPendaftaran";
+            HargaPendaftaran.Size = new Size(228, 27);
+            HargaPendaftaran.TabIndex = 35;
+            HargaPendaftaran.TextChanged += textBox2_TextChanged;
             // 
-            // textBox3
+            // Hadiah
             // 
-            textBox3.Location = new Point(549, 184);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(228, 27);
-            textBox3.TabIndex = 36;
+            Hadiah.Location = new Point(549, 184);
+            Hadiah.Name = "Hadiah";
+            Hadiah.Size = new Size(228, 27);
+            Hadiah.TabIndex = 36;
+            Hadiah.TextChanged += textBox3_TextChanged;
             // 
             // label5
             // 
@@ -252,12 +257,13 @@
             label6.TabIndex = 38;
             label6.Text = "Tanggal Pelaksanaan :";
             // 
-            // dateTimePicker1
+            // TanggalPelaksanaan
             // 
-            dateTimePicker1.Location = new Point(184, 394);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 27);
-            dateTimePicker1.TabIndex = 39;
+            TanggalPelaksanaan.Location = new Point(184, 394);
+            TanggalPelaksanaan.Name = "TanggalPelaksanaan";
+            TanggalPelaksanaan.Size = new Size(250, 27);
+            TanggalPelaksanaan.TabIndex = 39;
+            TanggalPelaksanaan.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // label7
             // 
@@ -271,14 +277,15 @@
             label7.TabIndex = 40;
             label7.Text = "Time Control :";
             // 
-            // comboBox3
+            // TimeControl
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "1 Menit (Bullet)", "1 Menit + 1 Detik (Bullet)", "2 Menit + 1 Detik (Bullet)", "3 Menit (Blitz)", "3 Menit + 2 Detik (Blitz)", "5 Menit (Blitz)", "5 Menit + 5 Detik (Blitz)", "10 Menit (Rapid)", "15 Menit + 10 Detik (Rapid)", "30 Menit (Rapid)", "60 Menit (Classical)", "90 Menit + 30 Detik (Classical)" });
-            comboBox3.Location = new Point(184, 255);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(195, 28);
-            comboBox3.TabIndex = 41;
+            TimeControl.FormattingEnabled = true;
+            TimeControl.Items.AddRange(new object[] { "1 Menit (Bullet)", "1 Menit + 1 Detik (Bullet)", "2 Menit + 1 Detik (Bullet)", "3 Menit (Blitz)", "3 Menit + 2 Detik (Blitz)", "5 Menit (Blitz)", "5 Menit + 5 Detik (Blitz)", "10 Menit (Rapid)", "15 Menit + 10 Detik (Rapid)", "30 Menit (Rapid)", "60 Menit (Classical)", "90 Menit + 30 Detik (Classical)" });
+            TimeControl.Location = new Point(184, 255);
+            TimeControl.Name = "TimeControl";
+            TimeControl.Size = new Size(195, 28);
+            TimeControl.TabIndex = 41;
+            TimeControl.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // roundedButton2
             // 
@@ -297,6 +304,7 @@
             roundedButton2.Text = "Create";
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
+            roundedButton2.Click += roundedButton2_Click;
             // 
             // MenuBuatTournament
             // 
@@ -306,19 +314,19 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 451);
             Controls.Add(roundedButton2);
-            Controls.Add(comboBox3);
+            Controls.Add(TimeControl);
             Controls.Add(label7);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(TanggalPelaksanaan);
             Controls.Add(label6);
             Controls.Add(label5);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
+            Controls.Add(Hadiah);
+            Controls.Add(HargaPendaftaran);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
+            Controls.Add(TipeGame);
+            Controls.Add(Babak);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(NamaTournament);
             Controls.Add(label1);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
@@ -343,19 +351,19 @@
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox NamaTournament;
         private Label label2;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private ComboBox Babak;
+        private ComboBox TipeGame;
         private Label label3;
         private Label label4;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox HargaPendaftaran;
+        private TextBox Hadiah;
         private Label label5;
         private Label label6;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker TanggalPelaksanaan;
         private Label label7;
-        private ComboBox comboBox3;
+        private ComboBox TimeControl;
         private RoundedButton roundedButton2;
     }
 }

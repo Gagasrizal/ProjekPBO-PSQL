@@ -13,8 +13,7 @@ namespace ProjekPBO_PSQL.Models
         public DateTime CreatedAt { get; set; }
         public string Deskripsi { get; set; }
 
-        public Detail_User(int id, string nama_lengkap, string negara, string no_telepon,
-                           DateTime tanggal_lahir, int elo_rating, DateTime createdAt, string deskripsi)
+        public Detail_User(int id, string nama_lengkap, string negara, string no_telepon, DateTime tanggal_lahir, int elo_rating, DateTime createdAt, string deskripsi)
         {
             this.Id = id;
             this.Nama_lengkap = nama_lengkap;

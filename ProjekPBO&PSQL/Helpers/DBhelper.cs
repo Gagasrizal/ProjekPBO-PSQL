@@ -146,6 +146,35 @@ namespace ProjekPBO_PSQL.Helpers
 
             return null; // Mengembalikan null jika user tidak ditemukan
         }
+        public bool TambahTournament(Tournament tournament)
+        {
+            // Query SQL disesuaikan dengan skema tabel kompetisi asli milikmu
+            string query = @"INSERT INTO kompetisi (id_user, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah) 
+                             VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalPeLaksanaan, @hadiah)";
+
+            try
+            {
+                using var conn = GetConnection(); // Menggunakan fungsi koneksi terpusat milikmu
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+
+                // PERBAIKAN: Menyamakan parameter dengan properti baru hasil rapihanmu
+                cmd.Parameters.AddWithValue("@idUser", tournament.IdUser);
+                cmd.Parameters.AddWithValue("@nama", tournament.NamaKompetisi);
+                cmd.Parameters.AddWithValue("@mode", tournament.ModeKompetisi);
+                cmd.Parameters.AddWithValue("@harga", tournament.HargaPendaftaran);
+                cmd.Parameters.AddWithValue("@pelaksanaanDaftar", tournament.PelaksanaanPendaftaran);
+                cmd.Parameters.AddWithValue("@tanggalLaksana", tournament.TanggalPelaksanaan.Date); // Hanya mengambil tanggal
+                cmd.Parameters.AddWithValue("@hadiah", tournament.Hadiah);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0; // Mengembalikan true jika berhasil masuk ke database
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal menyimpan ke tabel Tournament: {ex.Message}", ex);
+            }
+        }
         public Detail_User GetDetailUserByUserId(int idUser)
         {
             using var conn = GetConnection();
@@ -173,6 +202,27 @@ namespace ProjekPBO_PSQL.Helpers
                 );
             }
             return null;
+        }
+        public DataTable GetDaftarKompetisiAktif()
+        {
+            DataTable dt = new DataTable();
+
+            // MATERI PSQL: CURRENT_DATE digunakan untuk mengambil tanggal hari ini secara otomatis dari server database
+            string query = "SELECT * FROM v_daftar_kompetisi WHERE tanggal_pelaksanaan >= CURRENT_DATE ORDER BY tanggal_pelaksanaan ASC";
+
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                using var adapter = new NpgsqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengambil data kompetisi aktif: {ex.Message}", ex);
+            }
         }
     }
 }
