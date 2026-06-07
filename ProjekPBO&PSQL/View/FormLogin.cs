@@ -1,6 +1,7 @@
 using Npgsql;
 using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.View.Pemain;
+using ProjekPBO_PSQL.View.Admin;
 using ProjekPBO_PSQL.Models; // Tambahkan ini agar program mengenali objek 'User'
 using System;
 using System.Collections.Generic;
@@ -100,8 +101,8 @@ namespace ProjekPBO_PSQL
                         // Jika admin, arahkan ke Form Admin kamu
                         MessageBox.Show("Anda masuk sebagai Admin.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // MenuAdmin adminForm = new MenuAdmin();
-                        // adminForm.Show();
+                        MenuAdmin adminForm = new MenuAdmin(userTerlogin);
+                        adminForm.Show();
                     }
                     else
                     {

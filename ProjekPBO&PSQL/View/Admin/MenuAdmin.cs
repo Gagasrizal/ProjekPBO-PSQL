@@ -1,92 +1,84 @@
-﻿using ProjekPBO_PSQL.View.Admin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using ProjekPBO_PSQL.Models;       // Memastikan objek 'User' dikenali
+using ProjekPBO_PSQL.View.Pemain;   // Jika nanti dibutuhkan interaksi antar view
 
-namespace ProjekPBO_PSQL
+namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuAdmin : Form
     {
-        public MenuAdmin()
+        // Variabel global untuk menyimpan sesi data admin yang sedang login
+        private User adminLogin;
+
+        // Konstruktor menerima parameter data User dari FormLogin
+        public MenuAdmin(User user)
         {
             InitializeComponent();
+            this.adminLogin = user; // Menyimpan data admin aktif
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void MenuAdmin_Load(object sender, EventArgs e)
         {
-            // 1. Membuat objek baru dari form MenuProfilAdmin
-            MenuProfilAdmin menuProfil = new MenuProfilAdmin();
+            // Logika awal saat halaman dashboard admin dimuat (jika ada)
+        }
 
-            // 2. Menampilkan form MenuProfilAdmin
+        // =======================================================================
+        // NAVIGASI LINK LABEL SIDEBAR ADMIN (ESTAFET USER LOGIN)
+        // =======================================================================
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Profil
+        {
+            MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-
-            // 3. (Opsional) Menutup atau menyembunyikan form yang sekarang aktif
-            this.Hide(); // Menggunakan Hide() agar form saat ini tidak terlihat
-                         // atau gunakan: this.Close(); jika ingin menutup total form saat ini
+            this.Hide();
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Buat Tournament
         {
-            // 1. Membuat objek baru dari form MenuBuatTournament
-            MenuBuatTournament buatTournament = new MenuBuatTournament();
-
-            // 2. Menampilkan form MenuBuatTournament
+            MenuBuatTournament buatTournament = new MenuBuatTournament(this.adminLogin);
             buatTournament.Show();
-
-            // 3. (Opsional) Menyembunyikan form yang sekarang aktif
             this.Hide();
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Lihat Data Pemain
         {
-            // 1. Membuat objek baru dari form MenuLihatDataPemain
-            MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain();
-
-            // 2. Menampilkan form MenuLihatDataPemain
+            MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin);
             lihatPemain.Show();
-
-            // 3. (Opsional) Menyembunyikan form yang sekarang aktif
             this.Hide();
         }
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Lihat Data Tournament
         {
-            // 1. Membuat objek baru dari form LihatDataTournament
-            LihatDataTournament lihatTournament = new LihatDataTournament();
-
-            // 2. Menampilkan form LihatDataTournament
+            LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
             lihatTournament.Show();
-
-            // 3. (Opsional) Menyembunyikan form yang sekarang aktif
             this.Hide();
         }
 
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Lihat Data Pembayaran
         {
-            // 1. Membuat objek baru dari form LihatDataPembayaran
-            LihatDataPembayaran lihatPembayaran = new LihatDataPembayaran();
-
-            // 2. Menampilkan form LihatDataPembayaran
+            LihatDataPembayaran lihatPembayaran = new LihatDataPembayaran(this.adminLogin);
             lihatPembayaran.Show();
-
-            // 3. (Opsional) Menyembunyikan form yang sekarang aktif
             this.Hide();
         }
 
+        // =======================================================================
+        // TOMBOL LOGOUT
+        // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
         {
-            FormLogin login = new FormLogin();
-            login.Show();
-            this.Hide();
-        }
+            DialogResult dialogResult = MessageBox.Show("Apakah kamu yakin ingin keluar dari halaman Admin Hyper Chess?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
+            if (dialogResult == DialogResult.Yes)
+            {
+                FormLogin login = new FormLogin();
+                login.Show();
+                this.Close(); // Menutup form MenuAdmin dengan aman dan kembali ke Login awal
+            }
         }
     }
 }

@@ -165,6 +165,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridView1);
             Controls.Add(linkLabel6);
@@ -175,6 +176,7 @@
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuTournament";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuTournament";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

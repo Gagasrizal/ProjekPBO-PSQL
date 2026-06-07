@@ -97,6 +97,7 @@
             linkLabel3.TabIndex = 24;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Lihat Data\r\nPemain";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 

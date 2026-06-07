@@ -14,5 +14,10 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             InitializeComponent();
         }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }
