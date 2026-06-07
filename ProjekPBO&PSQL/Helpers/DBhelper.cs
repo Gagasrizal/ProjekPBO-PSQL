@@ -169,7 +169,7 @@ namespace ProjekPBO_PSQL.Helpers
                     reader.GetDateTime(5),                                   // tanggal_lahir
                     reader.GetInt32(6),                                      // elo_rating
                     reader.GetDateTime(7),                                   // created_at
-                    reader.IsDBNull(8) ? "" : reader.GetString(8)            // deskripsi
+                    reader.IsDBNull(8) ? "" : reader.GetString(8)            // deskripsii
                 );
             }
             return null;
