@@ -74,58 +74,46 @@ namespace ProjekPBO_PSQL
         // =======================================================================
         private void roundedButton2_Click(object sender, EventArgs e)
         {
-            // Ambil input dari TextBox di Form. 
-            // PENTING: textBox1 untuk username, textBox2 untuk password (sesuaikan dengan nama komponenmu)
-            string usernameInput = textBox1.Text.Trim();
-            string passwordInput = textBox2.Text.Trim();
+            string username = textBox1.Text.Trim();
+            string password = textBox2.Text.Trim();
 
-            // Validasi jika ada input yang masih kosong
-            if (string.IsNullOrEmpty(usernameInput) || string.IsNullOrEmpty(passwordInput))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Username dan Password tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Username dan password wajib diisi!");
                 return;
             }
 
             try
             {
-                // Panggil fungsi AuthenticateUser dari DBHelper.cs
-                User userTerlogin = dbHelper.AuthenticateUser(usernameInput, passwordInput);
-
-                if (userTerlogin != null)
+                User user = dbHelper.AuthenticateUser(username, password);
+                if (user == null)
                 {
-                    MessageBox.Show($"Selamat datang kembali, {userTerlogin.username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Username atau password salah!");
+                    return;
+                }
 
-                    // SEKARANG SUDAH FIX: menggunakan isAdmin sesuai dengan isi User.cs kamu
-                    if (userTerlogin.isAdmin)
-                    {
-                        // Jika admin, arahkan ke Form Admin kamu
-                        MessageBox.Show("Anda masuk sebagai Admin.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Berhasil login
+                MessageBox.Show($"Selamat datang, {user.username}!");
 
-                        MenuAdmin adminForm = new MenuAdmin(userTerlogin);
-                        adminForm.Show();
-                    }
-                    else
-                    {
-                        // Jika pemain, arahkan ke MenuPemain.cs dengan MELEMPAR data userTerlogin
-                        MenuPemain pemainForm = new MenuPemain(userTerlogin); // <--- TAMBAHKAN userTerlogin DI SINI
-                        pemainForm.Show();
-                    }
-
-                    this.Hide(); // Sembunyikan FormLogin setelah berhasil masuk
+                if (user.isAdmin)
+                {
+                    MenuAdmin adminForm = new MenuAdmin(user);
+                    adminForm.ShowDialog();  // <-- pakai modal
+                    adminForm.Show();
                 }
                 else
                 {
-                    // Jika data tidak ditemukan di database atau password salah
-                    MessageBox.Show("Username atau Password salah! Silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MenuPemain pemainForm = new MenuPemain(user);
+                    pemainForm.Show();
                 }
+
+                this.Hide();
             }
             catch (Exception ex)
             {
-                // Menangkap error jika ada kendala pada koneksi PostgreSQL atau query
-                MessageBox.Show($"Terjadi kesalahan koneksi database: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}");
             }
         }
-
         // =======================================================================
         // TOMBOL SIGN UP (PINDAH HALAMAN)
         // =======================================================================

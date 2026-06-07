@@ -121,7 +121,6 @@
             label15.Name = "label15";
             label15.Size = new Size(0, 20);
             label15.TabIndex = 108;
-            label15.Click += this.label15_Click;
             // 
             // label14
             // 
@@ -283,7 +282,6 @@
             roundedPictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             roundedPictureBox1.TabIndex = 97;
             roundedPictureBox1.TabStop = false;
-            roundedPictureBox1.Click += this.roundedPictureBox1_Click;
             // 
             // label3
             // 

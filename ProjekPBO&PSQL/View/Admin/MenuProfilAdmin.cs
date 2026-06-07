@@ -27,24 +27,32 @@ namespace ProjekPBO_PSQL.View.Admin
             if (adminLogin != null)
             {
                 // 1. Tampilkan data dasar dari tabel 'users' milik Admin yang login
-                label12.Text = adminLogin.username;
-                label17.Text = adminLogin.email;
+                label12.Text = adminLogin.username; // Mengisi RJalsn
+                label17.Text = adminLogin.email;    // Mengisi Email utama admin
+                label1.Text = adminLogin.email;     // Mengisi Email informasi bawah
 
                 // 2. Ambil detail profile dari database berdasarkan id_user admin
                 Detail_User detail = dbHelper.GetDetailUserByUserId(adminLogin.id);
 
                 if (detail != null)
                 {
-                    label14.Text = detail.Negara;                                 // Memunculkan: Indonesia
-                    label13.Text = detail.Elo_rating.ToString();                  // Memunculkan: 1000 / Elo Admin
+                    label14.Text = detail.Negara;                                 // Memunculkan negara (Indonesia)
+                    label13.Text = detail.Elo_rating.ToString();                  // Memunculkan Elo Admin
                     label20.Text = detail.No_telepon;                             // Memunculkan nomor handphone
                     label18.Text = detail.Tanggal_lahir.ToString("dd MMMM yyyy"); // Memunculkan tanggal lahir
 
-                    // Menampilkan tanggal dibuatnya akun Admin
-                    label1.Text = "Account Created on " + detail.CreatedAt.ToString("dd MMM yyyy");
-
-                    // Jika kamu punya RichTextBox untuk deskripsi profil admin, silakan aktifkan baris di bawah:
-                    // richTextBox1.Text = detail.Deskripsi;
+                    // Karena label3 di desainer kamu posisinya kosong/kosongan, kita pakai untuk tempat tanggal buat akun:
+                    label3.Text = "Account Created on: " + detail.CreatedAt.ToString("dd MMM yyyy");
+                }
+                else
+                {
+                    // JIKA DATA DETAIL BELUM ADA DI DATABASE:
+                    // Tetap tampilkan data login utamanya agar form tidak terlihat kosong melompong
+                    label14.Text = "-";
+                    label13.Text = "-";
+                    label20.Text = "-";
+                    label18.Text = "-";
+                    label3.Text = "Detail profile belum diatur di database.";
                 }
             }
             else
