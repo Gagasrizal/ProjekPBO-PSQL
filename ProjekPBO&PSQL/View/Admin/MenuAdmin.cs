@@ -33,9 +33,10 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Profil
         {
+            // Di sini baru benar memanggil MenuProfilAdmin
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-            this.Hide();
+            this.Hide(); // Menyembunyikan dashboard Selamat Datang
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Buat Tournament

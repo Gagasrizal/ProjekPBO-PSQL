@@ -148,6 +148,7 @@
             Name = "MenuAdmin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuAdmin";
+            this.Load += new System.EventHandler(this.MenuAdmin_Load);
             ResumeLayout(false);
             PerformLayout();
         }

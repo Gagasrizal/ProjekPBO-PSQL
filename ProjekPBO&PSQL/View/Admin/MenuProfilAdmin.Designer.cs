@@ -79,6 +79,7 @@
             roundedpanel1.Opacity = 200;
             roundedpanel1.Size = new Size(613, 97);
             roundedpanel1.TabIndex = 132;
+            roundedpanel1.Paint += roundedpanel1_Paint;
             // 
             // label20
             // 
@@ -437,6 +438,7 @@
             Name = "MenuProfilAdmin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuProfilAdmin";
+            Load += MenuProfilAdmin_Load;
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();

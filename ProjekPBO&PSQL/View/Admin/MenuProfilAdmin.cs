@@ -24,39 +24,38 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void MenuProfilAdmin_Load(object sender, EventArgs e)
         {
+            // Cek apakah adminLogin kosong di awal fungsi
             if (adminLogin != null)
             {
-                // 1. Tampilkan data dasar dari tabel 'users' milik Admin yang login
-                label12.Text = adminLogin.username; // Mengisi RJalsn
-                label17.Text = adminLogin.email;    // Mengisi Email utama admin
-                label1.Text = adminLogin.email;     // Mengisi Email informasi bawah
+                // 1. Isi data dasar dari objek login
+                label12.Text = adminLogin.username;
+                label17.Text = adminLogin.email;
 
-                // 2. Ambil detail profile dari database berdasarkan id_user admin
+                // 2. Ambil detail user dari PostgreSQL
                 Detail_User detail = dbHelper.GetDetailUserByUserId(adminLogin.id);
 
                 if (detail != null)
                 {
-                    label14.Text = detail.Negara;                                 // Memunculkan negara (Indonesia)
-                    label13.Text = detail.Elo_rating.ToString();                  // Memunculkan Elo Admin
-                    label20.Text = detail.No_telepon;                             // Memunculkan nomor handphone
-                    label18.Text = detail.Tanggal_lahir.ToString("dd MMMM yyyy"); // Memunculkan tanggal lahir
+                    label14.Text = detail.Negara;
+                    label13.Text = detail.Elo_rating.ToString();
+                    label20.Text = detail.No_telepon;
+                    label18.Text = detail.Tanggal_lahir.ToString("dd MMMM yyyy");
 
-                    // Karena label3 di desainer kamu posisinya kosong/kosongan, kita pakai untuk tempat tanggal buat akun:
-                    label3.Text = "Account Created on: " + detail.CreatedAt.ToString("dd MMM yyyy");
+                    // Pindahkan tulisan CreatedAt dari label3 ke label1 (label paling bawah)
+                    label1.Text = "Account Created on: " + detail.CreatedAt.ToString("dd MMM yyyy");
                 }
                 else
                 {
-                    // JIKA DATA DETAIL BELUM ADA DI DATABASE:
-                    // Tetap tampilkan data login utamanya agar form tidak terlihat kosong melompong
                     label14.Text = "-";
                     label13.Text = "-";
                     label20.Text = "-";
                     label18.Text = "-";
-                    label3.Text = "Detail profile belum diatur di database.";
+                    label1.Text = "Account Created on: -";
                 }
             }
             else
             {
+                // Blok else ini sekarang aman berada di dalam fungsi Load
                 MessageBox.Show("Data sesi login admin tidak ditemukan! Pastikan masuk dari FormLogin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -67,7 +66,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Profil (Form Ini)
         {
-            MessageBox.Show("Anda sudah berada di halaman Profil Admin.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Buat Tournament
@@ -131,5 +130,10 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label11_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }
+
+        private void roundedpanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

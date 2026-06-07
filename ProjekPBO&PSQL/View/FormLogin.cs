@@ -98,7 +98,6 @@ namespace ProjekPBO_PSQL
                 if (user.isAdmin)
                 {
                     MenuAdmin adminForm = new MenuAdmin(user);
-                    adminForm.ShowDialog();  // <-- pakai modal
                     adminForm.Show();
                 }
                 else
