@@ -32,8 +32,6 @@
             roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
-            linkLabel3 = new LinkLabel();
-            linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             SuspendLayout();
             // 
@@ -47,7 +45,7 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(13, 406);
+            roundedButton1.Location = new Point(11, 400);
             roundedButton1.Name = "roundedButton1";
             roundedButton1.Size = new Size(125, 35);
             roundedButton1.TabIndex = 33;
@@ -63,7 +61,7 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(12, 281);
+            linkLabel5.Location = new Point(11, 160);
             linkLabel5.Name = "linkLabel5";
             linkLabel5.Size = new Size(122, 42);
             linkLabel5.TabIndex = 32;
@@ -78,43 +76,13 @@
             linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(12, 221);
+            linkLabel4.Location = new Point(11, 100);
             linkLabel4.Name = "linkLabel4";
             linkLabel4.Size = new Size(117, 42);
             linkLabel4.TabIndex = 31;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
             linkLabel4.LinkClicked += linkLabel4_LinkClicked;
-            // 
-            // linkLabel3
-            // 
-            linkLabel3.AutoSize = true;
-            linkLabel3.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(12, 161);
-            linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(100, 42);
-            linkLabel3.TabIndex = 30;
-            linkLabel3.TabStop = true;
-            linkLabel3.Text = "Lihat Data\r\nPemain";
-            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
-            // 
-            // linkLabel2
-            // 
-            linkLabel2.AutoSize = true;
-            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(12, 101);
-            linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(117, 42);
-            linkLabel2.TabIndex = 29;
-            linkLabel2.TabStop = true;
-            linkLabel2.Text = "Buat \r\nTournament";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -123,7 +91,7 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(12, 61);
+            linkLabel1.Location = new Point(12, 60);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(57, 21);
             linkLabel1.TabIndex = 28;
@@ -142,13 +110,11 @@
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel4);
-            Controls.Add(linkLabel3);
-            Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Name = "MenuAdmin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuAdmin";
-            this.Load += new System.EventHandler(this.MenuAdmin_Load);
+            Load += MenuAdmin_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -158,8 +124,6 @@
         private RoundedButton roundedButton1;
         private LinkLabel linkLabel5;
         private LinkLabel linkLabel4;
-        private LinkLabel linkLabel3;
-        private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
     }
 }

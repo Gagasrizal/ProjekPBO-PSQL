@@ -175,6 +175,7 @@
             Controls.Add(linkLabel3);
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
+            MaximizeBox = false;
             Name = "MenuHistoryPermainan";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuHistoryPermainan";

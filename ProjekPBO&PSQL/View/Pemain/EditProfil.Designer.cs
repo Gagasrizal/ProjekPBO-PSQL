@@ -1,6 +1,6 @@
-﻿namespace ProjekPBO_PSQL.View.Admin
+﻿namespace ProjekPBO_PSQL.View.Pemain
 {
-    partial class MenuProfilAdmin
+    partial class EditProfil
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuProfilAdmin));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditProfil));
+            Edit = new RoundedButton();
+            textBox4 = new TextBox();
+            label2 = new Label();
+            textBox3 = new TextBox();
+            comboBox1 = new ComboBox();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            roundedButton1 = new RoundedButton();
+            linkLabel5 = new LinkLabel();
+            linkLabel4 = new LinkLabel();
+            linkLabel3 = new LinkLabel();
+            linkLabel2 = new LinkLabel();
+            linkLabel1 = new LinkLabel();
             label1 = new Label();
-            roundedpanel1 = new roundedpanel();
-            label20 = new Label();
             label18 = new Label();
             label17 = new Label();
             label15 = new Label();
-            label14 = new Label();
             label13 = new Label();
-            label12 = new Label();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
@@ -47,265 +56,75 @@
             label4 = new Label();
             roundedPictureBox1 = new RoundedPictureBox();
             label3 = new Label();
-            roundedButton1 = new RoundedButton();
-            linkLabel5 = new LinkLabel();
-            linkLabel4 = new LinkLabel();
-            linkLabel1 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // Edit
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Arial", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Transparent;
-            label1.ImageAlign = ContentAlignment.MiddleLeft;
-            label1.Location = new Point(328, 426);
-            label1.Name = "label1";
-            label1.Size = new Size(155, 19);
-            label1.TabIndex = 133;
-            label1.Text = "Gagas@gmail.com";
-            label1.TextAlign = ContentAlignment.TopCenter;
-            label1.Click += label1_Click;
+            Edit.BackColor = Color.LimeGreen;
+            Edit.BackgroundColor = Color.LimeGreen;
+            Edit.BorderColor = Color.PaleVioletRed;
+            Edit.BorderRadius = 8;
+            Edit.FlatAppearance.BorderSize = 0;
+            Edit.FlatStyle = FlatStyle.Flat;
+            Edit.ForeColor = Color.White;
+            Edit.Location = new Point(706, 19);
+            Edit.Name = "Edit";
+            Edit.Size = new Size(76, 24);
+            Edit.TabIndex = 198;
+            Edit.Text = "Selesai";
+            Edit.TextColor = Color.White;
+            Edit.UseVisualStyleBackColor = false;
             // 
-            // roundedpanel1
+            // textBox4
             // 
-            roundedpanel1.BackColor = Color.Transparent;
-            roundedpanel1.Location = new Point(169, 326);
-            roundedpanel1.Name = "roundedpanel1";
-            roundedpanel1.Opacity = 200;
-            roundedpanel1.Size = new Size(613, 97);
-            roundedpanel1.TabIndex = 132;
-            roundedpanel1.Paint += roundedpanel1_Paint;
+            textBox4.Location = new Point(497, 285);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(180, 27);
+            textBox4.TabIndex = 197;
             // 
-            // label20
+            // label2
             // 
-            label20.AutoSize = true;
-            label20.BackColor = Color.Transparent;
-            label20.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label20.ForeColor = Color.Transparent;
-            label20.ImageAlign = ContentAlignment.MiddleLeft;
-            label20.Location = new Point(494, 171);
-            label20.Name = "label20";
-            label20.Size = new Size(130, 21);
-            label20.TabIndex = 131;
-            label20.Text = "082330505712";
-            label20.TextAlign = ContentAlignment.TopCenter;
-            label20.Click += label20_Click;
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
+            label2.ImageAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(275, 291);
+            label2.Name = "label2";
+            label2.Size = new Size(96, 21);
+            label2.TabIndex = 196;
+            label2.Text = "Password";
+            label2.TextAlign = ContentAlignment.TopCenter;
             // 
-            // label18
+            // textBox3
             // 
-            label18.AutoSize = true;
-            label18.BackColor = Color.Transparent;
-            label18.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.ForeColor = Color.Transparent;
-            label18.ImageAlign = ContentAlignment.MiddleLeft;
-            label18.Location = new Point(494, 211);
-            label18.Name = "label18";
-            label18.Size = new Size(150, 21);
-            label18.TabIndex = 130;
-            label18.Text = "28 January 2006";
-            label18.TextAlign = ContentAlignment.TopCenter;
-            label18.Click += label18_Click;
+            textBox3.Location = new Point(498, 169);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(180, 27);
+            textBox3.TabIndex = 195;
             // 
-            // label17
+            // comboBox1
             // 
-            label17.AutoSize = true;
-            label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = Color.Transparent;
-            label17.ImageAlign = ContentAlignment.MiddleLeft;
-            label17.Location = new Point(494, 251);
-            label17.Name = "label17";
-            label17.Size = new Size(174, 21);
-            label17.TabIndex = 129;
-            label17.Text = "Gagas@gmail.com";
-            label17.TextAlign = ContentAlignment.TopCenter;
-            label17.Click += label17_Click;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(497, 84);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(151, 28);
+            comboBox1.TabIndex = 194;
             // 
-            // label15
+            // textBox2
             // 
-            label15.AutoSize = true;
-            label15.BackColor = Color.Transparent;
-            label15.ImageAlign = ContentAlignment.MiddleLeft;
-            label15.Location = new Point(458, 185);
-            label15.Name = "label15";
-            label15.Size = new Size(0, 20);
-            label15.TabIndex = 128;
+            textBox2.Location = new Point(498, 45);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(180, 27);
+            textBox2.TabIndex = 193;
             // 
-            // label14
+            // textBox1
             // 
-            label14.AutoSize = true;
-            label14.BackColor = Color.Transparent;
-            label14.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.White;
-            label14.ImageAlign = ContentAlignment.MiddleLeft;
-            label14.Location = new Point(494, 91);
-            label14.Name = "label14";
-            label14.Size = new Size(95, 21);
-            label14.TabIndex = 126;
-            label14.Text = "Indonesia";
-            label14.TextAlign = ContentAlignment.TopCenter;
-            label14.Click += label14_Click;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.Transparent;
-            label13.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.Transparent;
-            label13.ImageAlign = ContentAlignment.MiddleLeft;
-            label13.Location = new Point(494, 131);
-            label13.Name = "label13";
-            label13.Size = new Size(50, 21);
-            label13.TabIndex = 127;
-            label13.Text = "1000";
-            label13.TextAlign = ContentAlignment.TopCenter;
-            label13.Click += label13_Click;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.Transparent;
-            label12.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.White;
-            label12.ImageAlign = ContentAlignment.MiddleLeft;
-            label12.Location = new Point(494, 51);
-            label12.Name = "label12";
-            label12.Size = new Size(69, 21);
-            label12.TabIndex = 125;
-            label12.Text = "RJalsn";
-            label12.TextAlign = ContentAlignment.TopCenter;
-            label12.Click += label12_Click;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.ForeColor = Color.White;
-            label11.ImageAlign = ContentAlignment.MiddleLeft;
-            label11.Location = new Point(169, 302);
-            label11.Name = "label11";
-            label11.Size = new Size(110, 21);
-            label11.TabIndex = 124;
-            label11.Text = "Description";
-            label11.TextAlign = ContentAlignment.TopCenter;
-            label11.Click += label11_Click;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = Color.White;
-            label10.ImageAlign = ContentAlignment.MiddleLeft;
-            label10.Location = new Point(271, 251);
-            label10.Name = "label10";
-            label10.Size = new Size(59, 21);
-            label10.TabIndex = 123;
-            label10.Text = "Email\r\n";
-            label10.TextAlign = ContentAlignment.TopCenter;
-            label10.Click += label10_Click;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.White;
-            label9.ImageAlign = ContentAlignment.MiddleLeft;
-            label9.Location = new Point(271, 211);
-            label9.Name = "label9";
-            label9.Size = new Size(97, 21);
-            label9.TabIndex = 122;
-            label9.Text = "Birth Date";
-            label9.TextAlign = ContentAlignment.TopCenter;
-            label9.Click += label9_Click;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.White;
-            label7.ImageAlign = ContentAlignment.MiddleLeft;
-            label7.Location = new Point(271, 171);
-            label7.Name = "label7";
-            label7.Size = new Size(185, 21);
-            label7.TabIndex = 121;
-            label7.Text = "Handphone Number\r\n";
-            label7.TextAlign = ContentAlignment.TopCenter;
-            label7.Click += label7_Click;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.ImageAlign = ContentAlignment.MiddleLeft;
-            label6.Location = new Point(271, 131);
-            label6.Name = "label6";
-            label6.Size = new Size(99, 21);
-            label6.TabIndex = 120;
-            label6.Text = "Elo Rating";
-            label6.TextAlign = ContentAlignment.TopCenter;
-            label6.Click += label6_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.White;
-            label5.ImageAlign = ContentAlignment.MiddleLeft;
-            label5.Location = new Point(271, 91);
-            label5.Name = "label5";
-            label5.Size = new Size(80, 21);
-            label5.TabIndex = 119;
-            label5.Text = "Country";
-            label5.TextAlign = ContentAlignment.TopCenter;
-            label5.Click += label5_Click;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.White;
-            label4.ImageAlign = ContentAlignment.MiddleLeft;
-            label4.Location = new Point(271, 51);
-            label4.Name = "label4";
-            label4.Size = new Size(100, 21);
-            label4.TabIndex = 118;
-            label4.Text = "Username";
-            label4.TextAlign = ContentAlignment.TopCenter;
-            label4.Click += label4_Click;
-            // 
-            // roundedPictureBox1
-            // 
-            roundedPictureBox1.BorderColor = Color.PaleVioletRed;
-            roundedPictureBox1.Image = Properties.Resources.Profil;
-            roundedPictureBox1.Location = new Point(163, 61);
-            roundedPictureBox1.Name = "roundedPictureBox1";
-            roundedPictureBox1.Size = new Size(80, 80);
-            roundedPictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            roundedPictureBox1.TabIndex = 117;
-            roundedPictureBox1.TabStop = false;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Arial Rounded MT Bold", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Silver;
-            label3.Location = new Point(328, 374);
-            label3.Name = "label3";
-            label3.Size = new Size(0, 32);
-            label3.TabIndex = 116;
-            label3.TextAlign = ContentAlignment.TopCenter;
+            textBox1.Location = new Point(173, 360);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(543, 27);
+            textBox1.TabIndex = 192;
             // 
             // roundedButton1
             // 
@@ -317,14 +136,13 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(8, 403);
+            roundedButton1.Location = new Point(17, 406);
             roundedButton1.Name = "roundedButton1";
             roundedButton1.Size = new Size(125, 35);
-            roundedButton1.TabIndex = 139;
+            roundedButton1.TabIndex = 191;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
-            roundedButton1.Click += roundedButton1_Click;
             // 
             // linkLabel5
             // 
@@ -333,13 +151,12 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 160);
+            linkLabel5.Location = new Point(16, 281);
             linkLabel5.Name = "linkLabel5";
             linkLabel5.Size = new Size(122, 42);
-            linkLabel5.TabIndex = 138;
+            linkLabel5.TabIndex = 190;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "Lihat Data\r\nPembayaran";
-            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // linkLabel4
             // 
@@ -348,13 +165,40 @@
             linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 100);
+            linkLabel4.Location = new Point(16, 221);
             linkLabel4.Name = "linkLabel4";
             linkLabel4.Size = new Size(117, 42);
-            linkLabel4.TabIndex = 137;
+            linkLabel4.TabIndex = 189;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
+            // 
+            // linkLabel3
+            // 
+            linkLabel3.AutoSize = true;
+            linkLabel3.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel3.LinkColor = Color.Silver;
+            linkLabel3.Location = new Point(16, 161);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(100, 42);
+            linkLabel3.TabIndex = 188;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Lihat Data\r\nPemain";
+            // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel2.LinkColor = Color.Silver;
+            linkLabel2.Location = new Point(16, 101);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(117, 42);
+            linkLabel2.TabIndex = 187;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Buat \r\nTournament";
             // 
             // linkLabel1
             // 
@@ -363,35 +207,226 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(11, 60);
+            linkLabel1.Location = new Point(16, 61);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(57, 21);
-            linkLabel1.TabIndex = 134;
+            linkLabel1.TabIndex = 186;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
-            // MenuProfilAdmin
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Arial", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Transparent;
+            label1.ImageAlign = ContentAlignment.MiddleLeft;
+            label1.Location = new Point(332, 426);
+            label1.Name = "label1";
+            label1.Size = new Size(155, 19);
+            label1.TabIndex = 185;
+            label1.Text = "Gagas@gmail.com";
+            label1.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.BackColor = Color.Transparent;
+            label18.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label18.ForeColor = Color.Transparent;
+            label18.ImageAlign = ContentAlignment.MiddleLeft;
+            label18.Location = new Point(498, 211);
+            label18.Name = "label18";
+            label18.Size = new Size(150, 21);
+            label18.TabIndex = 184;
+            label18.Text = "28 January 2006";
+            label18.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.BackColor = Color.Transparent;
+            label17.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label17.ForeColor = Color.Transparent;
+            label17.ImageAlign = ContentAlignment.MiddleLeft;
+            label17.Location = new Point(498, 251);
+            label17.Name = "label17";
+            label17.Size = new Size(174, 21);
+            label17.TabIndex = 183;
+            label17.Text = "Gagas@gmail.com";
+            label17.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.Transparent;
+            label15.ImageAlign = ContentAlignment.MiddleLeft;
+            label15.Location = new Point(462, 185);
+            label15.Name = "label15";
+            label15.Size = new Size(0, 20);
+            label15.TabIndex = 182;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.Transparent;
+            label13.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.Transparent;
+            label13.ImageAlign = ContentAlignment.MiddleLeft;
+            label13.Location = new Point(498, 131);
+            label13.Name = "label13";
+            label13.Size = new Size(50, 21);
+            label13.TabIndex = 181;
+            label13.Text = "1000";
+            label13.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.Transparent;
+            label11.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.White;
+            label11.ImageAlign = ContentAlignment.MiddleLeft;
+            label11.Location = new Point(173, 336);
+            label11.Name = "label11";
+            label11.Size = new Size(110, 21);
+            label11.TabIndex = 180;
+            label11.Text = "Description";
+            label11.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.Transparent;
+            label10.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.White;
+            label10.ImageAlign = ContentAlignment.MiddleLeft;
+            label10.Location = new Point(275, 251);
+            label10.Name = "label10";
+            label10.Size = new Size(59, 21);
+            label10.TabIndex = 179;
+            label10.Text = "Email\r\n";
+            label10.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.White;
+            label9.ImageAlign = ContentAlignment.MiddleLeft;
+            label9.Location = new Point(275, 211);
+            label9.Name = "label9";
+            label9.Size = new Size(97, 21);
+            label9.TabIndex = 178;
+            label9.Text = "Birth Date";
+            label9.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
+            label7.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.White;
+            label7.ImageAlign = ContentAlignment.MiddleLeft;
+            label7.Location = new Point(275, 171);
+            label7.Name = "label7";
+            label7.Size = new Size(185, 21);
+            label7.TabIndex = 177;
+            label7.Text = "Handphone Number\r\n";
+            label7.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.ImageAlign = ContentAlignment.MiddleLeft;
+            label6.Location = new Point(275, 131);
+            label6.Name = "label6";
+            label6.Size = new Size(99, 21);
+            label6.TabIndex = 176;
+            label6.Text = "Elo Rating";
+            label6.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.White;
+            label5.ImageAlign = ContentAlignment.MiddleLeft;
+            label5.Location = new Point(275, 91);
+            label5.Name = "label5";
+            label5.Size = new Size(80, 21);
+            label5.TabIndex = 175;
+            label5.Text = "Country";
+            label5.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Arial", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.White;
+            label4.ImageAlign = ContentAlignment.MiddleLeft;
+            label4.Location = new Point(275, 51);
+            label4.Name = "label4";
+            label4.Size = new Size(100, 21);
+            label4.TabIndex = 174;
+            label4.Text = "Username";
+            label4.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // roundedPictureBox1
+            // 
+            roundedPictureBox1.BorderColor = Color.PaleVioletRed;
+            roundedPictureBox1.Image = Properties.Resources.Profil;
+            roundedPictureBox1.Location = new Point(167, 61);
+            roundedPictureBox1.Name = "roundedPictureBox1";
+            roundedPictureBox1.Size = new Size(80, 80);
+            roundedPictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            roundedPictureBox1.TabIndex = 173;
+            roundedPictureBox1.TabStop = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Arial Rounded MT Bold", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Silver;
+            label3.Location = new Point(332, 374);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 32);
+            label3.TabIndex = 172;
+            label3.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // EditProfil
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            BackgroundImageLayout = ImageLayout.Stretch;
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(800, 450);
+            Controls.Add(Edit);
+            Controls.Add(textBox4);
+            Controls.Add(label2);
+            Controls.Add(textBox3);
+            Controls.Add(comboBox1);
+            Controls.Add(textBox2);
+            Controls.Add(textBox1);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel4);
+            Controls.Add(linkLabel3);
+            Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
-            Controls.Add(roundedpanel1);
-            Controls.Add(label20);
             Controls.Add(label18);
             Controls.Add(label17);
             Controls.Add(label15);
-            Controls.Add(label14);
             Controls.Add(label13);
-            Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -401,10 +436,9 @@
             Controls.Add(label4);
             Controls.Add(roundedPictureBox1);
             Controls.Add(label3);
-            Name = "MenuProfilAdmin";
+            Name = "EditProfil";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MenuProfilAdmin";
-            Load += MenuProfilAdmin_Load;
+            Text = "EditProfil";
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -412,15 +446,24 @@
 
         #endregion
 
+        private RoundedButton Edit;
+        private TextBox textBox4;
+        private Label label2;
+        private TextBox textBox3;
+        private ComboBox comboBox1;
+        private TextBox textBox2;
+        private TextBox textBox1;
+        private RoundedButton roundedButton1;
+        private LinkLabel linkLabel5;
+        private LinkLabel linkLabel4;
+        private LinkLabel linkLabel3;
+        private LinkLabel linkLabel2;
+        private LinkLabel linkLabel1;
         private Label label1;
-        private roundedpanel roundedpanel1;
-        private Label label20;
         private Label label18;
         private Label label17;
         private Label label15;
-        private Label label14;
         private Label label13;
-        private Label label12;
         private Label label11;
         private Label label10;
         private Label label9;
@@ -430,9 +473,5 @@
         private Label label4;
         private RoundedPictureBox roundedPictureBox1;
         private Label label3;
-        private RoundedButton roundedButton1;
-        private LinkLabel linkLabel5;
-        private LinkLabel linkLabel4;
-        private LinkLabel linkLabel1;
     }
 }

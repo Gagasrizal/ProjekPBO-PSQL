@@ -58,6 +58,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 int idAdminAktif = this.adminLogin.id;
 
                 // 3. IMPLEMENTASI MVC: Membuat objek Model 'Tournament' sesuai rapihanmu
+                // // 3. IMPLEMENTASI MVC: Membuat objek Model 'Tournament' sesuai rapihanmu
                 Tournament kompetisiBaru = new Tournament(
                     0, // ID 0 karena otomatis dibuat SERIAL oleh PostgreSQL
                     idAdminAktif,
@@ -66,7 +67,8 @@ namespace ProjekPBO_PSQL.View.Admin
                     harga,
                     pelaksanaanPendaftaranCombined,
                     tanggal,
-                    hadiah
+                    hadiah, // Pastikan 'hadiah' (int) berada di sini sebelum sistem pertandingan
+                    $"{tipeGame} ({timeControl})" // Argumen ke-9: mengisi parameter sistemPertandingan (string)
                 );
 
                 // 4. Kirim objek model ke DBHelper (Controller)
@@ -103,7 +105,7 @@ namespace ProjekPBO_PSQL.View.Admin
             Babak.SelectedIndex = -1;
             TanggalPelaksanaan.Value = DateTime.Now;
         }
-    
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -135,6 +137,33 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Di sini baru benar memanggil MenuProfilAdmin
+            MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
+            menuProfil.Show();
+            this.Hide(); // Menyembunyikan dashboard Selamat Datang
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
+            lihatTournament.Show();
+            this.Hide();
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LihatDataPembayaran lihatPembayaran = new LihatDataPembayaran(this.adminLogin);
+            lihatPembayaran.Show();
+            this.Hide();
+        }
+
+        private void roundedButton1_Click(object sender, EventArgs e)
         {
 
         }

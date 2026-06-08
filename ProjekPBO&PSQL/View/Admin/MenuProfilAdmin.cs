@@ -120,7 +120,10 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label5_Click(object sender, EventArgs e) { }
         private void label14_Click(object sender, EventArgs e) { }
         private void label6_Click(object sender, EventArgs e) { }
-        private void label13_Click(object sender, EventArgs e) { }
+        private void label13_Click(object sender, EventArgs e) 
+        { 
+
+        }
         private void label7_Click(object sender, EventArgs e) { }
         private void label20_Click(object sender, EventArgs e) { }
         private void label9_Click(object sender, EventArgs e) { }
@@ -132,6 +135,11 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label3_Click(object sender, EventArgs e) { }
 
         private void roundedpanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Edit_Click(object sender, EventArgs e)
         {
 
         }

@@ -21,7 +21,6 @@ namespace ProjekPBO_PSQL.View.Admin
             InitializeComponent();
             this.adminLogin = user; // Menyimpan data admin aktif
         }
-
         private void MenuAdmin_Load(object sender, EventArgs e)
         {
             // Logika awal saat halaman dashboard admin dimuat (jika ada)
@@ -56,6 +55,12 @@ namespace ProjekPBO_PSQL.View.Admin
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Lihat Data Tournament
         {
             LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
+
+            // 2. KUNCI KOORDINAT: Biar form baru numpuk persis di posisi form sekarang
+            lihatTournament.StartPosition = FormStartPosition.Manual;
+            lihatTournament.Location = this.Location;
+
+            // 3. Tampilkan form baru, lalu sembunyikan yang lama
             lihatTournament.Show();
             this.Hide();
         }
