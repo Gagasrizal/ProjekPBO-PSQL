@@ -110,6 +110,7 @@
             // dataGridView1
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridView1.BackgroundColor = Color.FromArgb(58, 74, 83);
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(162, 100);
             dataGridView1.Name = "dataGridView1";
@@ -124,21 +125,22 @@
             // 
             // roundedButton2
             // 
-            roundedButton2.BackColor = Color.Silver;
-            roundedButton2.BackgroundColor = Color.Silver;
+            roundedButton2.BackColor = Color.Transparent;
+            roundedButton2.BackgroundColor = Color.Transparent;
             roundedButton2.BackgroundImageLayout = ImageLayout.Stretch;
-            roundedButton2.BorderColor = Color.PaleVioletRed;
+            roundedButton2.BorderColor = Color.PaleGreen;
             roundedButton2.BorderRadius = 0;
+            roundedButton2.BorderSize = 2;
             roundedButton2.FlatAppearance.BorderSize = 0;
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
+            roundedButton2.ForeColor = Color.Silver;
             roundedButton2.Location = new Point(688, 66);
             roundedButton2.Name = "roundedButton2";
             roundedButton2.Size = new Size(100, 28);
             roundedButton2.TabIndex = 29;
             roundedButton2.Text = "Buat Tour";
-            roundedButton2.TextColor = Color.White;
+            roundedButton2.TextColor = Color.Silver;
             roundedButton2.UseVisualStyleBackColor = false;
             roundedButton2.Click += roundedButton2_Click;
             // 

@@ -144,8 +144,9 @@ namespace ProjekPBO_PSQL.Helpers
         // ====== DIUBAH: Menambahkan kolom sistem_pertandingan (NOT NULL di DB baru) ======
         public bool TambahTournament(Tournament tournament)
         {
-            string query = @"INSERT INTO kompetisi (id_user, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan) 
-                             VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalLaksana, @hadiah, @sistemPertandingan)";
+            // 1. Tambahkan kolom 'jumlah_babak' dan parameter '@babak' ke dalam query SQL
+            string query = @"INSERT INTO kompetisi (id_user, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak) 
+                     VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalLaksana, @hadiah, @sistemPertandingan, @babak)";
 
             try
             {
@@ -162,6 +163,9 @@ namespace ProjekPBO_PSQL.Helpers
                 cmd.Parameters.AddWithValue("@hadiah", tournament.Hadiah);
                 cmd.Parameters.AddWithValue("@sistemPertandingan", tournament.SistemPertandingan ?? "Sistem Swiss"); // Antisipasi NULL
 
+                // 2. Daftarkan parameter baru untuk mengambil nilai JumlahBabak dari model Tournament
+                cmd.Parameters.AddWithValue("@babak", tournament.JumlahBabak);
+
                 int rowsAffected = cmd.ExecuteNonQuery();
                 return rowsAffected > 0;
             }
@@ -175,20 +179,18 @@ namespace ProjekPBO_PSQL.Helpers
         public DataTable AmbilSemuaTournament()
         {
             DataTable dt = new DataTable();
-            string query = "SELECT id_kompetisi, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan FROM kompetisi";
+            using var conn = GetConnection();
+            conn.Open();
 
-            try
-            {
-                using var conn = GetConnection();
-                conn.Open();
-                using var cmd = new NpgsqlCommand(query, conn);
-                using var adapter = new NpgsqlDataAdapter(cmd);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Gagal mengambil data turnamen: {ex.Message}");
-            }
+            // Pastikan field jumlah_babak ikut di-SELECT dari tabel kompetisi
+            string query = @"SELECT id_kompetisi, nama_kompetisi, mode_kompetisi, harga_pendaftaran, 
+                            pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak 
+                     FROM kompetisi 
+                     ORDER BY id_kompetisi DESC";
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            using var adapter = new NpgsqlDataAdapter(cmd);
+            adapter.Fill(dt);
             return dt;
         }
 
@@ -286,6 +288,191 @@ namespace ProjekPBO_PSQL.Helpers
                 MessageBox.Show($"Gagal mengambil data pendaftar: {ex.Message}");
             }
             return dt;
+        }
+        // FUNGSI 1: Mengambil data pertandingan berdasarkan turnamen dan babak tertentu
+        public DataTable AmbilPertandinganPerBabak(int idKompetisi, int babak)
+        {
+            DataTable dt = new DataTable();
+            using var conn = GetConnection();
+            conn.Open();
+
+            // Query untuk mengambil data pertandingan sekaligus men-JOIN nama pemain dari detail_user
+            string query = @"SELECT p.id_pertandingan AS ""ID Match"",
+                            du_putih.nama_lengkap AS ""Pemain Putih"",
+                            du_hitam.nama_lengkap AS ""Pemain Hitam"",
+                            p.skor_putih AS ""Skor Putih"",
+                            p.skor_hitam AS ""Skor Hitam"",
+                            p.hasil AS ""Hasil Match""
+                     FROM pertandingan p
+                     LEFT JOIN detail_user du_putih ON p.pemain_putih = du_putih.id_user
+                     LEFT JOIN detail_user du_hitam ON p.pemain_hitam = du_hitam.id_user
+                     WHERE p.id_kompetisi = @idKompetisi AND p.babak = @babak
+                     ORDER BY p.id_pertandingan ASC";
+
+            try
+            {
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+                cmd.Parameters.AddWithValue("@babak", babak);
+
+                using var adapter = new NpgsqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Gagal ambil data match: {ex.Message}");
+            }
+
+            return dt;
+        }
+
+        // FUNGSI 2: Menyimpan inputan skor dari Admin ke tabel pertandingan
+        public bool UpdateSkorPertandingan(int idPertandingan, decimal skorPutih, decimal skorHitam, string hasilMatch)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+
+            string query = @"UPDATE pertandingan 
+                     SET skor_putih = @sp, skor_hitam = @sh, hasil = @hasil 
+                     WHERE id_pertandingan = @id";
+
+            try
+            {
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@sp", skorPutih);
+                cmd.Parameters.AddWithValue("@sh", skorHitam);
+                cmd.Parameters.AddWithValue("@hasil", hasilMatch);
+                cmd.Parameters.AddWithValue("@id", idPertandingan);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Gagal menyimpan skor: {ex.Message}");
+                return false;
+            }
+        }
+
+        // FUNGSI 3: Menghitung LEADERBOARD secara otomatis (Real-time matematika SQL)
+        public DataTable AmbilLeaderboardTournament(int idKompetisi)
+        {
+            DataTable dt = new DataTable();
+            using var conn = GetConnection();
+            conn.Open();
+
+            string query = @"SELECT ROW_NUMBER() OVER(ORDER BY COALESCE(skor_total.total_poin, 0) DESC) AS Peringkat,
+                            du.nama_lengkap AS Nama_Pemain, 
+                            du.negara AS Asal_Negara,
+                            COALESCE(skor_total.total_poin, 0) AS Total_Poin
+                     FROM pendaftaran_kompetisi pk
+                     JOIN detail_user du ON pk.id_user = du.id_user
+                     LEFT JOIN (
+                         SELECT id_user, SUM(poin) AS total_poin
+                         FROM (
+                             SELECT pemain_putih AS id_user, skor_putih AS poin FROM pertandingan WHERE id_kompetisi = @id_kompetisi
+                             UNION ALL
+                             SELECT pemain_hitam AS id_user, skor_hitam AS poin FROM pertandingan WHERE id_kompetisi = @id_kompetisi
+                         ) AS seluruh_match
+                         GROUP BY id_user
+                     ) AS skor_total ON pk.id_user = skor_total.id_user
+                     WHERE pk.id_kompetisi = @id_kompetisi
+                     ORDER BY Total_Poin DESC";
+
+            try
+            {
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+
+                using var adapter = new NpgsqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Gagal memuat leaderboard: {ex.Message}");
+            }
+            return dt;
+        }
+        public int AmbilTotalBabakTournament(int idKompetisi)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+            string query = "SELECT jumlah_babak FROM kompetisi WHERE id_kompetisi = @id";
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", idKompetisi);
+
+            object result = cmd.ExecuteScalar();
+            return result != null ? Convert.ToInt32(result) : 1;
+        }
+        // FUNGSI A: Ambil semua ID User yang terdaftar di suatu turnamen
+        public List<int> AmbilPemainTerdaftar(int idKompetisi)
+        {
+            List<int> listPemain = new List<int>();
+            using var conn = GetConnection();
+            conn.Open();
+
+            string query = @"SELECT id_user FROM pendaftaran_kompetisi 
+                     WHERE id_kompetisi = @idKompetisi AND status_pendaftaran = 'terdaftar'";
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                listPemain.Add(reader.GetInt32(0));
+            }
+            return listPemain;
+        }
+
+        // FUNGSI B: Cek apakah babak tersebut sudah pernah di-generate matches-nya
+        public bool IsBabakSudahGenerated(int idKompetisi, int babak)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+            string query = "SELECT COUNT(*) FROM pertandingan WHERE id_kompetisi = @id AND babak = @babak";
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", idKompetisi);
+            cmd.Parameters.AddWithValue("@babak", babak);
+
+            long count = (long)cmd.ExecuteScalar();
+            return count > 0;
+        }
+
+        // FUNGSI C: Simpan rombongan data pertandingan baru hasil generate ke database
+        public bool SimpanPertandinganGenerate(int idKompetisi, int babak, List<Tuple<int, int>> pasanganMatch)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+            using var transaction = conn.BeginTransaction();
+
+            try
+            {
+                string query = @"INSERT INTO pertandingan (id_kompetisi, tanggal_pertandingan, babak, pemain_putih, pemain_hitam, skor_putih, skor_hitam, hasil) 
+                         VALUES (@idKompetisi, @tanggal, @babak, @putih, @hitam, 0.00, 0.00, 'Belum Dimainkan')";
+
+                foreach (var match in pasanganMatch)
+                {
+                    using var cmd = new NpgsqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+                    cmd.Parameters.AddWithValue("@tanggal", DateTime.Today); // Default tanggal hari ini saat digenerate
+                    cmd.Parameters.AddWithValue("@babak", babak);
+                    cmd.Parameters.AddWithValue("@putih", match.Item1); // ID Pemain Putih
+                    cmd.Parameters.AddWithValue("@hitam", match.Item2); // ID Pemain Hitam
+                    cmd.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                System.Windows.Forms.MessageBox.Show($"Gagal menyimpan generate match: {ex.Message}");
+                return false;
+            }
         }
     }
 }

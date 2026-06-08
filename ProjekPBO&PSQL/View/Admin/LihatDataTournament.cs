@@ -41,27 +41,61 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         private void TampilkanDataTournament()
+{
+    DBHelper db = new DBHelper();
+    
+    dataGridView1.AutoGenerateColumns = true;
+    DataTable dt = db.AmbilSemuaTournament();
+    
+    if (dt != null)
+    {
+        dataGridView1.DataSource = dt;
+        
+        // 1. MATIKAN mode Fill agar kolom bisa melar melebihi batas kanan form
+        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        
+        // 2. Aktifkan scroll bar horizontal & vertikal secara paksa
+        dataGridView1.ScrollBars = ScrollBars.Both;
+
+        // 3. Ubah nama header menjadi rapi dan tentukan LEBAR MINIMAL tiap kolom (dalam pixel)
+        if (dataGridView1.Columns.Count > 9)
         {
-            DBHelper db = new DBHelper();
+            dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[0].Width = 50;  // Kolom ID cukup ramping
 
-            // Pastikan DataGridView diizinkan membuat kolom otomatis dari DataTable
-            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.Columns[1].HeaderText = "Nama Turnamen";
+            dataGridView1.Columns[1].Width = 180; // Kolom Nama dikasih space lebar biar terbaca utuh
 
-            DataTable dt = db.AmbilSemuaTournament();
+            dataGridView1.Columns[2].HeaderText = "Mode Pertandingan";
+            dataGridView1.Columns[2].Width = 120;
 
-            if (dt != null)
-            {
-                dataGridView1.DataSource = dt;
+            dataGridView1.Columns[3].HeaderText = "Biaya Pendaftaran";
+            dataGridView1.Columns[3].Width = 140;
+            dataGridView1.Columns[3].DefaultCellStyle.Format = "N0"; // Format ribuan
 
-                // Memaksa DataGridView meremajakan tampilannya agar data langsung muncul
-                dataGridView1.Refresh();
-            }
+            dataGridView1.Columns[4].HeaderText = "Batas Registrasi";
+            dataGridView1.Columns[4].Width = 130;
 
-            if (dataGridView1.Columns.Count > 0)
-            {
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-        }
+            dataGridView1.Columns[5].HeaderText = "Tanggal Main";
+            dataGridView1.Columns[5].Width = 110;
+
+            dataGridView1.Columns[6].HeaderText = "Total Hadiah";
+            dataGridView1.Columns[6].Width = 130;
+            dataGridView1.Columns[6].DefaultCellStyle.Format = "N0"; // Format ribuan
+
+            dataGridView1.Columns[7].HeaderText = "Sistem Match";
+            dataGridView1.Columns[7].Width = 150; // Kolom sistem pertandingan dikasih space lebar
+
+            dataGridView1.Columns[8].HeaderText = "Total Babak";
+            dataGridView1.Columns[8].Width = 100;
+            dataGridView1.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
+                }
+
+        dataGridView1.Refresh(); 
+    }
+}
 
         private void LoadTurnamenToComboBox()
         {

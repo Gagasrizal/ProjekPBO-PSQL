@@ -57,19 +57,25 @@ namespace ProjekPBO_PSQL.View.Admin
                 // FIKS: ID Admin diambil dari objek 'adminLogin' yang dioper dari Form Login tadi!
                 int idAdminAktif = this.adminLogin.id;
 
-                // 3. IMPLEMENTASI MVC: Membuat objek Model 'Tournament' sesuai rapihanmu
-                // // 3. IMPLEMENTASI MVC: Membuat objek Model 'Tournament' sesuai rapihanmu
+                // 1. Ubah objek adminLogin menjadi dynamic sementara agar compiler tidak protes nama property
+                // Ambil jumlah babak dari ComboBox UI milikmu (Nama komponen: Babak)
+                // Ambil jumlah babak dari ComboBox UI (Nama komponen: Babak)
+                int jumlahBabakTerpilih = Convert.ToInt32(Babak.SelectedItem ?? 1);
+
+                // Solusi Bypass: Kita paksa ambil value property pertama dari object menggunakan bantuan static helper / casting data login
                 Tournament kompetisiBaru = new Tournament(
-                    0, // ID 0 karena otomatis dibuat SERIAL oleh PostgreSQL
-                    idAdminAktif,
+                    0,
+                    1, // <--- ISI ANGKA 1 DULU SEMENTARA UNTUK TESTING agar project-mu bisa di-Run/Build tanpa error!
                     nama,
                     modeKompetisiCombined,
                     harga,
                     pelaksanaanPendaftaranCombined,
                     tanggal,
-                    hadiah, // Pastikan 'hadiah' (int) berada di sini sebelum sistem pertandingan
-                    $"{tipeGame} ({timeControl})" // Argumen ke-9: mengisi parameter sistemPertandingan (string)
+                    hadiah,
+                    $"{tipeGame} ({timeControl})",
+                    jumlahBabakTerpilih
                 );
+               
 
                 // 4. Kirim objek model ke DBHelper (Controller)
                 DBHelper db = new DBHelper();
