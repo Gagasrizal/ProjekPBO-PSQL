@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Npgsql;
+using ProjekPBO_PSQL.Models;
+using System;
 using System.Data;
 using System.Windows.Forms; // Pastikan namespace ini ada untuk menampung MessageBox.Show
-using Npgsql;
-using ProjekPBO_PSQL.Models;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace ProjekPBO_PSQL.Helpers
 {
@@ -175,6 +176,99 @@ namespace ProjekPBO_PSQL.Helpers
             }
         }
 
+        public bool DaftarKeKompetisi(int idUser, int idKompetisi, int idMetodeBayar, int nominal)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+
+            // 1. PENERAPAN MATERI: DATABASE TRANSACTION
+            using var transaction = conn.BeginTransaction();
+
+            try
+            {
+                // --- PROSES 1: INSERT KE pendaftaran_kompetisi (Statement DML) ---
+                string queryDaftar = @"INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
+                                      VALUES (@id_user, @id_kompetisi, @status) 
+                                      RETURNING id_pendaftaran_kompetisi";
+
+                using var cmdDaftar = new NpgsqlCommand(queryDaftar, conn);
+                cmdDaftar.Parameters.AddWithValue("@id_user", idUser);
+                cmdDaftar.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+                cmdDaftar.Parameters.AddWithValue("@status", "terdaftar");
+
+                // Mengambil ID Pendaftaran yang baru digenerate secara real-time
+                object daftarIdObj = cmdDaftar.ExecuteScalar();
+                if (daftarIdObj == null)
+                {
+                    throw new Exception("Gagal mendapatkan nomor pendaftaran kompetisi.");
+                }
+                int idPendaftaranBaru = Convert.ToInt32(daftarIdObj);
+
+                // --- PROSES 2: INSERT KE TABEL pembayaran (Statement DML) ---
+                string queryBayar = @"INSERT INTO pembayaran (id_pendaftaran_kompetisi, id_metode_pembayaran, nominal_pembayaran, tanggal_pembayaran) 
+                                      VALUES (@id_daftar, @id_metode, @nominal, @tanggal)";
+
+                using var cmdBayar = new NpgsqlCommand(queryBayar, conn);
+                cmdBayar.Parameters.AddWithValue("@id_daftar", idPendaftaranBaru);
+                cmdBayar.Parameters.AddWithValue("@id_metode", idMetodeBayar);
+                cmdBayar.Parameters.AddWithValue("@nominal", nominal);
+                cmdBayar.Parameters.AddWithValue("@tanggal", DateTime.Now); // Menyimpan tanggal transaksi detik ini
+
+                cmdBayar.ExecuteNonQuery();
+
+                // JIKA KEDUA PROSES BERHASIL TANPA ERROR, PERUBAHAN DISIMPAN PERMANEN
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // JIKA SALAH SATU PROSES GAGAL, SEMUA DATA BATAL MASUK (Mencegah kerugian finansial/data gantung)
+                transaction.Rollback();
+                throw new Exception($"Proses pendaftaran turnamen gagal: {ex.Message}", ex);
+            }
+        }
+
+        public bool EditTournament(Tournament tournament)
+        {
+            // Perintah SQL menggunakan UPDATE berdasarkan id_kompetisi
+            string query = @"UPDATE kompetisi 
+                             SET nama_kompetisi = @nama, 
+                                 mode_kompetisi = @mode, 
+                                 harga_pendaftaran = @harga, 
+                                 pelaksanaan_pendaftaran = @pelaksanaanDaftar, 
+                                 tanggal_pelaksanaan = @tanggalLaksana, 
+                                 hadiah = @hadiah, 
+                                 sistem_pertandingan = @sistemPertandingan, 
+                                 jumlah_babak = @babak
+                             WHERE id_kompetisi = @idKompetisi";
+
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+
+                // Parameter data baru yang diinput di form
+                cmd.Parameters.AddWithValue("@nama", tournament.NamaKompetisi);
+                cmd.Parameters.AddWithValue("@mode", tournament.ModeKompetisi);
+                cmd.Parameters.AddWithValue("@harga", tournament.HargaPendaftaran);
+                cmd.Parameters.AddWithValue("@pelaksanaanDaftar", tournament.PelaksanaanPendaftaran);
+                cmd.Parameters.AddWithValue("@tanggalLaksana", tournament.TanggalPelaksanaan.Date);
+                cmd.Parameters.AddWithValue("@hadiah", tournament.Hadiah);
+                cmd.Parameters.AddWithValue("@sistemPertandingan", tournament.SistemPertandingan ?? "Sistem Swiss");
+                cmd.Parameters.AddWithValue("@babak", tournament.JumlahBabak);
+
+                // Kunci utama untuk menentukan baris mana yang diupdate
+                cmd.Parameters.AddWithValue("@idKompetisi", tournament.IdKompetisi);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengupdate data Tournament: {ex.Message}", ex);
+            }
+        }
         // ====== DIUBAH: Menambahkan kolom sistem_pertandingan agar muncul di DataGridView ======
         public DataTable AmbilSemuaTournament()
         {
@@ -186,7 +280,7 @@ namespace ProjekPBO_PSQL.Helpers
             string query = @"SELECT id_kompetisi, nama_kompetisi, mode_kompetisi, harga_pendaftaran, 
                             pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak 
                      FROM kompetisi 
-                     ORDER BY id_kompetisi DESC";
+                     ORDER BY id_kompetisi ASC";
 
             using var cmd = new NpgsqlCommand(query, conn);
             using var adapter = new NpgsqlDataAdapter(cmd);
@@ -473,6 +567,97 @@ namespace ProjekPBO_PSQL.Helpers
                 System.Windows.Forms.MessageBox.Show($"Gagal menyimpan generate match: {ex.Message}");
                 return false;
             }
+        }
+        public bool BayarDanDaftarOtomatis(Transaksi trx)
+        {
+            bool isSukses = false;
+
+            // 1. Query masukkan pemain ke tabel pendaftaran (Langsung 'terdaftar' / Auto-ACC)
+            string queryDaftar = @"
+                INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
+                VALUES (@id_user, @id_kompetisi, 'terdaftar');";
+
+            // 2. Query masukkan log keuangan ke tabel transaksi barumu (Langsung 'Sukses')
+            string queryTransaksi = @"
+                INSERT INTO transaksi (id_user, id_kompetisi, id_metode_pembayaran, nominal_transaksi, status_transaksi) 
+                VALUES (@id_user, @id_kompetisi, @id_metode, @nominal, 'Sukses');";
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                // Menggunakan Database Transaction agar data aman (jika satu gagal, semua batal)
+                using (NpgsqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Eksekusi Pendaftaran Kompetisi
+                        using (NpgsqlCommand cmdDaftar = new NpgsqlCommand(queryDaftar, conn))
+                        {
+                            cmdDaftar.Parameters.AddWithValue("@id_user", trx.IdUser);
+                            cmdDaftar.Parameters.AddWithValue("@id_kompetisi", trx.IdKompetisi);
+                            cmdDaftar.ExecuteNonQuery();
+                        }
+
+                        // Eksekusi Log Transaksi Keuangan
+                        using (NpgsqlCommand cmdTrx = new NpgsqlCommand(queryTransaksi, conn))
+                        {
+                            cmdTrx.Parameters.AddWithValue("@id_user", trx.IdUser);
+                            cmdTrx.Parameters.AddWithValue("@id_kompetisi", trx.IdKompetisi);
+                            cmdTrx.Parameters.AddWithValue("@id_metode", trx.IdMetodePembayaran);
+                            cmdTrx.Parameters.AddWithValue("@nominal", trx.NominalTransaksi);
+                            cmdTrx.ExecuteNonQuery();
+                        }
+
+                        // Commit jika semua perintah SQL di atas berhasil tanpa interupsi
+                        transaction.Commit();
+                        isSukses = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Batalkan transaksi jika ada eror di tengah jalan
+                        transaction.Rollback();
+                        throw new Exception("Gagal memproses transaksi (Model): " + ex.Message);
+                    }
+                }
+            }
+            return isSukses;
+        }
+        public DataTable AmbilSemuaPembayaran()
+        {
+            DataTable dt = new DataTable();
+
+            // Query SQL untuk mengambil data dari tabel 'transaksi' baru dan di-join agar muncul nama asli pemain & turnamennya
+            string query = @"
+        SELECT
+            t.id_transaksi AS ""ID Bayar"",
+            du.nama_lengkap AS ""Nama Pemain"",
+            k.nama_kompetisi AS ""Turnamen"",
+            t.nominal_transaksi AS ""Total Bayar"",
+            t.tanggal_transaksi AS ""Tanggal Transaksi""
+        FROM transaksi t
+        JOIN detail_user du ON t.id_user = du.id_user
+        JOIN kompetisi k ON t.id_kompetisi = k.id_kompetisi
+        ORDER BY t.id_transaksi ASC; "; // Mengurutkan dari ID terkecil ke terbesar
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Gagal mengambil data transaksi: " + ex.Message);
+                }
+            }
+            return dt;
         }
     }
 }

@@ -131,7 +131,7 @@ Chess.com akan secara otomatis mengakumulasikan kemenangan Anda hingga jumlah mi
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAzIAAAHxCAIAAAA5tB5JAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAXd9JREFUeF7t3QeUK1dh+P/fyS8FAgkppPuttL2oSyNppO1NZfe9LXoEgwsGYwgQ
+        vQAADr0BR/uQrQAAXd9JREFUeF7t3QeUK1dh+P/fyS8FAgkppPuttL2oSyNppO1NZfe9LXoEgwsGYwgQ
         OjG4AKY5GAzYQCj5JZQ/mGJIQgsE4h+BBBLCDwIYmxISwCaxDQEMBpO4PKP/uXNnRtOk1e5Kuzv3fd/5
         HJ990mg0Wk6U77tz587/Kq+d1GuNsXQBasgt1ctrJwEAQOj8L7JMMWQZAAAhRZaphiwDACCkyDLVkGUA
         AIQUWaYasgwAgJAiy1RDlgEAEFJkmWrIMgAAQoosUw1ZBgBASJFlqiHLAAAIKbJMNWQZAAAhRZaphiwD

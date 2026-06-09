@@ -29,90 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPemain));
-            linkLabel1 = new LinkLabel();
-            linkLabel2 = new LinkLabel();
-            linkLabel3 = new LinkLabel();
-            linkLabel4 = new LinkLabel();
-            linkLabel5 = new LinkLabel();
             roundedButton1 = new RoundedButton();
-            linkLabel6 = new LinkLabel();
+            linkLabel7 = new LinkLabel();
+            linkLabel8 = new LinkLabel();
+            linkLabel9 = new LinkLabel();
+            linkLabel10 = new LinkLabel();
+            linkLabel11 = new LinkLabel();
             SuspendLayout();
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(11, 60);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(57, 21);
-            linkLabel1.TabIndex = 6;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Profil";
-            linkLabel1.TextAlign = ContentAlignment.TopRight;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
-            // 
-            // linkLabel2
-            // 
-            linkLabel2.AutoSize = true;
-            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(11, 100);
-            linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(117, 42);
-            linkLabel2.TabIndex = 7;
-            linkLabel2.TabStop = true;
-            linkLabel2.Text = "List\r\nTournament";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
-            // 
-            // linkLabel3
-            // 
-            linkLabel3.AutoSize = true;
-            linkLabel3.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(11, 160);
-            linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(117, 42);
-            linkLabel3.TabIndex = 8;
-            linkLabel3.TabStop = true;
-            linkLabel3.Text = "Daftar\r\nTournament";
-            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
-            // 
-            // linkLabel4
-            // 
-            linkLabel4.AutoSize = true;
-            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 220);
-            linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(118, 21);
-            linkLabel4.TabIndex = 9;
-            linkLabel4.TabStop = true;
-            linkLabel4.Text = "Cari Pemain";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
-            // 
-            // linkLabel5
-            // 
-            linkLabel5.AutoSize = true;
-            linkLabel5.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 260);
-            linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(129, 42);
-            linkLabel5.TabIndex = 10;
-            linkLabel5.TabStop = true;
-            linkLabel5.Text = "History\r\nPertandingan";
-            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
             // roundedButton1
             // 
@@ -124,7 +47,7 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(11, 403);
+            roundedButton1.Location = new Point(13, 400);
             roundedButton1.Name = "roundedButton1";
             roundedButton1.Size = new Size(125, 35);
             roundedButton1.TabIndex = 11;
@@ -133,20 +56,81 @@
             roundedButton1.UseVisualStyleBackColor = false;
             roundedButton1.Click += roundedButton1_Click;
             // 
-            // linkLabel6
+            // linkLabel7
             // 
-            linkLabel6.AutoSize = true;
-            linkLabel6.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel6.LinkColor = Color.Silver;
-            linkLabel6.Location = new Point(11, 320);
-            linkLabel6.Name = "linkLabel6";
-            linkLabel6.Size = new Size(99, 42);
-            linkLabel6.TabIndex = 12;
-            linkLabel6.TabStop = true;
-            linkLabel6.Text = "Baca\r\nPeraturan\r\n";
-            linkLabel6.LinkClicked += linkLabel6_LinkClicked;
+            linkLabel7.AutoSize = true;
+            linkLabel7.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel7.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel7.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel7.LinkColor = Color.Silver;
+            linkLabel7.Location = new Point(13, 280);
+            linkLabel7.Name = "linkLabel7";
+            linkLabel7.Size = new Size(99, 42);
+            linkLabel7.TabIndex = 129;
+            linkLabel7.TabStop = true;
+            linkLabel7.Text = "Baca\r\nPeraturan";
+            linkLabel7.LinkClicked += linkLabel7_LinkClicked;
+            // 
+            // linkLabel8
+            // 
+            linkLabel8.AutoSize = true;
+            linkLabel8.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel8.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel8.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel8.LinkColor = Color.Silver;
+            linkLabel8.Location = new Point(9, 210);
+            linkLabel8.Name = "linkLabel8";
+            linkLabel8.Size = new Size(129, 42);
+            linkLabel8.TabIndex = 128;
+            linkLabel8.TabStop = true;
+            linkLabel8.Text = "History \r\nPertandingan";
+            linkLabel8.LinkClicked += linkLabel8_LinkClicked;
+            // 
+            // linkLabel9
+            // 
+            linkLabel9.AutoSize = true;
+            linkLabel9.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel9.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel9.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel9.LinkColor = Color.Silver;
+            linkLabel9.Location = new Point(11, 170);
+            linkLabel9.Name = "linkLabel9";
+            linkLabel9.Size = new Size(118, 21);
+            linkLabel9.TabIndex = 127;
+            linkLabel9.TabStop = true;
+            linkLabel9.Text = "Cari Pemain";
+            linkLabel9.LinkClicked += linkLabel9_LinkClicked;
+            // 
+            // linkLabel10
+            // 
+            linkLabel10.AutoSize = true;
+            linkLabel10.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel10.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel10.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel10.LinkColor = Color.Silver;
+            linkLabel10.Location = new Point(11, 99);
+            linkLabel10.Name = "linkLabel10";
+            linkLabel10.Size = new Size(117, 42);
+            linkLabel10.TabIndex = 126;
+            linkLabel10.TabStop = true;
+            linkLabel10.Text = "List\r\nTournament";
+            linkLabel10.LinkClicked += linkLabel10_LinkClicked;
+            // 
+            // linkLabel11
+            // 
+            linkLabel11.AutoSize = true;
+            linkLabel11.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel11.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel11.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel11.LinkColor = Color.Silver;
+            linkLabel11.Location = new Point(11, 59);
+            linkLabel11.Name = "linkLabel11";
+            linkLabel11.Size = new Size(57, 21);
+            linkLabel11.TabIndex = 125;
+            linkLabel11.TabStop = true;
+            linkLabel11.Text = "Profil";
+            linkLabel11.TextAlign = ContentAlignment.TopRight;
+            linkLabel11.LinkClicked += linkLabel11_LinkClicked;
             // 
             // MenuPemain
             // 
@@ -155,13 +139,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 451);
-            Controls.Add(linkLabel6);
+            Controls.Add(linkLabel7);
+            Controls.Add(linkLabel8);
+            Controls.Add(linkLabel9);
+            Controls.Add(linkLabel10);
+            Controls.Add(linkLabel11);
             Controls.Add(roundedButton1);
-            Controls.Add(linkLabel5);
-            Controls.Add(linkLabel4);
-            Controls.Add(linkLabel3);
-            Controls.Add(linkLabel2);
-            Controls.Add(linkLabel1);
             MaximizeBox = false;
             Name = "MenuPemain";
             StartPosition = FormStartPosition.CenterScreen;
@@ -172,12 +155,11 @@
         }
 
         #endregion
-        private LinkLabel linkLabel1;
-        private LinkLabel linkLabel2;
-        private LinkLabel linkLabel3;
-        private LinkLabel linkLabel4;
-        private LinkLabel linkLabel5;
         private RoundedButton roundedButton1;
-        private LinkLabel linkLabel6;
+        private LinkLabel linkLabel7;
+        private LinkLabel linkLabel8;
+        private LinkLabel linkLabel9;
+        private LinkLabel linkLabel10;
+        private LinkLabel linkLabel11;
     }
 }

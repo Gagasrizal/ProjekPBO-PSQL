@@ -29,67 +29,6 @@ namespace ProjekPBO_PSQL
         }
 
         // =======================================================================
-        // 1. MENU PROFIL -> Menuju MenuProfilPem.cs dengan membawa data user aktif
-        // =======================================================================
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // Mengoper data userLogin ke MenuProfilPem agar bisa membaca database profile
-            MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
-            profilForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
-        // 2. MENU LIST TOURNAMENT -> Menuju MenuTournament.cs
-        // =======================================================================
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuTournament listForm = new MenuTournament(this.userLogin);
-            listForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
-        // 3. MENU DAFTAR TOURNAMENT -> Menuju MenuDaftarTour.cs
-        // =======================================================================
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuDaftarTour daftarForm = new MenuDaftarTour(this.userLogin);
-            daftarForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
-        // 4. MENU CARI PEMAIN -> Menuju MenuCariPemain.cs
-        // =======================================================================
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
-        // 5. MENU HISTORY PERTANDINGAN -> Menuju MenuHistoryPermainan.cs
-        // =======================================================================
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
-            historyForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
-        // 6. MENU BACA PERATURAN -> Menuju MenuAturan.cs
-        // =======================================================================
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
-            peraturanForm.Show();
-            this.Hide();
-        }
-
-        // =======================================================================
         // 7. TOMBOL LOGOUT -> Menuju FormLogin.cs
         // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
@@ -102,6 +41,41 @@ namespace ProjekPBO_PSQL
                 login.Show();
                 this.Close();
             }
+        }
+
+        private void linkLabel11_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuProfilPem formProfil = new MenuProfilPem(this.userLogin);
+            formProfil.Show();
+            this.Close(); // Hancurkan form saat ini agar memori bersih
+        }
+
+        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuTournament formDaftar = new MenuTournament(this.userLogin);
+            formDaftar.Show();
+            this.Close(); // Hancurkan form saat ini agar memori bersih
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuCariPemain formCari = new MenuCariPemain(this.userLogin);
+            formCari.Show();
+            this.Close(); // Hancurkan form saat ini agar memori bersih
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuHistoryPermainan formHistory = new MenuHistoryPermainan(this.userLogin);
+            formHistory.Show();
+            this.Close(); // Hancurkan form saat ini agar memori bersih
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuAturan formAturan = new MenuAturan(this.userLogin);
+            formAturan.Show();
+            this.Close(); // Hancurkan form saat ini agar memori bersih
         }
     }
 }

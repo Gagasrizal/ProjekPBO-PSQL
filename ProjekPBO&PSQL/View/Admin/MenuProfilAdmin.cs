@@ -69,19 +69,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Buat Tournament
-        {
-            MenuBuatTournament buatTournament = new MenuBuatTournament(this.adminLogin);
-            buatTournament.Show();
-            this.Hide();
-        }
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Lihat Data Pemain
-        {
-            MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin);
-            lihatPemain.Show();
-            this.Hide();
-        }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Lihat Data Tournament
         {

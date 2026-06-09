@@ -21,56 +21,6 @@ namespace ProjekPBO_PSQL.View.Pemain
             this.userLogin = user; // Menyimpan sesi user aktif (seperti Bangijal)
         }
 
-        private void MenuHistoryPermainan_Load(object sender, EventArgs e)
-        {
-            // Tempat untuk menarik data history pertandingan milik userLogin.id_user dari database nanti
-        }
-
-        // =======================================================================
-        // NAVIGASI LINK LABEL SIKLUS MENU PEMAIN (ESTAFET USER LOGIN)
-        // =======================================================================
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Profil
-        {
-            // Mengoper kembali data userLogin ke MenuProfilPem agar profil tetap sinkron
-            MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
-            profilForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // List Tournament
-        {
-            MenuTournament tournamentForm = new MenuTournament(this.userLogin);
-            tournamentForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Daftar Tournament
-        {
-            MenuDaftarTour daftarForm = new MenuDaftarTour(this.userLogin);
-            daftarForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Cari Pemain
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // History Pertandingan (Form Ini)
-        {
-            MessageBox.Show("Kamu sudah berada di halaman History Pertandingan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Baca Peraturan
-        {
-            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
-            peraturanForm.Show();
-            this.Hide();
-        }
-
         // =======================================================================
         // TOMBOL LOGOUT
         // =======================================================================
@@ -89,6 +39,40 @@ namespace ProjekPBO_PSQL.View.Pemain
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Event klik di grid history pertandingan
+        }
+
+        private void linkLabel11_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Mengoper kembali data userLogin ke MenuProfilPem agar profil tetap sinkron
+            MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
+            profilForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuTournament tournamentForm = new MenuTournament(this.userLogin);
+            tournamentForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
+            cariForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("Kamu sudah berada di halaman History Pertandingan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
+            peraturanForm.Show();
+            this.Close();
         }
     }
 }

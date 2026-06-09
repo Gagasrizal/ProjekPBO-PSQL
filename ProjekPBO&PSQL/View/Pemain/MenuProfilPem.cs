@@ -55,48 +55,26 @@ namespace ProjekPBO_PSQL.View.Pemain
             }
         }
 
-        // =======================================================================
-        // NAVIGASI LINK LABEL (SUDAH TERHUBUNG KE MASING-MASING FORM PEMAIN)
-        // =======================================================================
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Profil
-        {
-            MessageBox.Show("Kamu sudah berada di halaman profil.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // List Tournament
-        {
-            MenuTournament listForm = new MenuTournament(this.userLogin);
-            listForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Daftar Tournament
-        {
-            MenuDaftarTour daftarForm = new MenuDaftarTour(this.userLogin);
-            daftarForm.Show();
-            this.Hide();
-        }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Cari Pemain
         {
             MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
             cariForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)// History Pertandingan
         {
             MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
             historyForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Baca Peraturan
         {
             MenuAturan peraturanForm = new MenuAturan(this.userLogin);
             peraturanForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         // =======================================================================
@@ -143,9 +121,37 @@ namespace ProjekPBO_PSQL.View.Pemain
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void linkLabel5_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            MessageBox.Show("Kamu sudah berada di halaman profil.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
+        private void linkLabel4_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuTournament daftarForm = new MenuTournament(this.userLogin);
+            daftarForm.Show();
+            this.Close(); // Hancurkan form lama dari memori
+        }
+
+        private void linkLabel3_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
+            cariForm.Show();
+            this.Close(); // Hancurkan form lama dari memori
+        }
+
+        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
+            historyForm.Show();
+            this.Close(); // Hancurkan form lama dari memori
+        }
+
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
+            peraturanForm.Show();
+            this.Close(); // Hancurkan form lama dari memori
         }
     }
 }

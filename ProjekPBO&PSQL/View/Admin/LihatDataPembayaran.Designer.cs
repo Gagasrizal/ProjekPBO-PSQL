@@ -110,6 +110,7 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(624, 365);
             dataGridView1.TabIndex = 28;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // LihatDataPembayaran
             // 

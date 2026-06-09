@@ -20,56 +20,54 @@ namespace ProjekPBO_PSQL
         {
             InitializeComponent(); // Ini dijamin aman dan tidak error lagi!
             this.userLogin = user;  // Menyimpan sesi user aktif (seperti Bangijal)
+
+            // =======================================================================
+            // KUNCI UTAMA: Daftarkan secara paksa agar tombol Load & Sidebar Aktif
+            // =======================================================================
+            this.Load += new System.EventHandler(this.MenuTournament_Load);
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked_1; // Profil
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked_1; // List Tournament
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked_1; // Cari Pemain
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked_1; // History Permainan
+            linkLabel6.LinkClicked += linkLabel6_LinkClicked_1; // Baca Peraturan
         }
 
+        // =======================================================================
+        // EVENT LOAD: MENAMPILKAN DATA DARI DATABASE KE DATAGRIDVIEW TOURNAMENT
+        // =======================================================================
         private void MenuTournament_Load(object sender, EventArgs e)
         {
-            // Tempat untuk menampilkan list tournament dari database nantinya
-        }
+            try
+            {
+                // 1. Instansiasi objek DBHelper kamu
+                ProjekPBO_PSQL.Helpers.DBHelper db = new ProjekPBO_PSQL.Helpers.DBHelper();
 
-        // =======================================================================
-        // NAVIGASI LINK LABEL SIKLUS MENU PEMAIN (ESTAFET USER LOGIN)
-        // =======================================================================
+                // 2. Ambil data dengan fungsi AmbilSemuaTournament() yang ada di DBHelper-mu
+                DataTable dtTournament = db.AmbilSemuaTournament();
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Profil
-        {
-            // Mengoper kembali data userLogin ke MenuProfilPem agar data profil muncul sempurna
-            MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
-            profilForm.Show();
-            this.Hide();
-        }
+                // 3. Masukkan datanya sebagai sumber data DataGridView
+                dataGridView1.DataSource = dtTournament;
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // List Tournament (Form Ini)
-        {
-            MessageBox.Show("Kamu sudah berada di halaman List Tournament.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+                // =======================================================================
+                // KUNCI TABEL DI SINI (Biar tidak bisa diedit njir!)
+                // =======================================================================
+                dataGridView1.ReadOnly = true;
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Daftar Tournament
-        {
-            MenuDaftarTour daftarForm = new MenuDaftarTour(this.userLogin);
-            daftarForm.Show();
-            this.Hide();
-        }
+                // 4. Merapikan nama judul kolom (Header) di tabel visual aplikasi biar rapi
+                if (dataGridView1.Columns["id_kompetisi"] != null) dataGridView1.Columns["id_kompetisi"].HeaderText = "ID";
+                if (dataGridView1.Columns["nama_kompetisi"] != null) dataGridView1.Columns["nama_kompetisi"].HeaderText = "Nama Turnamen";
+                if (dataGridView1.Columns["mode_kompetisi"] != null) dataGridView1.Columns["mode_kompetisi"].HeaderText = "Mode";
+                if (dataGridView1.Columns["harga_pendaftaran"] != null) dataGridView1.Columns["harga_pendaftaran"].HeaderText = "Biaya Daftar";
+                if (dataGridView1.Columns["hadiah"] != null) dataGridView1.Columns["hadiah"].HeaderText = "Hadiah Utama";
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Cari Pemain
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // History Pertandingan
-        {
-            MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
-            historyForm.Show();
-            this.Hide();
-        }
-
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Baca Peraturan
-        {
-            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
-            peraturanForm.Show();
-            this.Hide();
+                // Memastikan baris langsung terpilih utuh saat diklik oleh user
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView1.MultiSelect = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat daftar turnamen: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -78,8 +76,75 @@ namespace ProjekPBO_PSQL
         }
 
         // =======================================================================
-        // TOMBOL LOGOUT
+        // TOMBOL UTAMA: PROSES MENDAFTAR (LEMBAR KE HALAMAN BAYAR)
         // =======================================================================
+        private void roundedButton2_Click(object sender, EventArgs e)
+        {
+            // 1. Validasi: Pastikan user sudah memilih salah satu turnamen di DataGridView
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Silakan pilih turnamen yang ingin diikuti pada tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // 2. Ambil data kompetisi dari baris DataGridView yang sedang dipilih/diklik oleh user
+                var rowTerpilih = dataGridView1.SelectedRows[0];
+                int idKompetisi = Convert.ToInt32(rowTerpilih.Cells["id_kompetisi"].Value);
+                int hargaPendaftaran = Convert.ToInt32(rowTerpilih.Cells["harga_pendaftaran"].Value);
+                string namaKompetisi = Convert.ToString(rowTerpilih.Cells["nama_kompetisi"].Value); // Mengambil nama turnamen
+
+                // 3. Ambil ID User asli yang sedang aktif login dari sesi userLogin
+                int idUserLogin = this.userLogin.id;
+
+                // 4. LEMPAR DATA KE MENU PEMBAYARAN (Solusi Utama)
+                MenuPembayaran bayarForm = new MenuPembayaran(this.userLogin, idKompetisi, namaKompetisi, hargaPendaftaran);
+                bayarForm.Show();
+                this.Close(); // Sembunyikan menu daftar tour agar tidak menumpuk
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memproses pendaftaran: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // =======================================================================
+        // NAVIGASI LINK LABEL SIKLUS MENU PEMAIN
+        // =======================================================================
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuProfilPem profilForm = new MenuProfilPem(this.userLogin);
+            profilForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("Kamu sudah berada di halaman List Tournament.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void linkLabel4_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
+            cariForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel5_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
+            historyForm.Show();
+            this.Close();
+        }
+
+        private void linkLabel6_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuAturan peraturanForm = new MenuAturan(this.userLogin);
+            peraturanForm.Show();
+            this.Close(); 
+        }
+
         private void roundedButton1_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Apakah kamu yakin ingin keluar dari Hyper Chess?", "LogOut", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -88,7 +153,7 @@ namespace ProjekPBO_PSQL
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); // Menutup form Tournament dengan aman
+                this.Close(); 
             }
         }
     }

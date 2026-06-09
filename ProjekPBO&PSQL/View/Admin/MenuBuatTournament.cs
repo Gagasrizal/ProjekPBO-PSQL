@@ -13,92 +13,39 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class MenuBuatTournament : Form
     {
         private User adminLogin;
+        private bool isEditMode = false;
+        private int idTournamentDiedit = 0;
 
-        // 2. Ubah konstruktor utama agar menerima parameter (User user)
+        // --- CONSTRUCTOR 1: Dipakai saat membuat turnamen baru (Normal Mode) ---
         public MenuBuatTournament(User user)
         {
             InitializeComponent();
-            this.adminLogin = user; // Menyimpan data admin yang sedang aktif
+            this.adminLogin = user;
+            this.isEditMode = false;
+        }
+
+        // --- CONSTRUCTOR 2: Dipakai saat mengedit turnamen (Edit Mode) ---
+        public MenuBuatTournament(User user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
+        {
+            InitializeComponent();
+            this.adminLogin = user;
+
+            // Set status ke mode edit dan simpan ID-nya
+            this.isEditMode = true;
+            this.idTournamentDiedit = idKompetisi;
+
+            // Ubah text tombol simpan menjadi Update
+            roundedButton2.Text = "Update";
+
+            // Lempar data lama ke dalam inputan Form secara otomatis
+            NamaTournament.Text = namaLama;
+            HargaPendaftaran.Text = hargaLama.ToString();
+            Hadiah.Text = hadiahLama.ToString();
         }
 
         private void MenuBuatTournament_Load(object sender, EventArgs e)
         {
             // Logika saat halaman buat turnamen pertama kali dimuat
-        }
-
-        private void roundedButton2_Click(object sender, EventArgs e)
-        {
-            string nama = NamaTournament.Text.Trim();
-            string tipeGame = TipeGame.Text;
-            string timeControl = TimeControl.Text;
-            string babak = Babak.Text;
-            DateTime tanggal = TanggalPelaksanaan.Value;
-            string hargaText = HargaPendaftaran.Text.Trim();
-            string hadiahText = Hadiah.Text.Trim();
-
-            // 2. Validasi input
-            if (string.IsNullOrEmpty(nama) || string.IsNullOrEmpty(tipeGame) ||
-                string.IsNullOrEmpty(timeControl) || string.IsNullOrEmpty(babak) ||
-                string.IsNullOrEmpty(hargaText) || string.IsNullOrEmpty(hadiahText))
-            {
-                MessageBox.Show("Semua kolom data kompetisi wajib diisi atau dipilih!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                int harga = Convert.ToInt32(hargaText);
-                int hadiah = Convert.ToInt32(hadiahText);
-
-                // Trik Mapping: satukan input form agar pas dengan kolom database
-                string modeKompetisiCombined = $"{tipeGame} ({timeControl})";
-                string pelaksanaanPendaftaranCombined = $"{babak}";
-
-                // FIKS: ID Admin diambil dari objek 'adminLogin' yang dioper dari Form Login tadi!
-                int idAdminAktif = this.adminLogin.id;
-
-                // 1. Ubah objek adminLogin menjadi dynamic sementara agar compiler tidak protes nama property
-                // Ambil jumlah babak dari ComboBox UI milikmu (Nama komponen: Babak)
-                // Ambil jumlah babak dari ComboBox UI (Nama komponen: Babak)
-                int jumlahBabakTerpilih = Convert.ToInt32(Babak.SelectedItem ?? 1);
-
-                // Solusi Bypass: Kita paksa ambil value property pertama dari object menggunakan bantuan static helper / casting data login
-                Tournament kompetisiBaru = new Tournament(
-                    0,
-                    1, // <--- ISI ANGKA 1 DULU SEMENTARA UNTUK TESTING agar project-mu bisa di-Run/Build tanpa error!
-                    nama,
-                    modeKompetisiCombined,
-                    harga,
-                    pelaksanaanPendaftaranCombined,
-                    tanggal,
-                    hadiah,
-                    $"{tipeGame} ({timeControl})",
-                    jumlahBabakTerpilih
-                );
-               
-
-                // 4. Kirim objek model ke DBHelper (Controller)
-                DBHelper db = new DBHelper();
-                bool sukses = db.TambahTournament(kompetisiBaru);
-
-                if (sukses)
-                {
-                    MessageBox.Show($"Kompetisi '{nama}' berhasil dibuat!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ClearForm();
-                }
-                else
-                {
-                    MessageBox.Show("Gagal menyimpan kompetisi baru ke database.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Harga Pendaftaran dan Hadiah harus berupa angka bulat saja!", "Kesalahan Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Terjadi kesalahan sistem: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void ClearForm()
@@ -112,47 +59,101 @@ namespace ProjekPBO_PSQL.View.Admin
             TanggalPelaksanaan.Value = DateTime.Now;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void roundedButton2_Click_1(object sender, EventArgs e)
         {
+            string nama = NamaTournament.Text.Trim();
+            string tipeGame = TipeGame.Text;
+            string timeControl = TimeControl.Text;
+            string babak = Babak.Text;
+            DateTime tanggal = TanggalPelaksanaan.Value;
+            string hargaText = HargaPendaftaran.Text.Trim();
+            string hadiahText = Hadiah.Text.Trim();
 
+            // Validasi input
+            if (string.IsNullOrEmpty(nama) || string.IsNullOrEmpty(tipeGame) ||
+                string.IsNullOrEmpty(timeControl) || string.IsNullOrEmpty(babak) ||
+                string.IsNullOrEmpty(hargaText) || string.IsNullOrEmpty(hadiahText))
+            {
+                MessageBox.Show("Semua kolom data kompetisi wajib diisi atau dipilih!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int harga = Convert.ToInt32(hargaText);
+                int hadiah = Convert.ToInt32(hadiahText);
+
+                string modeKompetisiCombined = $"{tipeGame} ({timeControl})";
+                DateTime tanggalDitutup = tanggal.AddDays(-1);
+                string pelaksanaanPendaftaranCombined = $"{DateTime.Today:dd MMM yyyy} s.d {tanggalDitutup:dd MMM yyyy}";
+
+                int jumlahBabakTerpilih = Convert.ToInt32(Babak.SelectedItem ?? 1);
+                int idYangDipakai = isEditMode ? idTournamentDiedit : 0;
+
+                Tournament kompetisiBaru = new Tournament(
+                    idYangDipakai,
+                    1,
+                    nama,
+                    modeKompetisiCombined,
+                    harga,
+                    pelaksanaanPendaftaranCombined,
+                    tanggal,
+                    hadiah,
+                    $"Sistem Swiss",
+                    jumlahBabakTerpilih
+                );
+
+                DBHelper db = new DBHelper();
+                bool sukses = false;
+
+                if (isEditMode)
+                {
+                    sukses = db.EditTournament(kompetisiBaru);
+                }
+                else
+                {
+                    sukses = db.TambahTournament(kompetisiBaru);
+                }
+
+                if (sukses)
+                {
+                    string aksi = isEditMode ? "diperbarui" : "berhasil dibuat";
+                    MessageBox.Show($"Kompetisi '{nama}' {aksi}!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (isEditMode)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        ClearForm();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Gagal menyimpan data kompetisi ke database.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Harga Pendaftaran dan Hadiah harus berupa angka bulat saja!", "Kesalahan Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        // Metode penampung event bawaan desainer
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e) { }
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
+        private void textBox3_TextChanged(object sender, EventArgs e) { }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Di sini baru benar memanggil MenuProfilAdmin
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-            this.Hide(); // Menyembunyikan dashboard Selamat Datang
+            this.Hide();
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -169,9 +170,6 @@ namespace ProjekPBO_PSQL.View.Admin
             this.Hide();
         }
 
-        private void roundedButton1_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void roundedButton1_Click(object sender, EventArgs e) { }
     }
 }

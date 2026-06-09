@@ -38,6 +38,7 @@
             dBHelperBindingSource = new BindingSource(components);
             roundedButton2 = new RoundedButton();
             comboBox1 = new ComboBox();
+            roundedButton4 = new RoundedButton();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dBHelperBindingSource).BeginInit();
             SuspendLayout();
@@ -156,6 +157,27 @@
             comboBox1.Text = "Pilih Tournament";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
+            // roundedButton4
+            // 
+            roundedButton4.BackColor = Color.Transparent;
+            roundedButton4.BackgroundColor = Color.Transparent;
+            roundedButton4.BackgroundImageLayout = ImageLayout.Stretch;
+            roundedButton4.BorderColor = Color.PaleGreen;
+            roundedButton4.BorderRadius = 0;
+            roundedButton4.BorderSize = 2;
+            roundedButton4.FlatAppearance.BorderSize = 0;
+            roundedButton4.FlatStyle = FlatStyle.Flat;
+            roundedButton4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton4.ForeColor = Color.Silver;
+            roundedButton4.Location = new Point(582, 66);
+            roundedButton4.Name = "roundedButton4";
+            roundedButton4.Size = new Size(100, 28);
+            roundedButton4.TabIndex = 32;
+            roundedButton4.Text = "Edit Tour";
+            roundedButton4.TextColor = Color.Silver;
+            roundedButton4.UseVisualStyleBackColor = false;
+            roundedButton4.Click += roundedButton4_Click;
+            // 
             // LihatDataTournament
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -163,6 +185,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
+            Controls.Add(roundedButton4);
             Controls.Add(comboBox1);
             Controls.Add(roundedButton2);
             Controls.Add(dataGridView1);
@@ -189,5 +212,6 @@
         private BindingSource dBHelperBindingSource;
         private RoundedButton roundedButton2;
         private ComboBox comboBox1;
+        private RoundedButton roundedButton4;
     }
 }

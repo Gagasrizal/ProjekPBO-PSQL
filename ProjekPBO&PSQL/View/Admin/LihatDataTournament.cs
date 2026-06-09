@@ -20,10 +20,8 @@ namespace ProjekPBO_PSQL.View.Admin
             InitializeComponent();
             this.adminLogin = user;
 
-            // --- SANGAT PENTING: Paksa ikat Event Load agar fungsi tampil data pasti jalan ---
             this.Load += new System.EventHandler(this.LihatDataTournament_Load);
 
-            // --- TETAP DIKASIH INI BIAR DATA GRID VIEW NYA GA BERKEDIP PAS DI-LOAD ---
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint |
                           ControlStyles.UserPaint |
@@ -33,69 +31,57 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void LihatDataTournament_Load(object sender, EventArgs e)
         {
-            // 1. Tampilkan semua data turnamen di grid view saat halaman dibuka
             TampilkanDataTournament();
-
-            // 2. Isi data ke ComboBox
             LoadTurnamenToComboBox();
         }
 
         private void TampilkanDataTournament()
-{
-    DBHelper db = new DBHelper();
-    
-    dataGridView1.AutoGenerateColumns = true;
-    DataTable dt = db.AmbilSemuaTournament();
-    
-    if (dt != null)
-    {
-        dataGridView1.DataSource = dt;
-        
-        // 1. MATIKAN mode Fill agar kolom bisa melar melebihi batas kanan form
-        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        
-        // 2. Aktifkan scroll bar horizontal & vertikal secara paksa
-        dataGridView1.ScrollBars = ScrollBars.Both;
-
-        // 3. Ubah nama header menjadi rapi dan tentukan LEBAR MINIMAL tiap kolom (dalam pixel)
-        if (dataGridView1.Columns.Count > 9)
         {
-            dataGridView1.Columns[0].HeaderText = "ID";
-            dataGridView1.Columns[0].Width = 50;  // Kolom ID cukup ramping
+            DBHelper db = new DBHelper();
+            dataGridView1.AutoGenerateColumns = true;
+            DataTable dt = db.AmbilSemuaTournament();
 
-            dataGridView1.Columns[1].HeaderText = "Nama Turnamen";
-            dataGridView1.Columns[1].Width = 180; // Kolom Nama dikasih space lebar biar terbaca utuh
+            if (dt != null)
+            {
+                dataGridView1.DataSource = dt;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                dataGridView1.ScrollBars = ScrollBars.Both;
 
-            dataGridView1.Columns[2].HeaderText = "Mode Pertandingan";
-            dataGridView1.Columns[2].Width = 120;
+                if (dataGridView1.Columns.Count >= 9)
+                {
+                    dataGridView1.Columns[0].HeaderText = "ID";
+                    dataGridView1.Columns[0].Width = 50;
 
-            dataGridView1.Columns[3].HeaderText = "Biaya Pendaftaran";
-            dataGridView1.Columns[3].Width = 140;
-            dataGridView1.Columns[3].DefaultCellStyle.Format = "N0"; // Format ribuan
+                    dataGridView1.Columns[1].HeaderText = "Nama Turnamen";
+                    dataGridView1.Columns[1].Width = 180;
 
-            dataGridView1.Columns[4].HeaderText = "Batas Registrasi";
-            dataGridView1.Columns[4].Width = 130;
+                    dataGridView1.Columns[2].HeaderText = "Mode Pertandingan";
+                    dataGridView1.Columns[2].Width = 120;
 
-            dataGridView1.Columns[5].HeaderText = "Tanggal Main";
-            dataGridView1.Columns[5].Width = 110;
+                    dataGridView1.Columns[3].HeaderText = "Biaya Pendaftaran";
+                    dataGridView1.Columns[3].Width = 140;
+                    dataGridView1.Columns[3].DefaultCellStyle.Format = "N0";
 
-            dataGridView1.Columns[6].HeaderText = "Total Hadiah";
-            dataGridView1.Columns[6].Width = 130;
-            dataGridView1.Columns[6].DefaultCellStyle.Format = "N0"; // Format ribuan
+                    dataGridView1.Columns[4].HeaderText = "Batas Registrasi";
+                    dataGridView1.Columns[4].Width = 130;
 
-            dataGridView1.Columns[7].HeaderText = "Sistem Match";
-            dataGridView1.Columns[7].Width = 150; // Kolom sistem pertandingan dikasih space lebar
+                    dataGridView1.Columns[5].HeaderText = "Tanggal Main";
+                    dataGridView1.Columns[5].Width = 110;
 
-            dataGridView1.Columns[8].HeaderText = "Total Babak";
-            dataGridView1.Columns[8].Width = 100;
-            dataGridView1.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dataGridView1.Columns[6].HeaderText = "Total Hadiah";
+                    dataGridView1.Columns[6].Width = 130;
+                    dataGridView1.Columns[6].DefaultCellStyle.Format = "N0";
 
+                    dataGridView1.Columns[7].HeaderText = "Sistem Match";
+                    dataGridView1.Columns[7].Width = 150;
 
+                    dataGridView1.Columns[8].HeaderText = "Total Babak";
+                    dataGridView1.Columns[8].Width = 100;
+                    dataGridView1.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
-
-        dataGridView1.Refresh(); 
-    }
-}
+                dataGridView1.Refresh();
+            }
+        }
 
         private void LoadTurnamenToComboBox()
         {
@@ -104,15 +90,13 @@ namespace ProjekPBO_PSQL.View.Admin
 
             if (dt != null && dt.Rows.Count > 0)
             {
-                // Putus sementara event agar tidak terpicu crash saat data di-bind
                 comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
 
                 comboBox1.DataSource = dt;
-                comboBox1.DisplayMember = "nama_kompetisi"; // Nama yang muncul di UI ComboBox
-                comboBox1.ValueMember = "id_kompetisi";     // ID asli di database kompetisi
-                comboBox1.SelectedIndex = -1;                // Default kosong, tidak langsung milih
+                comboBox1.DisplayMember = "nama_kompetisi";
+                comboBox1.ValueMember = "id_kompetisi";
+                comboBox1.SelectedIndex = -1;
 
-                // Sambungkan kembali event-nya
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             }
         }
@@ -124,14 +108,11 @@ namespace ProjekPBO_PSQL.View.Admin
 
             if (int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisiTerpilih))
             {
-                // Pindah ke MenuLihatDataPemain dengan membawa objek adminLogin DAN idKompetisiTerpilih
                 MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin, idKompetisiTerpilih);
                 lihatPemain.Show();
-                this.Hide(); // Sembunyikan halaman turnamen ini
+                this.Hide();
             }
         }
-
-        // --- SEMUA NAVIGASI DI BAWAH INI DIKEMBALIKAN SESUAI KODINGAN ASLIMU ---
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -151,7 +132,7 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-            this.Hide(); 
+            this.Hide();
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -171,20 +152,58 @@ namespace ProjekPBO_PSQL.View.Admin
         private void roundedButton1_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Apakah kamu yakin ingin keluar dari halaman Admin Hyper Chess?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
             if (dialogResult == DialogResult.Yes)
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); 
+                this.Close();
             }
         }
 
-        // Kosongan bawaan desainer visual studio
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void label1_Click_1(object sender, EventArgs e) { }
+        private void roundedButton3_Click(object sender, EventArgs e) { }
+        private void roundedButton4_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Silakan klik salah satu baris turnamen pada tabel yang ingin diedit terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // 2. Ambil baris data yang sedang aktif/dipilih oleh admin
+                DataGridViewRow row = dataGridView1.CurrentRow;
+
+                // 3. Ambil data dari kolom DataGridView berdasarkan indeks urutan query AmbilSemuaTournament()
+                // Kolom 0 = id_kompetisi, Kolom 1 = nama_kompetisi, Kolom 3 = harga_pendaftaran, Kolom 6 = hadiah
+                int idKompetisi = Convert.ToInt32(row.Cells[0].Value);
+                string namaLama = row.Cells[1].Value?.ToString() ?? "";
+                int hargaLama = Convert.ToInt32(row.Cells[3].Value);
+                int hadiahLama = Convert.ToInt32(row.Cells[6].Value);
+
+                // 4. Buka MenuBuatTournament dengan mengirim data lama ke Constructor Overload (Mode Edit)
+                MenuBuatTournament formEdit = new MenuBuatTournament(this.adminLogin, idKompetisi, namaLama, hargaLama, hadiahLama);
+
+                // 5. Trik Event: Saat Form Edit nanti ditutup (Close), refresh tabel & munculkan kembali halaman ini
+                formEdit.FormClosed += (s, args) =>
+                {
+                    TampilkanDataTournament(); // Otomatis refresh data turnamen biar langsung terupdate di UI
+                    this.Show();               // Munculkan kembali form LihatDataTournament
+                };
+
+                // 6. Tampilkan Form Edit dan Sembunyikan Form Utama
+                formEdit.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal mengambil data turnamen dari tabel: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

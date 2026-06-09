@@ -278,7 +278,7 @@
             roundedButton2.Text = "Create";
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
-            roundedButton2.Click += roundedButton2_Click;
+            roundedButton2.Click += roundedButton2_Click_1;
             // 
             // MenuBuatTournament
             // 
