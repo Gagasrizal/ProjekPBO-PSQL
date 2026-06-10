@@ -34,6 +34,7 @@
             linkLabel4 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             dataGridView1 = new DataGridView();
+            linkLabel2 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -112,6 +113,21 @@
             dataGridView1.TabIndex = 28;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel2.LinkColor = Color.Silver;
+            linkLabel2.Location = new Point(14, 224);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(128, 42);
+            linkLabel2.TabIndex = 29;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Lihat Data\r\npertandingan";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            // 
             // LihatDataPembayaran
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -119,6 +135,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
+            Controls.Add(linkLabel2);
             Controls.Add(dataGridView1);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
@@ -139,5 +156,6 @@
         private LinkLabel linkLabel4;
         private LinkLabel linkLabel1;
         private DataGridView dataGridView1;
+        private LinkLabel linkLabel2;
     }
 }

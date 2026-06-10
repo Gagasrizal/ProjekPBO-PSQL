@@ -387,66 +387,112 @@ namespace ProjekPBO_PSQL.Helpers
         public DataTable AmbilPertandinganPerBabak(int idKompetisi, int babak)
         {
             DataTable dt = new DataTable();
-            using var conn = GetConnection();
-            conn.Open();
-
-            // Query untuk mengambil data pertandingan sekaligus men-JOIN nama pemain dari detail_user
-            string query = @"SELECT p.id_pertandingan AS ""ID Match"",
-                            du_putih.nama_lengkap AS ""Pemain Putih"",
-                            du_hitam.nama_lengkap AS ""Pemain Hitam"",
-                            p.skor_putih AS ""Skor Putih"",
-                            p.skor_hitam AS ""Skor Hitam"",
-                            p.hasil AS ""Hasil Match""
-                     FROM pertandingan p
-                     LEFT JOIN detail_user du_putih ON p.pemain_putih = du_putih.id_user
-                     LEFT JOIN detail_user du_hitam ON p.pemain_hitam = du_hitam.id_user
-                     WHERE p.id_kompetisi = @idKompetisi AND p.babak = @babak
-                     ORDER BY p.id_pertandingan ASC";
+            string query = @"
+        SELECT 
+            p.id_pertandingan AS ""ID"",
+            p.babak AS ""Babak"",
+            COALESCE(u1.nama_lengkap, 'ID User: ' || p.pemain_putih) AS ""Pemain Putih"",
+            COALESCE(u2.nama_lengkap, 'ID User: ' || p.pemain_hitam) AS ""Pemain Hitam"",
+            p.skor_putih AS ""Skor Putih"",
+            p.skor_hitam AS ""Skor Hitam"",
+            p.hasil AS ""Hasil""
+        FROM pertandingan p
+        LEFT JOIN detail_user u1 ON p.pemain_putih = u1.id_user
+        LEFT JOIN detail_user u2 ON p.pemain_hitam = u2.id_user
+        WHERE p.id_kompetisi = @id_kompetisi AND p.babak = @babak
+        ORDER BY p.id_pertandingan ASC;";
 
             try
             {
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
-                cmd.Parameters.AddWithValue("@babak", babak);
-
-                using var adapter = new NpgsqlDataAdapter(cmd);
-                adapter.Fill(dt);
+                using (NpgsqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+                        cmd.Parameters.AddWithValue("@babak", babak);
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Gagal ambil data match: {ex.Message}");
+                throw new Exception($"Gagal memuat tabel pertandingan: {ex.Message}");
+            }
+            return dt;
+        }
+        public DataTable AmbilPertandinganDenganTotalPoin(int idKompetisi, int babak)
+        {
+            DataTable dt = new DataTable();
+
+            string query = @"
+WITH akumulasi_poin AS (
+    -- Hitung total poin setiap pemain dari seluruh babak yang sudah selesai
+    SELECT id_user, COALESCE(SUM(poin), 0) AS total_poin
+    FROM (
+        SELECT pemain_putih AS id_user, skor_putih AS poin
+        FROM pertandingan
+        WHERE id_kompetisi = @id_kompetisi
+          AND hasil IS NOT NULL
+          AND hasil <> 'Belum Dimainkan'
+          AND hasil <> ''
+        UNION ALL
+        SELECT pemain_hitam AS id_user, skor_hitam AS poin
+        FROM pertandingan
+        WHERE id_kompetisi = @id_kompetisi
+          AND hasil IS NOT NULL
+          AND hasil <> 'Belum Dimainkan'
+          AND hasil <> ''
+    ) sub
+    GROUP BY id_user
+)
+SELECT
+    p.id_pertandingan,
+    p.babak,
+    -- Label Pemain Hitam: 'Nama (total_poin)'
+    COALESCE(dh.nama_lengkap, 'ID: ' || p.pemain_hitam::text)
+        || ' (' || COALESCE(ah.total_poin, 0)::text || ')' AS pemain_hitam_label,
+    -- Label Pemain Putih: 'Nama (total_poin)'
+    COALESCE(dp.nama_lengkap, 'ID: ' || p.pemain_putih::text)
+        || ' (' || COALESCE(ap.total_poin, 0)::text || ')' AS pemain_putih_label,
+    -- Hasil babak ini
+    p.hasil
+FROM pertandingan p
+LEFT JOIN detail_user dh  ON p.pemain_hitam = dh.id_user
+LEFT JOIN detail_user dp  ON p.pemain_putih = dp.id_user
+LEFT JOIN akumulasi_poin ah ON p.pemain_hitam = ah.id_user
+LEFT JOIN akumulasi_poin ap ON p.pemain_putih = ap.id_user
+WHERE p.id_kompetisi = @id_kompetisi
+  AND p.babak = @babak
+ORDER BY p.id_pertandingan ASC;";
+
+            try
+            {
+                using (NpgsqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+                        cmd.Parameters.AddWithValue("@babak", babak);
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal memuat pertandingan dengan poin: {ex.Message}");
             }
 
             return dt;
         }
 
-        // FUNGSI 2: Menyimpan inputan skor dari Admin ke tabel pertandingan
-        public bool UpdateSkorPertandingan(int idPertandingan, decimal skorPutih, decimal skorHitam, string hasilMatch)
-        {
-            using var conn = GetConnection();
-            conn.Open();
-
-            string query = @"UPDATE pertandingan 
-                     SET skor_putih = @sp, skor_hitam = @sh, hasil = @hasil 
-                     WHERE id_pertandingan = @id";
-
-            try
-            {
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@sp", skorPutih);
-                cmd.Parameters.AddWithValue("@sh", skorHitam);
-                cmd.Parameters.AddWithValue("@hasil", hasilMatch);
-                cmd.Parameters.AddWithValue("@id", idPertandingan);
-
-                int rowsAffected = cmd.ExecuteNonQuery();
-                return rowsAffected > 0;
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show($"Gagal menyimpan skor: {ex.Message}");
-                return false;
-            }
-        }
 
         // FUNGSI 3: Menghitung LEADERBOARD secara otomatis (Real-time matematika SQL)
         public DataTable AmbilLeaderboardTournament(int idKompetisi)
@@ -570,78 +616,90 @@ namespace ProjekPBO_PSQL.Helpers
         }
         public bool BayarDanDaftarOtomatis(Transaksi trx)
         {
-            bool isSukses = false;
-
-            // 1. Query masukkan pemain ke tabel pendaftaran (Langsung 'terdaftar' / Auto-ACC)
+            // 1. Query INSERT ke pendaftaran_kompetisi sambil mengambil ID baru yang digenerate otomatis
             string queryDaftar = @"
-                INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
-                VALUES (@id_user, @id_kompetisi, 'terdaftar');";
+        INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
+        VALUES (@id_user, @id_kompetisi, 'terdaftar')
+        RETURNING id_pendaftaran_kompetisi;";
 
-            // 2. Query masukkan log keuangan ke tabel transaksi barumu (Langsung 'Sukses')
+            // 2. Query INSERT ke transaksi menggunakan id_pendaftaran_kompetisi yang sesuai dengan database Anda
             string queryTransaksi = @"
-                INSERT INTO transaksi (id_user, id_kompetisi, id_metode_pembayaran, nominal_transaksi, status_transaksi) 
-                VALUES (@id_user, @id_kompetisi, @id_metode, @nominal, 'Sukses');";
+        INSERT INTO transaksi (id_pendaftaran_kompetisi, id_metode_pembayaran, nominal_transaksi, status_transaksi, tanggal_transaksi) 
+        VALUES (@id_pendaftaran, @id_metode, @nominal, 'Sukses', @tanggal);";
 
-            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            using (NpgsqlConnection conn = GetConnection())
             {
                 conn.Open();
-                // Menggunakan Database Transaction agar data aman (jika satu gagal, semua batal)
                 using (NpgsqlTransaction transaction = conn.BeginTransaction())
                 {
                     try
                     {
-                        // Eksekusi Pendaftaran Kompetisi
+                        int idPendaftaranBaru = 0;
+
+                        // --- PROSES 1: INSERT KE TABEL PENDAFTARAN ---
                         using (NpgsqlCommand cmdDaftar = new NpgsqlCommand(queryDaftar, conn))
                         {
                             cmdDaftar.Parameters.AddWithValue("@id_user", trx.IdUser);
                             cmdDaftar.Parameters.AddWithValue("@id_kompetisi", trx.IdKompetisi);
-                            cmdDaftar.ExecuteNonQuery();
+
+                            object result = cmdDaftar.ExecuteScalar();
+                            if (result == null)
+                            {
+                                throw new Exception("Gagal mendapatkan ID pendaftaran kompetisi.");
+                            }
+                            idPendaftaranBaru = Convert.ToInt32(result);
                         }
 
-                        // Eksekusi Log Transaksi Keuangan
+                        // --- PROSES 2: INSERT KE TABEL TRANSAKSI ---
                         using (NpgsqlCommand cmdTrx = new NpgsqlCommand(queryTransaksi, conn))
                         {
-                            cmdTrx.Parameters.AddWithValue("@id_user", trx.IdUser);
-                            cmdTrx.Parameters.AddWithValue("@id_kompetisi", trx.IdKompetisi);
+                            cmdTrx.Parameters.AddWithValue("@id_pendaftaran", idPendaftaranBaru);
                             cmdTrx.Parameters.AddWithValue("@id_metode", trx.IdMetodePembayaran);
                             cmdTrx.Parameters.AddWithValue("@nominal", trx.NominalTransaksi);
+                            cmdTrx.Parameters.AddWithValue("@tanggal", DateTime.Now);
+
                             cmdTrx.ExecuteNonQuery();
                         }
 
-                        // Commit jika semua perintah SQL di atas berhasil tanpa interupsi
+                        // Jika kedua proses berhasil tanpa interupsi, commit data secara permanen
                         transaction.Commit();
-                        isSukses = true;
+                        return true;
                     }
                     catch (Exception ex)
                     {
-                        // Batalkan transaksi jika ada eror di tengah jalan
+                        // Jika salah satu proses gagal, batalkan semuanya (rollback) agar tidak ada data menggantung
                         transaction.Rollback();
-                        throw new Exception("Gagal memproses transaksi (Model): " + ex.Message);
+                        throw new Exception($"Gagal memproses transaksi (Model): {ex.Message}", ex);
                     }
                 }
             }
-            return isSukses;
         }
         public DataTable AmbilSemuaPembayaran()
         {
             DataTable dt = new DataTable();
 
-            // Query SQL untuk mengambil data dari tabel 'transaksi' baru dan di-join agar muncul nama asli pemain & turnamennya
+            // Query yang benar: transaksi (t) digabungkan ke pendaftaran_kompetisi (pk),
+            // lalu dari pk kita join ke users (u) untuk dapat nama/username, 
+            // dan join ke kompetisi (k) untuk dapat nama turnamennya.
             string query = @"
-        SELECT
-            t.id_transaksi AS ""ID Bayar"",
-            du.nama_lengkap AS ""Nama Pemain"",
-            k.nama_kompetisi AS ""Turnamen"",
-            t.nominal_transaksi AS ""Total Bayar"",
-            t.tanggal_transaksi AS ""Tanggal Transaksi""
+        SELECT 
+            t.id_transaksi AS ""ID Transaksi"",
+            u.username AS ""Username Pemain"",
+            k.nama_kompetisi AS ""Nama Turnamen"",
+            m.nama_metode_pembayaran AS ""Metode"",
+            t.nominal_transaksi AS ""Nominal"",
+            t.status_transaksi AS ""Status"",
+            t.tanggal_transaksi AS ""Tanggal""
         FROM transaksi t
-        JOIN detail_user du ON t.id_user = du.id_user
-        JOIN kompetisi k ON t.id_kompetisi = k.id_kompetisi
-        ORDER BY t.id_transaksi ASC; "; // Mengurutkan dari ID terkecil ke terbesar
+        JOIN pendaftaran_kompetisi pk ON t.id_pendaftaran_kompetisi = pk.id_pendaftaran_kompetisi
+        JOIN users u ON pk.id_user = u.id_user
+        JOIN kompetisi k ON pk.id_kompetisi = k.id_kompetisi
+        JOIN metode_pembayaran m ON t.id_metode_pembayaran = m.id_metode_pembayaran
+        ORDER BY t.id_transaksi DESC;";
 
-            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            try
             {
-                try
+                using (NpgsqlConnection conn = GetConnection())
                 {
                     conn.Open();
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -652,11 +710,106 @@ namespace ProjekPBO_PSQL.Helpers
                         }
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengambil data transaksi: {ex.Message}", ex);
+            }
+
+            return dt;
+        }
+        public bool UpdateHasilPertandingan(int idPertandingan, string hasil)
+        {
+            double skorPutih = 0;
+            double skorHitam = 0;
+
+            // Logika pembagian poin catur swiss system
+            if (hasil == "1-0") { skorPutih = 1.0; skorHitam = 0.0; }
+            else if (hasil == "0-1") { skorPutih = 0.0; skorHitam = 1.0; }
+            else if (hasil == "1/2-1/2") { skorPutih = 0.5; skorHitam = 0.5; }
+
+            string query = @"
+        UPDATE pertandingan 
+        SET skor_putih = @skor_putih, skor_hitam = @skor_hitam, hasil = @hasil 
+        WHERE id_pertandingan = @id_pertandingan;";
+
+            try
+            {
+                using (NpgsqlConnection conn = GetConnection())
                 {
-                    throw new Exception("Gagal mengambil data transaksi: " + ex.Message);
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@skor_putih", skorPutih);
+                        cmd.Parameters.AddWithValue("@skor_hitam", skorHitam);
+                        cmd.Parameters.AddWithValue("@hasil", hasil);
+                        cmd.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengupdate skor pertandingan: {ex.Message}");
+            }
+        }
+        public bool ApakahSemuaPertandinganSelesai(int idKompetisi, int babak)
+        {
+            string query = @"
+        SELECT COUNT(*) 
+        FROM pertandingan 
+        WHERE id_kompetisi = @id_kompetisi 
+          AND babak = @babak 
+          AND (hasil IS NULL OR hasil = '' OR hasil = 'Belum Dimainkan');";
+
+            try
+            {
+                using (NpgsqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+                        cmd.Parameters.AddWithValue("@babak", babak);
+
+                        long hitungKosong = Convert.ToInt64(cmd.ExecuteScalar());
+                        return hitungKosong == 0;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public DataTable AmbilSemuaKompetisi()
+        {
+            DataTable dt = new DataTable();
+
+            // Mengambil ID dan Nama Kompetisi untuk kebutuhan binding ComboBox
+            string query = "SELECT id_kompetisi, nama_kompetisi FROM kompetisi ORDER BY id_kompetisi ASC;";
+
+            try
+            {
+                using (NpgsqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengambil daftar kompetisi: {ex.Message}", ex);
+            }
+
             return dt;
         }
     }

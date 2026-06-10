@@ -48,6 +48,7 @@
             label7 = new Label();
             TimeControl = new ComboBox();
             roundedButton2 = new RoundedButton();
+            linkLabel2 = new LinkLabel();
             SuspendLayout();
             // 
             // roundedButton1
@@ -106,7 +107,7 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(11, 60);
+            linkLabel1.Location = new Point(15, 60);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(57, 21);
             linkLabel1.TabIndex = 22;
@@ -280,6 +281,21 @@
             roundedButton2.UseVisualStyleBackColor = false;
             roundedButton2.Click += roundedButton2_Click_1;
             // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel2.LinkColor = Color.Silver;
+            linkLabel2.Location = new Point(12, 217);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(128, 42);
+            linkLabel2.TabIndex = 43;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Lihat Data\r\npertandingan";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            // 
             // MenuBuatTournament
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -287,6 +303,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 451);
+            Controls.Add(linkLabel2);
             Controls.Add(roundedButton2);
             Controls.Add(TimeControl);
             Controls.Add(label7);
@@ -335,5 +352,6 @@
         private Label label7;
         private ComboBox TimeControl;
         private RoundedButton roundedButton2;
+        private LinkLabel linkLabel2;
     }
 }

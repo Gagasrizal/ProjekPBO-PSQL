@@ -107,8 +107,8 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label5_Click(object sender, EventArgs e) { }
         private void label14_Click(object sender, EventArgs e) { }
         private void label6_Click(object sender, EventArgs e) { }
-        private void label13_Click(object sender, EventArgs e) 
-        { 
+        private void label13_Click(object sender, EventArgs e)
+        {
 
         }
         private void label7_Click(object sender, EventArgs e) { }
@@ -129,6 +129,18 @@ namespace ProjekPBO_PSQL.View.Admin
         private void Edit_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // 1. Buat instance dari form tujuan
+            MenuPertandingan formPertandingan = new MenuPertandingan();
+
+            // 2. Tampilkan form tujuan
+            formPertandingan.Show();
+
+            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
+            this.Hide();
         }
     }
 }

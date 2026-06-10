@@ -33,8 +33,6 @@
             label8 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
             MetodePembayaran = new ComboBox();
             textBox1 = new TextBox();
             label6 = new Label();
@@ -96,30 +94,6 @@
             label3.Size = new Size(246, 21);
             label3.TabIndex = 57;
             label3.Text = "Pilih Metode Pembayaran :";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(686, 69);
-            label4.Name = "label4";
-            label4.Size = new Size(37, 21);
-            label4.TabIndex = 58;
-            label4.Text = "id :";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(729, 69);
-            label5.Name = "label5";
-            label5.Size = new Size(65, 21);
-            label5.TabIndex = 59;
-            label5.Text = "74302";
             // 
             // MetodePembayaran
             // 
@@ -295,8 +269,6 @@
             Controls.Add(label6);
             Controls.Add(textBox1);
             Controls.Add(MetodePembayaran);
-            Controls.Add(label5);
-            Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);

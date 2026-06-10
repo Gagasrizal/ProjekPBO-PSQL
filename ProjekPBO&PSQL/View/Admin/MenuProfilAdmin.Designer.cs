@@ -51,6 +51,7 @@
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
             linkLabel1 = new LinkLabel();
+            linkLabel2 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -372,6 +373,21 @@
             linkLabel1.TextAlign = ContentAlignment.TopRight;
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel2.LinkColor = Color.Silver;
+            linkLabel2.Location = new Point(12, 215);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(129, 42);
+            linkLabel2.TabIndex = 140;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Lihat Data\r\nPertandingan";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            // 
             // MenuProfilAdmin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -379,6 +395,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
+            Controls.Add(linkLabel2);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel4);
@@ -434,5 +451,6 @@
         private LinkLabel linkLabel5;
         private LinkLabel linkLabel4;
         private LinkLabel linkLabel1;
+        private LinkLabel linkLabel2;
     }
 }

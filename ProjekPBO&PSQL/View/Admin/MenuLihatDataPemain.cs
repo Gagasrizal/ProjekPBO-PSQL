@@ -15,105 +15,211 @@ namespace ProjekPBO_PSQL.View.Admin
         private User? adminLogin;
         private int _idKompetisiTerpilih = 0;
 
-        // Konstruktor bawaan (JANGAN DIHAPUS/DIUBAH supaya GUI Designer tidak crash)
+        // Konstruktor bawaan — JANGAN DIHAPUS supaya GUI Designer tidak crash
         public MenuLihatDataPemain()
         {
             InitializeComponent();
         }
 
-        // Konstruktor Overload kalau kamu melempar data User Admin dari Form Login/Menu Utama
+        // Konstruktor tanpa ID kompetisi
         public MenuLihatDataPemain(User user) : this()
         {
             this.adminLogin = user;
+            this.Load += MenuLihatDataPemain_Load;
         }
 
-        // Konstruktor Overload kalau dipanggil dari Menu Lihat Tournament sambil bawa ID Kompetisi
+        // Konstruktor dengan ID kompetisi — dipanggil dari LihatDataTournament
         public MenuLihatDataPemain(User user, int idKompetisi) : this()
         {
             this.adminLogin = user;
             this._idKompetisiTerpilih = idKompetisi;
+            this.Load += MenuLihatDataPemain_Load;
         }
 
+        // =======================================================================
+        // FORM LOAD
+        // =======================================================================
         private void MenuLihatDataPemain_Load(object sender, EventArgs e)
         {
-            // Ambil data turnamen untuk dimasukkan ke comboBox1 saat form pertama kali dibuka
-            LoadTurnamenToComboBox();
+            LoadDataTournamentToComboBox();
+            dataGridView1.ScrollBars = ScrollBars.Both;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Enabled = true;
 
-            // Jika form ini dibuka karena operan/klik dari form turnamen sebelumnya
-            if (_idKompetisiTerpilih > 0)
-            {
-                comboBox1.SelectedValue = _idKompetisiTerpilih;
-                MulaiSinkronisasiBabakDanData();
-            }
+            LoadDataTournamentToComboBox();
         }
 
-        private void LoadTurnamenToComboBox()
+        // =======================================================================
+        // LOAD COMBOBOX + PRE-SELECT TOURNAMENT
+        // =======================================================================
+        private void LoadDataTournamentToComboBox()
         {
-            DBHelper db = new DBHelper();
-            DataTable dt = db.AmbilIdDanNamaTournament();
-
-            if (dt != null && dt.Rows.Count > 0)
+            try
             {
-                // Putus event sementara agar tidak memicu loop/error saat data diikat
+                DBHelper db = new DBHelper();
+                DataTable dt = db.AmbilSemuaKompetisi();
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Tidak ada data turnamen di database!", "Informasi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Matikan event dulu agar tidak trigger saat binding
                 comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
 
                 comboBox1.DataSource = dt;
                 comboBox1.DisplayMember = "nama_kompetisi";
                 comboBox1.ValueMember = "id_kompetisi";
-                comboBox1.SelectedIndex = -1; // Default awal kosong
 
+                // Pre-select tournament yang dikirim dari LihatDataTournament
+                if (_idKompetisiTerpilih > 0)
+                {
+                    comboBox1.SelectedValue = _idKompetisiTerpilih;
+                }
+
+                // Aktifkan kembali event setelah binding selesai
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
-        }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //untuk melihat data profil admin yang sedang login
-        {
-            if (adminLogin != null)
+                // Langsung tampilkan data pemain
+                TampilkanDataPendaftar();
+            }
+            catch (Exception ex)
             {
-                MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
-                profil.Show();
-                this.Hide();
+                MessageBox.Show($"Gagal memuat daftar turnamen: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //untuk melihat data turnamen yang sudah terdaftar di sistem
+        // =======================================================================
+        // TAMPILKAN DATA PEMAIN YANG MENDAFTAR
+        // =======================================================================
+        private void TampilkanDataPendaftar()
         {
-            if (adminLogin != null)
+            try
             {
-                LihatDataTournament tournament = new LihatDataTournament(adminLogin);
-                tournament.Show();
-                this.Hide();
-            }
-        }
+                if (comboBox1.SelectedValue == null) return;
+                if (!int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi)) return;
 
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //untuk melihat data pembayaran pemain yang sudah terdaftar di turnamen
-        {
-            if (adminLogin != null)
+                DBHelper db = new DBHelper();
+                DataTable dt = db.AmbilPendaftarBerdasarkanTournament(idKompetisi);
+
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = dt;
+
+                if (dt != null && dataGridView1.Columns.Count >= 5)
+                {
+                    // WAJIB: matikan AutoSizeColumns dulu sebelum set width manual
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+                    // WAJIB: aktifkan scrollbar horizontal
+                    dataGridView1.ScrollBars = ScrollBars.Both;
+
+                    // WAJIB: jangan biarkan kolom otomatis mengisi sisa ruang
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+                    dataGridView1.Columns[0].HeaderText = "ID Daftar";
+                    dataGridView1.Columns[0].Width = 70;
+                    dataGridView1.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[1].HeaderText = "Nama Lengkap";
+                    dataGridView1.Columns[1].Width = 180;
+
+                    dataGridView1.Columns[2].HeaderText = "Negara";
+                    dataGridView1.Columns[2].Width = 100;
+
+                    dataGridView1.Columns[3].HeaderText = "ELO Rating";
+                    dataGridView1.Columns[3].Width = 90;
+                    dataGridView1.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[4].HeaderText = "Status";
+                    dataGridView1.Columns[4].Width = 100;
+                    dataGridView1.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Refresh();
+                }
+            }
+            catch (Exception ex)
             {
-                LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
-                pembayaran.Show();
-                this.Hide();
+                MessageBox.Show($"Gagal menampilkan data pemain: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void roundedButton1_Click(object sender, EventArgs e) // tombol logout untuk keluar dari halaman admin dan kembali ke halaman login
+        // =======================================================================
+        // TAMPILKAN DATA PERTANDINGAN PER BABAK
+        // =======================================================================
+        private void TampilkanDataPertandingan()
         {
-            FormLogin login = new FormLogin();
-            login.Show();
-            this.Close();
+            try
+            {
+                if (comboBox1.SelectedValue == null) return;
+                if (!int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi)) return;
+
+                int babak = 1;
+                if (comboBox2.SelectedItem != null)
+                {
+                    string teksBabak = comboBox2.SelectedItem.ToString()
+                        .Replace("Babak ", "").Replace("Babak", "").Trim();
+                    int.TryParse(teksBabak, out babak);
+                }
+
+                DBHelper db = new DBHelper();
+                DataTable dt = db.AmbilPertandinganPerBabak(idKompetisi, babak);
+
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = dt;
+
+                if (dt != null && dataGridView1.Columns.Count >= 7)
+                {
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                    dataGridView1.ScrollBars = ScrollBars.Both;
+
+                    dataGridView1.Columns[0].HeaderText = "ID Match";
+                    dataGridView1.Columns[0].Width = 70;
+                    dataGridView1.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[1].HeaderText = "Babak";
+                    dataGridView1.Columns[1].Width = 60;
+                    dataGridView1.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[2].HeaderText = "Pemain Putih";
+                    dataGridView1.Columns[2].Width = 160;
+
+                    dataGridView1.Columns[3].HeaderText = "Pemain Hitam";
+                    dataGridView1.Columns[3].Width = 160;
+
+                    dataGridView1.Columns[4].HeaderText = "Skor Putih";
+                    dataGridView1.Columns[4].Width = 90;
+                    dataGridView1.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[5].HeaderText = "Skor Hitam";
+                    dataGridView1.Columns[5].Width = 90;
+                    dataGridView1.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Columns[6].HeaderText = "Hasil Akhir";
+                    dataGridView1.Columns[6].Width = 100;
+                    dataGridView1.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    dataGridView1.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error menampilkan pertandingan: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //untuk memilih turnamen yang ingin dilihat datanya
-        {
-            MulaiSinkronisasiBabakDanData();
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)//untuk memilih babak yang ingin dilihat datanya
-        {
-            // Setiap kali admin mengganti babak, perbarui isi DataGridView pertandingan
-            RefreshTabelPertandingan();
-        }
-
+        // =======================================================================
+        // SINKRONISASI DROPDOWN BABAK
+        // =======================================================================
         private void MulaiSinkronisasiBabakDanData()
         {
             if (comboBox1.SelectedValue == null || comboBox1.SelectedIndex == -1) return;
@@ -132,61 +238,61 @@ namespace ProjekPBO_PSQL.View.Admin
                 }
 
                 if (comboBox2.Items.Count > 0)
-                {
-                    comboBox2.SelectedIndex = 0; // Default otomatis ke Babak 1
-                }
+                    comboBox2.SelectedIndex = 0;
 
                 comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-                RefreshTabelPertandingan();
             }
         }
 
-        private void RefreshTabelPertandingan()
+        // =======================================================================
+        // COMBOBOX EVENTS
+        // =======================================================================
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Ganti tournament → tampilkan ulang data pemain
+            TampilkanDataPendaftar();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Ganti babak → tampilkan data pertandingan babak itu
+            TampilkanDataPertandingan();
+        }
+
+        // =======================================================================
+        // TOMBOL MATCHMAKING — Generate & acak pasangan
+        // =======================================================================
+        private void roundedButton3_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
             {
-                dataGridView1.DataSource = null;
+                MessageBox.Show("Pilih turnamen dan babak terlebih dahulu!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-            int babakAktif = comboBox2.SelectedIndex + 1;
-
-            DBHelper db = new DBHelper();
-            dataGridView1.AutoGenerateColumns = true;
-
-            // Mengambil pertandingan berdasarkan turnamen dan babak yang dipilih
-            DataTable dt = db.AmbilPertandinganPerBabak(idKompetisi, babakAktif);
-            dataGridView1.DataSource = dt;
-        }
-
-        private void roundedButton3_Click(object sender, EventArgs e) //generate sistem acak untuk menentukan siapa lawan siapa di babak selanjutnya
-        {
-            if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
-            {
-                MessageBox.Show("Pilih turnamen dan babak terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-            int babakTerpilih = comboBox2.SelectedIndex + 1;
+            string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
+            int babakTerpilih = Convert.ToInt32(babakRaw);
 
             DBHelper db = new DBHelper();
 
             if (db.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
             {
-                MessageBox.Show($"Pertandingan untuk Babak {babakTerpilih} sudah pernah di-generate!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Pertandingan Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             List<int> listPemain = db.AmbilPemainTerdaftar(idKompetisi);
             if (listPemain.Count < 2)
             {
-                MessageBox.Show("Jumlah pemain yang terdaftar tidak mencukupi untuk membuat pertandingan (Minimal 2).", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Jumlah pemain tidak mencukupi (Minimal 2 pemain).", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Algoritma Acak Lawan (Matchmaking)
+            // Fisher-Yates Shuffle
             Random rng = new Random();
             int n = listPemain.Count;
             while (n > 1)
@@ -198,71 +304,129 @@ namespace ProjekPBO_PSQL.View.Admin
                 listPemain[n] = value;
             }
 
+            // Pasangkan dua-dua
             List<Tuple<int, int>> pasanganMatch = new List<Tuple<int, int>>();
             for (int i = 0; i < listPemain.Count - 1; i += 2)
             {
                 pasanganMatch.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
             }
 
+            // Notifikasi jika pemain ganjil — ada yang tidak dapat lawan (BYE)
+            if (listPemain.Count % 2 != 0)
+            {
+                MessageBox.Show(
+                    $"Jumlah pemain ganjil ({listPemain.Count} orang).\n" +
+                    $"1 pemain akan mendapat BYE (tidak dapat lawan) dan otomatis menang di babak ini.",
+                    "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
             if (db.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasanganMatch))
             {
-                MessageBox.Show($"Berhasil mengacak pasangan pertandingan untuk Babak {babakTerpilih}!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshTabelPertandingan();
+                MessageBox.Show($"Berhasil generate pasangan pertandingan Babak {babakTerpilih}!", "Sukses",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MulaiSinkronisasiBabakDanData();
+                TampilkanDataPertandingan();
             }
         }
 
-        private void roundedButton2_Click(object sender, EventArgs e) //hasil keseluran poin dari seluruh babak pemain untuk menentukan juara
+
+        // =======================================================================
+        // TOMBOL REKAP JUARA / CEK SEMUA PERTANDINGAN SELESAI
+        // =======================================================================
+        private void roundedButton2_Click(object sender, EventArgs e)
         {
-            // Membuka ulang/memperbarui data klasemen poin terbaru di tabel
-            RefreshTabelPertandingan();
-            MessageBox.Show("Menampilkan pembaharuan total poin seluruh babak.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) //untuk menampilkan data pemain yang sudah terdaftar di turnamen berdasarkan pilihan turnamen dan babak yang dipilih
-        {
-            if (e.RowIndex < 0) return;
-
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-            if (row.Cells["ID Match"].Value == null) return;
-
-            int idPertandingan = Convert.ToInt32(row.Cells["ID Match"].Value);
-            string pemainPutih = row.Cells["Pemain Putih"].Value?.ToString() ?? "Pemain 1";
-            string pemainHitam = row.Cells["Pemain Hitam"].Value?.ToString() ?? "Pemain 2";
-
-            // Tampilkan popup input menang/kalah catur
-            Form promptSkor = new Form()
+            if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
             {
-                Width = 450,
-                Height = 180,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = "Input Hasil Match",
-                StartPosition = FormStartPosition.CenterScreen,
-                MaximizeBox = false,
-                MinimizeBox = false
-            };
+                MessageBox.Show("Pilih turnamen dan babak aktif terlebih dahulu!", "Informasi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
-            Label lbl = new Label() { Left = 20, Top = 20, Width = 400, Text = $"{pemainPutih} (PUTIH) vs {pemainHitam} (HITAM)", Font = new Font(this.Font, FontStyle.Bold) };
-            Button btnP1 = new Button() { Text = "Putih Menang", Left = 20, Width = 110, Top = 60, DialogResult = DialogResult.Yes };
-            Button btnP2 = new Button() { Text = "Hitam Menang", Left = 150, Width = 110, Top = 60, DialogResult = DialogResult.No };
-            Button btnSeri = new Button() { Text = "Remis (Seri)", Left = 280, Width = 110, Top = 60, DialogResult = DialogResult.Cancel };
-
-            promptSkor.Controls.AddRange(new Control[] { lbl, btnP1, btnP2, btnSeri });
-            DialogResult res = promptSkor.ShowDialog();
-
-            decimal skorPutih = 0.0m, skorHitam = 0.0m;
-            string hasilStr = "";
-
-            if (res == DialogResult.Yes) { skorPutih = 1.0m; hasilStr = "Putih Menang"; }
-            else if (res == DialogResult.No) { skorHitam = 1.0m; hasilStr = "Hitam Menang"; }
-            else if (res == DialogResult.Cancel) { skorPutih = 0.5m; skorHitam = 0.5m; hasilStr = "Remis"; }
-            else return;
+            int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
+            string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
+            int babakAktif = Convert.ToInt32(babakRaw);
 
             DBHelper db = new DBHelper();
-            if (db.UpdateSkorPertandingan(idPertandingan, skorPutih, skorHitam, hasilStr))
+            bool isSelesaiSemua = db.ApakahSemuaPertandinganSelesai(idKompetisi, babakAktif);
+
+            if (isSelesaiSemua)
             {
-                MessageBox.Show($"Hasil tercatat: {hasilStr}", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshTabelPertandingan();
+                MessageBox.Show(
+                    "Validasi sukses! Seluruh pertandingan di babak ini telah diisi.\nMengalihkan ke Halaman Leaderboard.",
+                    "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Buka Leaderboard
+                // MenuLeaderboard leaderboard = new MenuLeaderboard(adminLogin, idKompetisi);
+                // leaderboard.Show();
+                // this.Hide();
             }
+            else
+            {
+                MessageBox.Show(
+                    $"Akses ditolak! Masih ada pertandingan di Babak {babakAktif} yang belum diisi hasilnya.",
+                    "Gagal Rekap Juara", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        // =======================================================================
+        // SIDEBAR NAVIGATION
+        // =======================================================================
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (adminLogin != null)
+            {
+                MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
+                profil.Show();
+                this.Hide();
+            }
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (adminLogin != null)
+            {
+                LihatDataTournament tournament = new LihatDataTournament(adminLogin);
+                tournament.Show();
+                this.Hide();
+            }
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (adminLogin != null)
+            {
+                LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
+                pembayaran.Show();
+                this.Hide();
+            }
+        }
+
+        private void roundedButton1_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Apakah kamu yakin ingin keluar dari halaman Admin Hyper Chess?",
+                "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                FormLogin login = new FormLogin();
+                login.Show();
+                this.Close();
+            }
+        }
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e) { }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // 1. Buat instance dari form tujuan
+            MenuPertandingan formPertandingan = new MenuPertandingan();
+
+            // 2. Tampilkan form tujuan
+            formPertandingan.Show();
+
+            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
+            this.Hide();
         }
     }
 }

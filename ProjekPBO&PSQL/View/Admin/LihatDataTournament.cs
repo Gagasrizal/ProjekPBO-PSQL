@@ -34,6 +34,7 @@ namespace ProjekPBO_PSQL.View.Admin
             TampilkanDataTournament();
             LoadTurnamenToComboBox();
         }
+        private int idKompetisiTerpilih = 0;
 
         private void TampilkanDataTournament()
         {
@@ -106,12 +107,8 @@ namespace ProjekPBO_PSQL.View.Admin
             if (comboBox1.SelectedIndex == -1 || comboBox1.SelectedValue == null)
                 return;
 
-            if (int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisiTerpilih))
-            {
-                MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin, idKompetisiTerpilih);
-                lihatPemain.Show();
-                this.Hide();
-            }
+            // Hanya simpan ID-nya saja, JANGAN langsung buka form baru di sini
+            int.TryParse(comboBox1.SelectedValue.ToString(), out idKompetisiTerpilih);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -204,6 +201,45 @@ namespace ProjekPBO_PSQL.View.Admin
             {
                 MessageBox.Show($"Gagal mengambil data turnamen dari tabel: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void roundedButton3_Click_1(object sender, EventArgs e)
+        {
+            // 1. Validasi: Pastikan admin sudah memilih salah satu baris di tabel DataGridView
+            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Silakan klik salah satu baris turnamen pada tabel terlebih dahulu untuk melihat data pemain!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // 2. Ambil baris data yang sedang aktif/diklik oleh admin
+                DataGridViewRow row = dataGridView1.CurrentRow;
+
+                // 3. Ambil ID Kompetisi langsung dari Kolom 0 di DataGridView (Sangat akurat & anti-kosong)
+                int idKompetisiDariTabel = Convert.ToInt32(row.Cells[0].Value);
+
+                // 4. Buka MenuLihatDataPemain dengan membawa ID Kompetisi yang sah dari tabel
+                MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin, idKompetisiDariTabel);
+                lihatPemain.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal memindahkan data turnamen: {ex.Message}", "Error Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuPertandingan formPertandingan = new MenuPertandingan();
+
+            // 2. Tampilkan form tujuan
+            formPertandingan.Show();
+
+            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
+            this.Hide();
         }
     }
 }

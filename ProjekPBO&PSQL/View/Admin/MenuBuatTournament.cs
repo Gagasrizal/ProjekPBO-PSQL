@@ -171,5 +171,16 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         private void roundedButton1_Click(object sender, EventArgs e) { }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuPertandingan formPertandingan = new MenuPertandingan();
+
+            // 2. Tampilkan form tujuan
+            formPertandingan.Show();
+
+            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
+            this.Hide();
+        }
     }
 }

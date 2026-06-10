@@ -36,7 +36,6 @@
             roundedpanel2 = new roundedpanel();
             linkLabel6 = new LinkLabel();
             linkLabel5 = new LinkLabel();
-            linkLabel4 = new LinkLabel();
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             roundedpanel1.SuspendLayout();
@@ -145,21 +144,6 @@
             linkLabel5.Text = "History \r\nPertandingan";
             linkLabel5.LinkClicked += linkLabel5_LinkClicked_1;
             // 
-            // linkLabel4
-            // 
-            linkLabel4.AutoSize = true;
-            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 169);
-            linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(118, 21);
-            linkLabel4.TabIndex = 117;
-            linkLabel4.TabStop = true;
-            linkLabel4.Text = "Cari Pemain";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked_1;
-            // 
             // linkLabel2
             // 
             linkLabel2.AutoSize = true;
@@ -200,7 +184,6 @@
             ClientSize = new Size(800, 450);
             Controls.Add(linkLabel6);
             Controls.Add(linkLabel5);
-            Controls.Add(linkLabel4);
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Controls.Add(roundedpanel2);
@@ -223,7 +206,6 @@
         private TextBox textBox1;
         private LinkLabel linkLabel6;
         private LinkLabel linkLabel5;
-        private LinkLabel linkLabel4;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
     }
