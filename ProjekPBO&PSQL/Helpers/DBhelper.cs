@@ -424,7 +424,7 @@ namespace ProjekPBO_PSQL.Helpers
             }
             return dt;
         }
-        public DataTable AmbilPertandinganDenganTotalPoin(int idKompetisi, int babak)
+        public DataTable AmbilPertandinganDenganTotalPoin(int idKompetisi, int babak) //group by, subquery, teori himpunan
         {
             DataTable dt = new DataTable();
 
@@ -493,9 +493,7 @@ ORDER BY p.id_pertandingan ASC;";
             return dt;
         }
 
-
-        // FUNGSI 3: Menghitung LEADERBOARD secara otomatis (Real-time matematika SQL)
-        public DataTable AmbilLeaderboardTournament(int idKompetisi)
+        public DataTable AmbilLeaderboardTournament(int idKompetisi) //groupby
         {
             DataTable dt = new DataTable();
             using var conn = GetConnection();
@@ -723,32 +721,38 @@ ORDER BY p.id_pertandingan ASC;";
             double skorPutih = 0;
             double skorHitam = 0;
 
-            // Logika pembagian poin catur swiss system
             if (hasil == "1-0") { skorPutih = 1.0; skorHitam = 0.0; }
             else if (hasil == "0-1") { skorPutih = 0.0; skorHitam = 1.0; }
             else if (hasil == "1/2-1/2") { skorPutih = 0.5; skorHitam = 0.5; }
 
             string query = @"
         UPDATE pertandingan 
-        SET skor_putih = @skor_putih, skor_hitam = @skor_hitam, hasil = @hasil 
-        WHERE id_pertandingan = @id_pertandingan;";
+        SET skor_putih = @skor_putih, 
+            skor_hitam = @skor_hitam, 
+            hasil      = @hasil 
+        WHERE id_pertandingan = @id_pertandingan";
 
             try
             {
-                using (NpgsqlConnection conn = GetConnection())
-                {
-                    conn.Open();
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@skor_putih", skorPutih);
-                        cmd.Parameters.AddWithValue("@skor_hitam", skorHitam);
-                        cmd.Parameters.AddWithValue("@hasil", hasil);
-                        cmd.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
+                using var conn = GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@skor_putih", skorPutih);
+                cmd.Parameters.AddWithValue("@skor_hitam", skorHitam);
+                cmd.Parameters.AddWithValue("@hasil", hasil);
+                cmd.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0;
-                    }
-                }
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                // ============================================================
+                // PENERAPAN TRIGGER:
+                // Setelah UPDATE di atas dieksekusi, PostgreSQL otomatis
+                // menjalankan TRIGGER trg_update_elo yang mengupdate
+                // elo_rating di tabel detail_user untuk kedua pemain.
+                // Tidak perlu kode tambahan — trigger jalan di sisi database.
+                // ============================================================
+
+                return rowsAffected > 0;
             }
             catch (Exception ex)
             {
@@ -784,6 +788,38 @@ ORDER BY p.id_pertandingan ASC;";
                 return false;
             }
         }
+
+        public (string NamaPutih, int EloPutih, string NamaHitam, int EloHitam) AmbilEloSetelahUpdate(int idPertandingan)
+        {
+            string query = @"
+        SELECT 
+            dp.nama_lengkap AS nama_putih, 
+            dp.elo_rating   AS elo_putih,
+            dh.nama_lengkap AS nama_hitam, 
+            dh.elo_rating   AS elo_hitam
+        FROM pertandingan p
+        JOIN detail_user dp ON p.pemain_putih = dp.id_user
+        JOIN detail_user dh ON p.pemain_hitam = dh.id_user
+        WHERE p.id_pertandingan = @id";
+
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", idPertandingan);
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+            return (
+                    reader["nama_putih"].ToString(),
+                    Convert.ToInt32(reader["elo_putih"]),
+                    reader["nama_hitam"].ToString(),
+                    Convert.ToInt32(reader["elo_hitam"])
+                );
+            }
+
+            return ("?", 0, "?", 0);
+        }
         public DataTable AmbilSemuaKompetisi()
         {
             DataTable dt = new DataTable();
@@ -810,6 +846,58 @@ ORDER BY p.id_pertandingan ASC;";
                 throw new Exception($"Gagal mengambil daftar kompetisi: {ex.Message}", ex);
             }
 
+            return dt;
+        }
+        public DataTable AmbilHistoryPertandingan(int idUser)
+        {
+            DataTable dt = new DataTable();
+            string query = @"
+        SELECT
+            k.nama_kompetisi                AS ""Tournament"",
+            p.babak                         AS ""Babak"",
+            -- Subquery: ambil nama lawan
+            CASE 
+                WHEN p.pemain_putih = @id_user 
+                    THEN COALESCE(lawan.nama_lengkap, 'Unknown')
+                ELSE 
+                    COALESCE(lawan2.nama_lengkap, 'Unknown')
+            END                             AS ""Lawan"",
+            -- Warna bidak pemain
+            CASE 
+                WHEN p.pemain_putih = @id_user THEN 'Putih'
+                ELSE 'Hitam'
+            END                             AS ""Warna"",
+            -- Hasil dari sudut pandang pemain ini
+            CASE
+                WHEN p.hasil = 'Belum Dimainkan' THEN 'Belum Dimainkan'
+                WHEN p.pemain_putih = @id_user AND p.hasil = '1-0' THEN 'Menang'
+                WHEN p.pemain_putih = @id_user AND p.hasil = '0-1' THEN 'Kalah'
+                WHEN p.pemain_hitam = @id_user AND p.hasil = '0-1' THEN 'Menang'
+                WHEN p.pemain_hitam = @id_user AND p.hasil = '1-0' THEN 'Kalah'
+                WHEN p.hasil = '1/2-1/2'                           THEN 'Remis'
+                ELSE p.hasil
+            END                             AS ""Hasil""
+        FROM pertandingan p
+        JOIN kompetisi k ON p.id_kompetisi = k.id_kompetisi
+        -- Join untuk dapat nama lawan (kalau pemain = putih, lawan = hitam)
+        LEFT JOIN detail_user lawan  ON p.pemain_hitam = lawan.id_user
+        LEFT JOIN detail_user lawan2 ON p.pemain_putih = lawan2.id_user
+        WHERE p.pemain_putih = @id_user OR p.pemain_hitam = @id_user
+        ORDER BY k.nama_kompetisi, p.babak ASC;";
+
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id_user", idUser);
+                using var adapter = new NpgsqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengambil history pertandingan: {ex.Message}");
+            }
             return dt;
         }
     }

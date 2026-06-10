@@ -33,7 +33,6 @@
             roundedButton1 = new RoundedButton();
             linkLabel6 = new LinkLabel();
             linkLabel5 = new LinkLabel();
-            linkLabel4 = new LinkLabel();
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             roundedButton2 = new RoundedButton();
@@ -76,7 +75,7 @@
             linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel6.LinkColor = Color.Silver;
-            linkLabel6.Location = new Point(13, 279);
+            linkLabel6.Location = new Point(13, 224);
             linkLabel6.Name = "linkLabel6";
             linkLabel6.Size = new Size(99, 42);
             linkLabel6.TabIndex = 119;
@@ -91,28 +90,13 @@
             linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(9, 209);
+            linkLabel5.Location = new Point(9, 154);
             linkLabel5.Name = "linkLabel5";
             linkLabel5.Size = new Size(129, 42);
             linkLabel5.TabIndex = 118;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "History \r\nPertandingan";
             linkLabel5.LinkClicked += linkLabel5_LinkClicked_1;
-            // 
-            // linkLabel4
-            // 
-            linkLabel4.AutoSize = true;
-            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 169);
-            linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(118, 21);
-            linkLabel4.TabIndex = 117;
-            linkLabel4.TabStop = true;
-            linkLabel4.Text = "Cari Pemain";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked_1;
             // 
             // linkLabel2
             // 
@@ -176,7 +160,6 @@
             Controls.Add(roundedButton2);
             Controls.Add(linkLabel6);
             Controls.Add(linkLabel5);
-            Controls.Add(linkLabel4);
             Controls.Add(linkLabel2);
             Controls.Add(linkLabel1);
             Controls.Add(dataGridView1);
@@ -196,7 +179,6 @@
         private RoundedButton roundedButton1;
         private LinkLabel linkLabel6;
         private LinkLabel linkLabel5;
-        private LinkLabel linkLabel4;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
         private RoundedButton roundedButton2;

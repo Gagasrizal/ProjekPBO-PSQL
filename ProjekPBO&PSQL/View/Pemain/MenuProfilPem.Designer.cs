@@ -50,7 +50,6 @@
             label1 = new Label();
             linkLabel1 = new LinkLabel();
             linkLabel2 = new LinkLabel();
-            linkLabel3 = new LinkLabel();
             linkLabel4 = new LinkLabel();
             linkLabel5 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).BeginInit();
@@ -336,7 +335,7 @@
             linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(13, 280);
+            linkLabel1.Location = new Point(15, 233);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(99, 42);
             linkLabel1.TabIndex = 139;
@@ -351,28 +350,13 @@
             linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(9, 210);
+            linkLabel2.Location = new Point(11, 163);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(129, 42);
             linkLabel2.TabIndex = 138;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "History \r\nPertandingan";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked_1;
-            // 
-            // linkLabel3
-            // 
-            linkLabel3.AutoSize = true;
-            linkLabel3.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel3.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel3.LinkColor = Color.Silver;
-            linkLabel3.Location = new Point(11, 170);
-            linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(118, 21);
-            linkLabel3.TabIndex = 137;
-            linkLabel3.TabStop = true;
-            linkLabel3.Text = "Cari Pemain";
-            linkLabel3.LinkClicked += linkLabel3_LinkClicked_1;
             // 
             // linkLabel4
             // 
@@ -415,7 +399,6 @@
             ClientSize = new Size(800, 450);
             Controls.Add(linkLabel1);
             Controls.Add(linkLabel2);
-            Controls.Add(linkLabel3);
             Controls.Add(linkLabel4);
             Controls.Add(linkLabel5);
             Controls.Add(label1);
@@ -471,7 +454,6 @@
         private Label label1;
         private LinkLabel linkLabel1;
         private LinkLabel linkLabel2;
-        private LinkLabel linkLabel3;
         private LinkLabel linkLabel4;
         private LinkLabel linkLabel5;
     }

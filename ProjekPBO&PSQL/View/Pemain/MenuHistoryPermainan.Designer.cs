@@ -33,7 +33,6 @@
             dataGridView1 = new DataGridView();
             linkLabel7 = new LinkLabel();
             linkLabel8 = new LinkLabel();
-            linkLabel9 = new LinkLabel();
             linkLabel10 = new LinkLabel();
             linkLabel11 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -75,7 +74,7 @@
             linkLabel7.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel7.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel7.LinkColor = Color.Silver;
-            linkLabel7.Location = new Point(13, 280);
+            linkLabel7.Location = new Point(13, 223);
             linkLabel7.Name = "linkLabel7";
             linkLabel7.Size = new Size(99, 42);
             linkLabel7.TabIndex = 129;
@@ -90,28 +89,13 @@
             linkLabel8.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel8.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel8.LinkColor = Color.Silver;
-            linkLabel8.Location = new Point(11, 214);
+            linkLabel8.Location = new Point(11, 157);
             linkLabel8.Name = "linkLabel8";
             linkLabel8.Size = new Size(129, 42);
             linkLabel8.TabIndex = 128;
             linkLabel8.TabStop = true;
             linkLabel8.Text = "History \r\nPertandingan";
             linkLabel8.LinkClicked += linkLabel8_LinkClicked;
-            // 
-            // linkLabel9
-            // 
-            linkLabel9.AutoSize = true;
-            linkLabel9.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel9.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel9.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel9.LinkColor = Color.Silver;
-            linkLabel9.Location = new Point(11, 170);
-            linkLabel9.Name = "linkLabel9";
-            linkLabel9.Size = new Size(118, 21);
-            linkLabel9.TabIndex = 127;
-            linkLabel9.TabStop = true;
-            linkLabel9.Text = "Cari Pemain";
-            linkLabel9.LinkClicked += linkLabel9_LinkClicked;
             // 
             // linkLabel10
             // 
@@ -153,7 +137,6 @@
             ClientSize = new Size(800, 450);
             Controls.Add(linkLabel7);
             Controls.Add(linkLabel8);
-            Controls.Add(linkLabel9);
             Controls.Add(linkLabel10);
             Controls.Add(linkLabel11);
             Controls.Add(dataGridView1);
@@ -172,7 +155,6 @@
         private DataGridView dataGridView1;
         private LinkLabel linkLabel7;
         private LinkLabel linkLabel8;
-        private LinkLabel linkLabel9;
         private LinkLabel linkLabel10;
         private LinkLabel linkLabel11;
     }

@@ -319,7 +319,7 @@ namespace ProjekPBO_PSQL.View.Admin
             }
             catch { }
         }
-        private void TampilkanLeaderboard(int idKompetisi)
+        private void TampilkanLeaderboard(int idKompetisi) //group by
         {
             try
             {
@@ -404,9 +404,15 @@ namespace ProjekPBO_PSQL.View.Admin
                 DBHelper db = new DBHelper();
                 if (db.UpdateHasilPertandingan(idPertandingan, hasil))
                 {
-                    MessageBox.Show($"Hasil berhasil disimpan: {hasil}", "Sukses",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    comboBox3.SelectedIndex = -1;
+                    var eloInfo = db.AmbilEloSetelahUpdate(idPertandingan);
+
+                    MessageBox.Show(
+                        $"Hasil berhasil disimpan: {hasil}\n\n" +
+                        $"ELO terupdate (via Trigger):\n" +
+                        $"• {eloInfo.NamaPutih}: {eloInfo.EloPutih}\n" +
+                        $"• {eloInfo.NamaHitam}: {eloInfo.EloHitam}",
+                        "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     TampilkanDataPertandingan();
 
                     // =====================================================
@@ -465,47 +471,31 @@ namespace ProjekPBO_PSQL.View.Admin
         // =======================================================================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (adminLogin != null)
-            {
                 MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
                 profil.Show();
                 this.Hide();
-            }
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (adminLogin != null)
-            {
                 MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(adminLogin);
                 lihatPemain.Show();
                 this.Hide();
-            }
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // Sudah berada di halaman Pertandingan, tidak perlu navigasi
-        }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (adminLogin != null)
-            {
                 LihatDataTournament tournament = new LihatDataTournament(adminLogin);
                 tournament.Show();
                 this.Hide();
-            }
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (adminLogin != null)
-            {
                 LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
                 pembayaran.Show();
                 this.Hide();
-            }
         }
 
         // =======================================================================

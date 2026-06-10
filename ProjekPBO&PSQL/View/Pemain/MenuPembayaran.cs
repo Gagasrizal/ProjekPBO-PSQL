@@ -101,12 +101,6 @@ namespace ProjekPBO_PSQL.View.Pemain
             this.Close(); // Hancurkan form pembayaran saat ini
         }
 
-        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Close(); // Hancurkan form pembayaran saat ini
-        }
 
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

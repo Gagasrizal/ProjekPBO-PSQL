@@ -56,13 +56,6 @@ namespace ProjekPBO_PSQL.View.Pemain
         }
 
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Cari Pemain
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Close();
-        }
-
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)// History Pertandingan
         {
             MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
@@ -130,13 +123,6 @@ namespace ProjekPBO_PSQL.View.Pemain
         {
             MenuTournament daftarForm = new MenuTournament(this.userLogin);
             daftarForm.Show();
-            this.Close(); // Hancurkan form lama dari memori
-        }
-
-        private void linkLabel3_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
             this.Close(); // Hancurkan form lama dari memori
         }
 

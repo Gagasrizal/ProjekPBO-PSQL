@@ -57,13 +57,6 @@ namespace ProjekPBO_PSQL
             this.Close(); // Hancurkan form saat ini agar memori bersih
         }
 
-        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuCariPemain formCari = new MenuCariPemain(this.userLogin);
-            formCari.Show();
-            this.Close(); // Hancurkan form saat ini agar memori bersih
-        }
-
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuHistoryPermainan formHistory = new MenuHistoryPermainan(this.userLogin);

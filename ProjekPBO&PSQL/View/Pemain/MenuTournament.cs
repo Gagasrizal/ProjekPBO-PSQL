@@ -27,7 +27,6 @@ namespace ProjekPBO_PSQL
             this.Load += new System.EventHandler(this.MenuTournament_Load);
             linkLabel1.LinkClicked += linkLabel1_LinkClicked_1; // Profil
             linkLabel2.LinkClicked += linkLabel2_LinkClicked_1; // List Tournament
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked_1; // Cari Pemain
             linkLabel5.LinkClicked += linkLabel5_LinkClicked_1; // History Permainan
             linkLabel6.LinkClicked += linkLabel6_LinkClicked_1; // Baca Peraturan
         }
@@ -122,13 +121,6 @@ namespace ProjekPBO_PSQL
         private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show("Kamu sudah berada di halaman List Tournament.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void linkLabel4_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuCariPemain cariForm = new MenuCariPemain(this.userLogin);
-            cariForm.Show();
-            this.Close();
         }
 
         private void linkLabel5_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
