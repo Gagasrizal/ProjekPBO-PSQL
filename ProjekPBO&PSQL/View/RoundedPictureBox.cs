@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace ProjekPBO_PSQL
+namespace ProjekPBO_PSQL.View
 {
     public class RoundedPictureBox : PictureBox
     {

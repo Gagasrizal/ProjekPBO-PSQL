@@ -51,7 +51,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial Rounded MT Bold", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(360, 110);
+            label1.Location = new Point(786, 195);
             label1.Name = "label1";
             label1.Size = new Size(218, 39);
             label1.TabIndex = 55;
@@ -61,11 +61,11 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Arial Rounded MT Bold", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(411, 429);
+            label8.Location = new Point(707, 819);
             label8.Name = "label8";
-            label8.Size = new Size(148, 21);
+            label8.Size = new Size(226, 32);
             label8.TabIndex = 64;
             label8.Text = "20 januari 2026";
             label8.Click += label8_Click;
@@ -74,11 +74,11 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Arial Rounded MT Bold", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(439, 167);
+            label2.Location = new Point(850, 244);
             label2.Name = "label2";
-            label2.Size = new Size(61, 21);
+            label2.Size = new Size(95, 32);
             label2.TabIndex = 56;
             label2.Text = "Rapid";
             // 
@@ -86,29 +86,31 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Arial Rounded MT Bold", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(254, 209);
+            label3.Location = new Point(656, 332);
             label3.Name = "label3";
-            label3.Size = new Size(246, 21);
+            label3.Size = new Size(308, 27);
             label3.TabIndex = 57;
             label3.Text = "Pilih Metode Pembayaran :";
             // 
             // MetodePembayaran
             // 
+            MetodePembayaran.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MetodePembayaran.FormattingEnabled = true;
             MetodePembayaran.Items.AddRange(new object[] { "Bank BCA", "", "Bank Mandiri", "Bank BNI", "Bank BRI", "Bank Syariah Indonesia" });
-            MetodePembayaran.Location = new Point(254, 233);
+            MetodePembayaran.Location = new Point(656, 362);
             MetodePembayaran.Name = "MetodePembayaran";
-            MetodePembayaran.Size = new Size(384, 28);
+            MetodePembayaran.Size = new Size(491, 36);
             MetodePembayaran.TabIndex = 60;
             MetodePembayaran.SelectedIndexChanged += MetodePembayaran_SelectedIndexChanged;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(254, 300);
+            textBox1.Font = new Font("Arial Rounded MT Bold", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(656, 431);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(384, 27);
+            textBox1.Size = new Size(491, 34);
             textBox1.TabIndex = 61;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -116,11 +118,11 @@
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Arial Rounded MT Bold", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(254, 276);
+            label6.Location = new Point(656, 401);
             label6.Name = "label6";
-            label6.Size = new Size(188, 21);
+            label6.Size = new Size(235, 27);
             label6.TabIndex = 62;
             label6.Text = "Masukkan Nominal :";
             // 
@@ -128,11 +130,11 @@
             // 
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Arial Rounded MT Bold", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(159, 410);
+            label7.Location = new Point(293, 787);
             label7.Name = "label7";
-            label7.Size = new Size(341, 40);
+            label7.Size = new Size(570, 64);
             label7.TabIndex = 63;
             label7.Text = "Pendaftaran di tutup Sebelum Kompetisi\r\nDilaksanakan. Pada Tanggal :";
             // 
@@ -140,12 +142,12 @@
             // 
             linkLabel7.AutoSize = true;
             linkLabel7.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel7.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel7.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel7.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel7.LinkColor = Color.Silver;
-            linkLabel7.Location = new Point(13, 225);
+            linkLabel7.Location = new Point(11, 380);
             linkLabel7.Name = "linkLabel7";
-            linkLabel7.Size = new Size(99, 42);
+            linkLabel7.Size = new Size(162, 68);
             linkLabel7.TabIndex = 134;
             linkLabel7.TabStop = true;
             linkLabel7.Text = "Baca\r\nPeraturan";
@@ -155,12 +157,12 @@
             // 
             linkLabel8.AutoSize = true;
             linkLabel8.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel8.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel8.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel8.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel8.LinkColor = Color.Silver;
-            linkLabel8.Location = new Point(9, 155);
+            linkLabel8.Location = new Point(11, 280);
             linkLabel8.Name = "linkLabel8";
-            linkLabel8.Size = new Size(129, 42);
+            linkLabel8.Size = new Size(213, 68);
             linkLabel8.TabIndex = 133;
             linkLabel8.TabStop = true;
             linkLabel8.Text = "History \r\nPertandingan";
@@ -170,12 +172,12 @@
             // 
             linkLabel10.AutoSize = true;
             linkLabel10.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel10.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel10.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel10.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel10.LinkColor = Color.Silver;
-            linkLabel10.Location = new Point(11, 99);
+            linkLabel10.Location = new Point(11, 180);
             linkLabel10.Name = "linkLabel10";
-            linkLabel10.Size = new Size(117, 42);
+            linkLabel10.Size = new Size(193, 68);
             linkLabel10.TabIndex = 131;
             linkLabel10.TabStop = true;
             linkLabel10.Text = "List\r\nTournament";
@@ -185,12 +187,12 @@
             // 
             linkLabel11.AutoSize = true;
             linkLabel11.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel11.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel11.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel11.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel11.LinkColor = Color.Silver;
-            linkLabel11.Location = new Point(11, 59);
+            linkLabel11.Location = new Point(11, 120);
             linkLabel11.Name = "linkLabel11";
-            linkLabel11.Size = new Size(57, 21);
+            linkLabel11.Size = new Size(92, 34);
             linkLabel11.TabIndex = 130;
             linkLabel11.TabStop = true;
             linkLabel11.Text = "Profil";
@@ -202,14 +204,14 @@
             roundedButton1.BackColor = Color.FromArgb(217, 217, 217);
             roundedButton1.BackgroundColor = Color.FromArgb(217, 217, 217);
             roundedButton1.BorderColor = Color.PaleVioletRed;
-            roundedButton1.BorderRadius = 5;
+            roundedButton1.BorderRadius = 0;
             roundedButton1.FlatAppearance.BorderSize = 0;
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(13, 400);
+            roundedButton1.Location = new Point(9, 803);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(125, 35);
+            roundedButton1.Size = new Size(260, 48);
             roundedButton1.TabIndex = 135;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
@@ -224,10 +226,11 @@
             Edit.BorderRadius = 8;
             Edit.FlatAppearance.BorderSize = 0;
             Edit.FlatStyle = FlatStyle.Flat;
+            Edit.Font = new Font("Arial Rounded MT Bold", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Edit.ForeColor = Color.White;
-            Edit.Location = new Point(668, 399);
+            Edit.Location = new Point(1322, 803);
             Edit.Name = "Edit";
-            Edit.Size = new Size(102, 36);
+            Edit.Size = new Size(260, 48);
             Edit.TabIndex = 199;
             Edit.Text = "Bayar";
             Edit.TextColor = Color.White;
@@ -240,7 +243,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1594, 860);
             Controls.Add(Edit);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel7);

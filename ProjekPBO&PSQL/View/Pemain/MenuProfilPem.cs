@@ -139,5 +139,10 @@ namespace ProjekPBO_PSQL.View.Pemain
             peraturanForm.Show();
             this.Close(); // Hancurkan form lama dari memori
         }
+
+        private void roundedPictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

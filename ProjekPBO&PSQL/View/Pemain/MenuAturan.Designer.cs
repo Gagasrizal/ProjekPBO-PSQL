@@ -47,9 +47,9 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(11, 403);
+            roundedButton1.Location = new Point(11, 800);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(125, 35);
+            roundedButton1.Size = new Size(260, 48);
             roundedButton1.TabIndex = 30;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
@@ -59,12 +59,12 @@
             // linkLabel7
             // 
             linkLabel7.BackColor = Color.Transparent;
-            linkLabel7.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel7.Font = new Font("Arial Rounded MT Bold", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel7.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel7.LinkColor = Color.White;
-            linkLabel7.Location = new Point(155, 80);
+            linkLabel7.Location = new Point(279, 104);
             linkLabel7.Name = "linkLabel7";
-            linkLabel7.Size = new Size(643, 377);
+            linkLabel7.Size = new Size(1303, 757);
             linkLabel7.TabIndex = 32;
             linkLabel7.TabStop = true;
             linkLabel7.Text = resources.GetString("linkLabel7.Text");
@@ -74,12 +74,12 @@
             // 
             linkLabel6.AutoSize = true;
             linkLabel6.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel6.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel6.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel6.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel6.LinkColor = Color.Silver;
-            linkLabel6.Location = new Point(15, 225);
+            linkLabel6.Location = new Point(11, 380);
             linkLabel6.Name = "linkLabel6";
-            linkLabel6.Size = new Size(99, 42);
+            linkLabel6.Size = new Size(162, 68);
             linkLabel6.TabIndex = 119;
             linkLabel6.TabStop = true;
             linkLabel6.Text = "Baca\r\nPeraturan";
@@ -89,12 +89,12 @@
             // 
             linkLabel5.AutoSize = true;
             linkLabel5.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel5.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(11, 155);
+            linkLabel5.Location = new Point(11, 280);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(129, 42);
+            linkLabel5.Size = new Size(213, 68);
             linkLabel5.TabIndex = 118;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "History \r\nPertandingan";
@@ -104,12 +104,12 @@
             // 
             linkLabel2.AutoSize = true;
             linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(11, 99);
+            linkLabel2.Location = new Point(11, 180);
             linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(117, 42);
+            linkLabel2.Size = new Size(193, 68);
             linkLabel2.TabIndex = 116;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "List\r\nTournament";
@@ -119,12 +119,12 @@
             // 
             linkLabel1.AutoSize = true;
             linkLabel1.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel1.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(11, 59);
+            linkLabel1.Location = new Point(11, 120);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(57, 21);
+            linkLabel1.Size = new Size(92, 34);
             linkLabel1.TabIndex = 115;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
@@ -137,7 +137,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1594, 860);
             Controls.Add(linkLabel6);
             Controls.Add(linkLabel5);
             Controls.Add(linkLabel2);

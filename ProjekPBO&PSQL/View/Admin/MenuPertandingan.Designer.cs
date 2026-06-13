@@ -48,12 +48,12 @@
             // 
             linkLabel5.AutoSize = true;
             linkLabel5.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel5.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel5.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel5.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel5.LinkColor = Color.Silver;
-            linkLabel5.Location = new Point(9, 160);
+            linkLabel5.Location = new Point(11, 280);
             linkLabel5.Name = "linkLabel5";
-            linkLabel5.Size = new Size(122, 42);
+            linkLabel5.Size = new Size(200, 68);
             linkLabel5.TabIndex = 38;
             linkLabel5.TabStop = true;
             linkLabel5.Text = "Lihat Data\r\nPembayaran";
@@ -63,12 +63,12 @@
             // 
             linkLabel4.AutoSize = true;
             linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel4.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel4.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(9, 100);
+            linkLabel4.Location = new Point(11, 180);
             linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(117, 42);
+            linkLabel4.Size = new Size(193, 68);
             linkLabel4.TabIndex = 37;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
@@ -78,12 +78,12 @@
             // 
             linkLabel1.AutoSize = true;
             linkLabel1.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel1.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel1.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel1.LinkColor = Color.Silver;
-            linkLabel1.Location = new Point(12, 55);
+            linkLabel1.Location = new Point(11, 120);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(57, 21);
+            linkLabel1.Size = new Size(92, 34);
             linkLabel1.TabIndex = 36;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
@@ -100,9 +100,9 @@
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton1.ForeColor = Color.Black;
-            roundedButton1.Location = new Point(9, 400);
+            roundedButton1.Location = new Point(9, 800);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(125, 35);
+            roundedButton1.Size = new Size(260, 48);
             roundedButton1.TabIndex = 39;
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
@@ -112,32 +112,32 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(169, 100);
+            dataGridView1.Location = new Point(296, 137);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(619, 298);
+            dataGridView1.Size = new Size(1286, 658);
             dataGridView1.TabIndex = 40;
             // 
             // comboBox3
             // 
-            comboBox3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox3.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox3.ForeColor = Color.DimGray;
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(169, 410);
+            comboBox3.Location = new Point(296, 800);
             comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(210, 28);
+            comboBox3.Size = new Size(260, 42);
             comboBox3.TabIndex = 43;
             comboBox3.Text = "Input Point";
             // 
             // comboBox2
             // 
-            comboBox2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox2.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox2.ForeColor = Color.DimGray;
             comboBox2.FormattingEnabled = true;
             comboBox2.Items.AddRange(new object[] { "" });
-            comboBox2.Location = new Point(395, 410);
+            comboBox2.Location = new Point(562, 799);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(210, 28);
+            comboBox2.Size = new Size(320, 42);
             comboBox2.TabIndex = 44;
             comboBox2.Text = "Pilih Babak";
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
@@ -154,9 +154,9 @@
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.Silver;
-            roundedButton2.Location = new Point(688, 409);
+            roundedButton2.Location = new Point(1322, 801);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(100, 28);
+            roundedButton2.Size = new Size(260, 48);
             roundedButton2.TabIndex = 45;
             roundedButton2.Text = "Hasil";
             roundedButton2.TextColor = Color.Silver;
@@ -175,9 +175,9 @@
             roundedButton3.FlatStyle = FlatStyle.Flat;
             roundedButton3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton3.ForeColor = Color.Silver;
-            roundedButton3.Location = new Point(657, 66);
+            roundedButton3.Location = new Point(1322, 83);
             roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(131, 28);
+            roundedButton3.Size = new Size(260, 48);
             roundedButton3.TabIndex = 46;
             roundedButton3.Text = "Matchmaking";
             roundedButton3.TextColor = Color.Silver;
@@ -186,12 +186,12 @@
             // 
             // comboBox1
             // 
-            comboBox1.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox1.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.ForeColor = Color.DimGray;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(169, 67);
+            comboBox1.Location = new Point(296, 82);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(210, 28);
+            comboBox1.Size = new Size(358, 42);
             comboBox1.TabIndex = 47;
             comboBox1.Text = "Pilih Tournament";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
@@ -208,9 +208,9 @@
             roundedButton4.FlatStyle = FlatStyle.Flat;
             roundedButton4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton4.ForeColor = Color.Silver;
-            roundedButton4.Location = new Point(385, 66);
+            roundedButton4.Location = new Point(681, 82);
             roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(100, 28);
+            roundedButton4.Size = new Size(260, 48);
             roundedButton4.TabIndex = 48;
             roundedButton4.Text = "Lihat";
             roundedButton4.TextColor = Color.Silver;
@@ -221,12 +221,12 @@
             // 
             linkLabel2.AutoSize = true;
             linkLabel2.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel2.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkBehavior = LinkBehavior.NeverUnderline;
             linkLabel2.LinkColor = Color.Silver;
-            linkLabel2.Location = new Point(9, 216);
+            linkLabel2.Location = new Point(11, 380);
             linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(129, 42);
+            linkLabel2.Size = new Size(213, 68);
             linkLabel2.TabIndex = 49;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Lihat Data\r\nPertandingan";
@@ -238,7 +238,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1594, 860);
             Controls.Add(linkLabel2);
             Controls.Add(roundedButton4);
             Controls.Add(comboBox1);

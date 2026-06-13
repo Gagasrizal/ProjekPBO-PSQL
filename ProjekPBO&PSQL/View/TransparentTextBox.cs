@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ProjekPBO_PSQL
+namespace ProjekPBO_PSQL.View
 {
     public class TransparentTextBox : TextBox
     {
@@ -27,8 +27,6 @@ namespace ProjekPBO_PSQL
             this.ForeColor = Color.White;
         }
 
-        // --- TRIK KHUSUS DESAINER VS ---
-        // Jika sedang di dalam desainer, kita paksa textbox mengambil warna background panel di bawahnya
         protected override void OnParentChanged(EventArgs e)
         {
             base.OnParentChanged(e);

@@ -2,7 +2,7 @@
 using ProjekPBO_PSQL.Models;
 using System;
 using System.Data;
-using System.Windows.Forms; // Pastikan namespace ini ada untuk menampung MessageBox.Show
+using System.Windows.Forms;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace ProjekPBO_PSQL.Helpers
@@ -38,7 +38,7 @@ namespace ProjekPBO_PSQL.Helpers
 
             try
             {
-                // 1. INSERT KE TABEL USERS
+                
                 string userQuery = @"INSERT INTO users (username, passwords, email, is_admin)
                                      VALUES (@username, @password, @email, @is_admin)
                                      RETURNING id_user";
@@ -56,7 +56,7 @@ namespace ProjekPBO_PSQL.Helpers
                 }
                 int idUser = Convert.ToInt32(userIdObj);
 
-                // 2. INSERT KE TABEL DETAIL_USER
+                
                 string detailQuery = @"INSERT INTO detail_user (id_user, nama_lengkap, negara, no_telepon, tanggal_lahir, elo_rating, created_at, deskripsi)
                                        VALUES (@id_user, @nama_lengkap, @negara, @no_telepon, @tanggal_lahir, 1200, @created_at, @deskripsi)";
 
@@ -142,10 +142,9 @@ namespace ProjekPBO_PSQL.Helpers
             return null;
         }
 
-        // ====== DIUBAH: Menambahkan kolom sistem_pertandingan (NOT NULL di DB baru) ======
         public bool TambahTournament(Tournament tournament)
         {
-            // 1. Tambahkan kolom 'jumlah_babak' dan parameter '@babak' ke dalam query SQL
+            
             string query = @"INSERT INTO kompetisi (id_user, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak) 
                      VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalLaksana, @hadiah, @sistemPertandingan, @babak)";
 
@@ -163,8 +162,6 @@ namespace ProjekPBO_PSQL.Helpers
                 cmd.Parameters.AddWithValue("@tanggalLaksana", tournament.TanggalPelaksanaan.Date);
                 cmd.Parameters.AddWithValue("@hadiah", tournament.Hadiah);
                 cmd.Parameters.AddWithValue("@sistemPertandingan", tournament.SistemPertandingan ?? "Sistem Swiss"); // Antisipasi NULL
-
-                // 2. Daftarkan parameter baru untuk mengambil nilai JumlahBabak dari model Tournament
                 cmd.Parameters.AddWithValue("@babak", tournament.JumlahBabak);
 
                 int rowsAffected = cmd.ExecuteNonQuery();
@@ -181,12 +178,12 @@ namespace ProjekPBO_PSQL.Helpers
             using var conn = GetConnection();
             conn.Open();
 
-            // 1. PENERAPAN MATERI: DATABASE TRANSACTION
+            
             using var transaction = conn.BeginTransaction();
 
             try
             {
-                // --- PROSES 1: INSERT KE pendaftaran_kompetisi (Statement DML) ---
+               
                 string queryDaftar = @"INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
                                       VALUES (@id_user, @id_kompetisi, @status) 
                                       RETURNING id_pendaftaran_kompetisi";
@@ -196,7 +193,7 @@ namespace ProjekPBO_PSQL.Helpers
                 cmdDaftar.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
                 cmdDaftar.Parameters.AddWithValue("@status", "terdaftar");
 
-                // Mengambil ID Pendaftaran yang baru digenerate secara real-time
+                
                 object daftarIdObj = cmdDaftar.ExecuteScalar();
                 if (daftarIdObj == null)
                 {
@@ -204,7 +201,7 @@ namespace ProjekPBO_PSQL.Helpers
                 }
                 int idPendaftaranBaru = Convert.ToInt32(daftarIdObj);
 
-                // --- PROSES 2: INSERT KE TABEL pembayaran (Statement DML) ---
+              
                 string queryBayar = @"INSERT INTO pembayaran (id_pendaftaran_kompetisi, id_metode_pembayaran, nominal_pembayaran, tanggal_pembayaran) 
                                       VALUES (@id_daftar, @id_metode, @nominal, @tanggal)";
 
@@ -212,17 +209,17 @@ namespace ProjekPBO_PSQL.Helpers
                 cmdBayar.Parameters.AddWithValue("@id_daftar", idPendaftaranBaru);
                 cmdBayar.Parameters.AddWithValue("@id_metode", idMetodeBayar);
                 cmdBayar.Parameters.AddWithValue("@nominal", nominal);
-                cmdBayar.Parameters.AddWithValue("@tanggal", DateTime.Now); // Menyimpan tanggal transaksi detik ini
+                cmdBayar.Parameters.AddWithValue("@tanggal", DateTime.Now); //
 
                 cmdBayar.ExecuteNonQuery();
 
-                // JIKA KEDUA PROSES BERHASIL TANPA ERROR, PERUBAHAN DISIMPAN PERMANEN
+               
                 transaction.Commit();
                 return true;
             }
             catch (Exception ex)
             {
-                // JIKA SALAH SATU PROSES GAGAL, SEMUA DATA BATAL MASUK (Mencegah kerugian finansial/data gantung)
+               
                 transaction.Rollback();
                 throw new Exception($"Proses pendaftaran turnamen gagal: {ex.Message}", ex);
             }
@@ -230,7 +227,7 @@ namespace ProjekPBO_PSQL.Helpers
 
         public bool EditTournament(Tournament tournament)
         {
-            // Perintah SQL menggunakan UPDATE berdasarkan id_kompetisi
+           
             string query = @"UPDATE kompetisi 
                              SET nama_kompetisi = @nama, 
                                  mode_kompetisi = @mode, 
@@ -248,7 +245,7 @@ namespace ProjekPBO_PSQL.Helpers
                 conn.Open();
                 using var cmd = new NpgsqlCommand(query, conn);
 
-                // Parameter data baru yang diinput di form
+                
                 cmd.Parameters.AddWithValue("@nama", tournament.NamaKompetisi);
                 cmd.Parameters.AddWithValue("@mode", tournament.ModeKompetisi);
                 cmd.Parameters.AddWithValue("@harga", tournament.HargaPendaftaran);
@@ -258,7 +255,7 @@ namespace ProjekPBO_PSQL.Helpers
                 cmd.Parameters.AddWithValue("@sistemPertandingan", tournament.SistemPertandingan ?? "Sistem Swiss");
                 cmd.Parameters.AddWithValue("@babak", tournament.JumlahBabak);
 
-                // Kunci utama untuk menentukan baris mana yang diupdate
+               
                 cmd.Parameters.AddWithValue("@idKompetisi", tournament.IdKompetisi);
 
                 int rowsAffected = cmd.ExecuteNonQuery();
@@ -269,14 +266,14 @@ namespace ProjekPBO_PSQL.Helpers
                 throw new Exception($"Gagal mengupdate data Tournament: {ex.Message}", ex);
             }
         }
-        // ====== DIUBAH: Menambahkan kolom sistem_pertandingan agar muncul di DataGridView ======
+       
         public DataTable AmbilSemuaTournament()
         {
             DataTable dt = new DataTable();
             using var conn = GetConnection();
             conn.Open();
 
-            // Pastikan field jumlah_babak ikut di-SELECT dari tabel kompetisi
+            
             string query = @"SELECT id_kompetisi, nama_kompetisi, mode_kompetisi, harga_pendaftaran, 
                             pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak 
                      FROM kompetisi 
@@ -304,14 +301,14 @@ namespace ProjekPBO_PSQL.Helpers
             if (reader.Read())
             {
                 return new Detail_User(
-                    reader.GetInt32(0),                                      // id_detail_user
-                    reader.GetString(2),                                     // nama_lengkap
-                    reader.GetString(3),                                     // negara
-                    reader.GetString(4),                                     // no_telepon
-                    reader.GetDateTime(5),                                   // tanggal_lahir
-                    reader.GetInt32(6),                                      // elo_rating
-                    reader.GetDateTime(7),                                   // created_at
-                    reader.IsDBNull(8) ? "" : reader.GetString(8)            // deskripsi
+                    reader.GetInt32(0),                                     
+                    reader.GetString(2),                                 
+                    reader.GetString(3),                                
+                    reader.GetString(4),                              
+                    reader.GetDateTime(5),                                  
+                    reader.GetInt32(6),                                    
+                    reader.GetDateTime(7),                                   
+                    reader.IsDBNull(8) ? "" : reader.GetString(8)            
                 );
             }
             return null;
@@ -357,12 +354,12 @@ namespace ProjekPBO_PSQL.Helpers
             return dt;
         }
 
-        // ====== DIUBAH: Menyesuaikan nama tabel dari pendaftaran ke pendaftaran_kompetisi ======
+      
         public DataTable AmbilPendaftarBerdasarkanTournament(int idKompetisi)
         {
             DataTable dt = new DataTable();
 
-            // Query disesuaikan dengan skema tabel pendaftaran_kompetisi dan status_pendaftaran barumu
+            
             string query = @"SELECT pk.id_pendaftaran_kompetisi, du.nama_lengkap, du.negara, du.elo_rating, pk.status_pendaftaran
                              FROM pendaftaran_kompetisi pk
                              JOIN detail_user du ON pk.id_user = du.id_user
@@ -383,7 +380,7 @@ namespace ProjekPBO_PSQL.Helpers
             }
             return dt;
         }
-        // FUNGSI 1: Mengambil data pertandingan berdasarkan turnamen dan babak tertentu
+     
         public DataTable AmbilPertandinganPerBabak(int idKompetisi, int babak)
         {
             DataTable dt = new DataTable();
@@ -543,7 +540,7 @@ ORDER BY p.id_pertandingan ASC;";
             object result = cmd.ExecuteScalar();
             return result != null ? Convert.ToInt32(result) : 1;
         }
-        // FUNGSI A: Ambil semua ID User yang terdaftar di suatu turnamen
+        
         public List<int> AmbilPemainTerdaftar(int idKompetisi)
         {
             List<int> listPemain = new List<int>();
@@ -564,7 +561,7 @@ ORDER BY p.id_pertandingan ASC;";
             return listPemain;
         }
 
-        // FUNGSI B: Cek apakah babak tersebut sudah pernah di-generate matches-nya
+        
         public bool IsBabakSudahGenerated(int idKompetisi, int babak)
         {
             using var conn = GetConnection();
@@ -614,13 +611,13 @@ ORDER BY p.id_pertandingan ASC;";
         }
         public bool BayarDanDaftarOtomatis(Transaksi trx)
         {
-            // 1. Query INSERT ke pendaftaran_kompetisi sambil mengambil ID baru yang digenerate otomatis
+           
             string queryDaftar = @"
         INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
         VALUES (@id_user, @id_kompetisi, 'terdaftar')
         RETURNING id_pendaftaran_kompetisi;";
 
-            // 2. Query INSERT ke transaksi menggunakan id_pendaftaran_kompetisi yang sesuai dengan database Anda
+            
             string queryTransaksi = @"
         INSERT INTO transaksi (id_pendaftaran_kompetisi, id_metode_pembayaran, nominal_transaksi, status_transaksi, tanggal_transaksi) 
         VALUES (@id_pendaftaran, @id_metode, @nominal, 'Sukses', @tanggal);";
@@ -675,10 +672,6 @@ ORDER BY p.id_pertandingan ASC;";
         public DataTable AmbilSemuaPembayaran()
         {
             DataTable dt = new DataTable();
-
-            // Query yang benar: transaksi (t) digabungkan ke pendaftaran_kompetisi (pk),
-            // lalu dari pk kita join ke users (u) untuk dapat nama/username, 
-            // dan join ke kompetisi (k) untuk dapat nama turnamennya.
             string query = @"
         SELECT 
             t.id_transaksi AS ""ID Transaksi"",
@@ -744,14 +737,7 @@ ORDER BY p.id_pertandingan ASC;";
 
                 int rowsAffected = cmd.ExecuteNonQuery();
 
-                // ============================================================
-                // PENERAPAN TRIGGER:
-                // Setelah UPDATE di atas dieksekusi, PostgreSQL otomatis
-                // menjalankan TRIGGER trg_update_elo yang mengupdate
-                // elo_rating di tabel detail_user untuk kedua pemain.
-                // Tidak perlu kode tambahan — trigger jalan di sisi database.
-                // ============================================================
-
+                
                 return rowsAffected > 0;
             }
             catch (Exception ex)
@@ -824,7 +810,7 @@ ORDER BY p.id_pertandingan ASC;";
         {
             DataTable dt = new DataTable();
 
-            // Mengambil ID dan Nama Kompetisi untuk kebutuhan binding ComboBox
+           
             string query = "SELECT id_kompetisi, nama_kompetisi FROM kompetisi ORDER BY id_kompetisi ASC;";
 
             try

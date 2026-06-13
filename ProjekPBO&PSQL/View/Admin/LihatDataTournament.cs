@@ -111,13 +111,6 @@ namespace ProjekPBO_PSQL.View.Admin
             int.TryParse(comboBox1.SelectedValue.ToString(), out idKompetisiTerpilih);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MenuBuatTournament buatTournament = new MenuBuatTournament(this.adminLogin);
-            buatTournament.Show();
-            this.Hide();
-        }
-
         private void roundedButton2_Click(object sender, EventArgs e)
         {
             MenuBuatTournament buatTournament = new MenuBuatTournament(this.adminLogin);
@@ -157,12 +150,8 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
-        private void label1_Click(object sender, EventArgs e) { }
-        private void label1_Click_1(object sender, EventArgs e) { }
-        private void roundedButton3_Click(object sender, EventArgs e) { }
+
         private void roundedButton4_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Index < 0)
@@ -173,27 +162,26 @@ namespace ProjekPBO_PSQL.View.Admin
 
             try
             {
-                // 2. Ambil baris data yang sedang aktif/dipilih oleh admin
+               
                 DataGridViewRow row = dataGridView1.CurrentRow;
 
-                // 3. Ambil data dari kolom DataGridView berdasarkan indeks urutan query AmbilSemuaTournament()
-                // Kolom 0 = id_kompetisi, Kolom 1 = nama_kompetisi, Kolom 3 = harga_pendaftaran, Kolom 6 = hadiah
+            
                 int idKompetisi = Convert.ToInt32(row.Cells[0].Value);
                 string namaLama = row.Cells[1].Value?.ToString() ?? "";
                 int hargaLama = Convert.ToInt32(row.Cells[3].Value);
                 int hadiahLama = Convert.ToInt32(row.Cells[6].Value);
 
-                // 4. Buka MenuBuatTournament dengan mengirim data lama ke Constructor Overload (Mode Edit)
+               
                 MenuBuatTournament formEdit = new MenuBuatTournament(this.adminLogin, idKompetisi, namaLama, hargaLama, hadiahLama);
 
-                // 5. Trik Event: Saat Form Edit nanti ditutup (Close), refresh tabel & munculkan kembali halaman ini
+               
                 formEdit.FormClosed += (s, args) =>
                 {
-                    TampilkanDataTournament(); // Otomatis refresh data turnamen biar langsung terupdate di UI
-                    this.Show();               // Munculkan kembali form LihatDataTournament
+                    TampilkanDataTournament(); 
+                    this.Show();          
                 };
 
-                // 6. Tampilkan Form Edit dan Sembunyikan Form Utama
+
                 formEdit.Show();
                 this.Hide();
             }
@@ -205,7 +193,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void roundedButton3_Click_1(object sender, EventArgs e)
         {
-            // 1. Validasi: Pastikan admin sudah memilih salah satu baris di tabel DataGridView
+
             if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Index < 0)
             {
                 MessageBox.Show("Silakan klik salah satu baris turnamen pada tabel terlebih dahulu untuk melihat data pemain!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -214,13 +202,13 @@ namespace ProjekPBO_PSQL.View.Admin
 
             try
             {
-                // 2. Ambil baris data yang sedang aktif/diklik oleh admin
+   
                 DataGridViewRow row = dataGridView1.CurrentRow;
 
-                // 3. Ambil ID Kompetisi langsung dari Kolom 0 di DataGridView (Sangat akurat & anti-kosong)
+
                 int idKompetisiDariTabel = Convert.ToInt32(row.Cells[0].Value);
 
-                // 4. Buka MenuLihatDataPemain dengan membawa ID Kompetisi yang sah dari tabel
+
                 MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin, idKompetisiDariTabel);
                 lihatPemain.Show();
                 this.Hide();
