@@ -860,7 +860,7 @@ ORDER BY p.id_pertandingan ASC;";
                 WHEN p.pemain_putih = @id_user AND p.hasil = '0-1' THEN 'Kalah'
                 WHEN p.pemain_hitam = @id_user AND p.hasil = '0-1' THEN 'Menang'
                 WHEN p.pemain_hitam = @id_user AND p.hasil = '1-0' THEN 'Kalah'
-                WHEN p.hasil = '1/2-1/2'                           THEN 'Remis'
+                WHEN p.hasil = '1/2-1/2'                           THEN 'Remis' 
                 ELSE p.hasil
             END                             AS ""Hasil""
         FROM pertandingan p
@@ -884,7 +884,7 @@ ORDER BY p.id_pertandingan ASC;";
             {
                 throw new Exception($"Gagal mengambil history pertandingan: {ex.Message}");
             }
-            return dt;
+            return dt;//d
         }
     }
 }
