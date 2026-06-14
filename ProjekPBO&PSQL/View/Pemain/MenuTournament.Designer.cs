@@ -44,10 +44,10 @@ namespace ProjekPBO_PSQL
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(292, 113);
+            dataGridView1.Location = new Point(292, 154);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1290, 735);
+            dataGridView1.Size = new Size(1290, 694);
             dataGridView1.TabIndex = 31;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -143,7 +143,7 @@ namespace ProjekPBO_PSQL
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.Silver;
-            roundedButton2.Location = new Point(1382, 46);
+            roundedButton2.Location = new Point(1382, 115);
             roundedButton2.Name = "roundedButton2";
             roundedButton2.Size = new Size(200, 33);
             roundedButton2.TabIndex = 126;
