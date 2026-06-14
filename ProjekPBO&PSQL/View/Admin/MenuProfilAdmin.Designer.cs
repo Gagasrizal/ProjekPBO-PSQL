@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuProfilAdmin));
             label1 = new Label();
             roundedpanel1 = new roundedpanel();
+            label2 = new Label();
             label20 = new Label();
             label18 = new Label();
             label17 = new Label();
@@ -52,7 +53,6 @@
             linkLabel4 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             linkLabel2 = new LinkLabel();
-            label2 = new Label();
             roundedpanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)roundedPictureBox1).BeginInit();
             SuspendLayout();
@@ -82,6 +82,20 @@
             roundedpanel1.Size = new Size(1296, 267);
             roundedpanel1.TabIndex = 132;
             roundedpanel1.Paint += roundedpanel1_Paint;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
+            label2.ImageAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(20, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(94, 35);
+            label2.TabIndex = 141;
+            label2.Text = "Email\r\n";
+            label2.TextAlign = ContentAlignment.TopCenter;
             // 
             // label20
             // 
@@ -391,24 +405,10 @@
             linkLabel2.Text = "Lihat Data\r\nPertandingan";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.ImageAlign = ContentAlignment.MiddleLeft;
-            label2.Location = new Point(20, 13);
-            label2.Name = "label2";
-            label2.Size = new Size(94, 35);
-            label2.TabIndex = 141;
-            label2.Text = "Email\r\n";
-            label2.TextAlign = ContentAlignment.TopCenter;
-            // 
             // MenuProfilAdmin
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1594, 860);

@@ -270,8 +270,8 @@ namespace ProjekPBO_PSQL
             // 
             // FormRegistrasi
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1594, 860);
@@ -299,7 +299,6 @@ namespace ProjekPBO_PSQL
             Name = "FormRegistrasi";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormRegistrasi";
-            WindowState = FormWindowState.Maximized;
             Load += FormRegistrasi_Load;
             ResumeLayout(false);
             PerformLayout();
