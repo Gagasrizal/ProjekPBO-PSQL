@@ -138,7 +138,7 @@
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.Silver;
-            roundedButton2.Location = new Point(1322, 33);
+            roundedButton2.Location = new Point(1056, 107);
             roundedButton2.Name = "roundedButton2";
             roundedButton2.Size = new Size(260, 48);
             roundedButton2.TabIndex = 29;

@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuLihatDataPemain));
-            roundedButton3 = new RoundedButton();
             roundedButton2 = new RoundedButton();
             roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
@@ -44,27 +43,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dBHelperBindingSource).BeginInit();
             SuspendLayout();
-            // 
-            // roundedButton3
-            // 
-            roundedButton3.BackColor = Color.Transparent;
-            roundedButton3.BackgroundColor = Color.Transparent;
-            roundedButton3.BackgroundImageLayout = ImageLayout.Stretch;
-            roundedButton3.BorderColor = Color.PaleGreen;
-            roundedButton3.BorderRadius = 0;
-            roundedButton3.BorderSize = 2;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.Silver;
-            roundedButton3.Location = new Point(1322, 100);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(260, 48);
-            roundedButton3.TabIndex = 41;
-            roundedButton3.Text = "Matchmaking";
-            roundedButton3.TextColor = Color.Silver;
-            roundedButton3.UseVisualStyleBackColor = false;
-            roundedButton3.Click += roundedButton3_Click;
             // 
             // roundedButton2
             // 
@@ -224,7 +202,6 @@
             Controls.Add(linkLabel2);
             Controls.Add(dataGridView1);
             Controls.Add(roundedButton4);
-            Controls.Add(roundedButton3);
             Controls.Add(roundedButton2);
             Controls.Add(comboBox1);
             Controls.Add(roundedButton1);
@@ -241,8 +218,6 @@
         }
 
         #endregion
-
-        private RoundedButton roundedButton3;
         private RoundedButton roundedButton2;
         private RoundedButton roundedButton1;
         private LinkLabel linkLabel5;

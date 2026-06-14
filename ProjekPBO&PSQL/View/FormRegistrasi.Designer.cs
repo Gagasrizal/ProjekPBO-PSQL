@@ -274,6 +274,7 @@ namespace ProjekPBO_PSQL
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(1594, 860);
             Controls.Add(comboBox1);
             Controls.Add(dateTimePicker1);
