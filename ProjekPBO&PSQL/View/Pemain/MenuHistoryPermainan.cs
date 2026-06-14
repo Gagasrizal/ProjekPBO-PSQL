@@ -13,10 +13,10 @@ namespace ProjekPBO_PSQL.View.Pemain
     public partial class MenuHistoryPermainan : Form
     {
         // Variabel global untuk menyimpan sesi data user yang sedang login
-        private User userLogin;
+        private Models.Admin userLogin;
 
         // Konstruktor diubah agar menerima data User dari form sebelumnya
-        public MenuHistoryPermainan(User user)
+        public MenuHistoryPermainan(Models.Admin user)
         {
             InitializeComponent();
             this.userLogin = user;

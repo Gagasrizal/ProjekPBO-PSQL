@@ -12,13 +12,13 @@ namespace ProjekPBO_PSQL.View.Pemain
 {
     public partial class MenuPembayaran : Form
     {
-        private User userLogin;
+        private Models.Admin userLogin;
         private int idKompetisi;
         private string namaKompetisi;
         private int hargaPendaftaran;
 
         // Constructor untuk menerima lemparan data dari MenuTournament
-        public MenuPembayaran(User user, int idKompetisi, string namaKompetisi, int hargaPendaftaran)
+        public MenuPembayaran(Models.Admin user, int idKompetisi, string namaKompetisi, int hargaPendaftaran)
         {
             InitializeComponent();
             this.userLogin = user;

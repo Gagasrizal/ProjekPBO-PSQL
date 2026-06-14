@@ -13,10 +13,10 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class MenuAdmin : Form
     {
         // Variabel global untuk menyimpan sesi data admin yang sedang login
-        private User adminLogin;
+        private Models.Admin adminLogin;
 
         // Konstruktor menerima parameter data User dari FormLogin
-        public MenuAdmin(User user)
+        public MenuAdmin(Models.Admin user)
         {
             InitializeComponent();
             this.adminLogin = user; // Menyimpan data admin aktif

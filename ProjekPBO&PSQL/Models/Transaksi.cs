@@ -5,23 +5,36 @@ namespace ProjekPBO_PSQL.Models
     public class Transaksi
     {
         public int IdTransaksi { get; set; }
-        public int IdUser { get; set; }
-        public int IdKompetisi { get; set; }
+        public int IdPendaftaranKompetisi { get; set; }
         public int IdMetodePembayaran { get; set; }
-        public int NominalTransaksi { get; set; }
-        public string StatusTransaksi { get; set; }
-        public DateTime TanggalTransaksi { get; set; }
+        public DateTime TanggalTransaksi { get; set; } = DateTime.Now;
+        public MetodePembayaran BankPilihan { get; set; }
 
-        // Constructor untuk inisialisasi data objek Transaksi
-        public Transaksi(int idTransaksi, int idUser, int idKompetisi, int idMetodePembayaran, int nominalTransaksi, string statusTransaksi, DateTime tanggalTransaksi)
+        private int _nominalTransaksi;
+
+        private string _statusTransaksi = "Belum Bayar";
+
+        public int NominalTransaksi
         {
-            this.IdTransaksi = idTransaksi;
-            this.IdUser = idUser;
-            this.IdKompetisi = idKompetisi;
-            this.IdMetodePembayaran = idMetodePembayaran;
-            this.NominalTransaksi = nominalTransaksi;
-            this.StatusTransaksi = statusTransaksi;
-            this.TanggalTransaksi = tanggalTransaksi;
+            get { return _nominalTransaksi; }
+            set
+            {
+                if (value <= 0) throw new ArgumentException("Nominal transaksi harus lebih dari 0.");
+                _nominalTransaksi = value;
+            }
+        }
+
+        public string StatusTransaksi
+        {
+            get { return _statusTransaksi; }
+            set
+            {
+                if (value != "Belum Bayar" && value != "Sudah Lunas")
+                {
+                    throw new ArgumentException("Status transaksi hanya boleh 'Belum Bayar' atau 'Sudah Lunas'!");
+                }
+                _statusTransaksi = value;
+            }
         }
     }
 }

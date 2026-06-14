@@ -13,9 +13,9 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class LihatDataTournament : Form
     {
-        private User adminLogin;
+        private Models.Admin adminLogin;
 
-        public LihatDataTournament(User user)
+        public LihatDataTournament(Models.Admin user)
         {
             InitializeComponent();
             this.adminLogin = user;

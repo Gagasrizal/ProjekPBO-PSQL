@@ -13,11 +13,11 @@ namespace ProjekPBO_PSQL.View.Pemain
 {
     public partial class MenuProfilPem : Form
     {
-        private User userLogin;
+        private Models.Admin userLogin;
         private DBHelper dbHelper = new DBHelper();
 
         // Konstruktor menerima data User dari form login / menu sebelumnya
-        public MenuProfilPem(User user)
+        public MenuProfilPem(Models.Admin user)
         {
             InitializeComponent();
             this.userLogin = user;
@@ -32,7 +32,7 @@ namespace ProjekPBO_PSQL.View.Pemain
                 label17.Text = userLogin.email;                 // Akan muncul: bangizals@turnamen.c...
 
                 // 2. Ambil detail profile berdasarkan id_user = 5
-                Detail_User detail = dbHelper.GetDetailUserByUserId(userLogin.id);
+                ProfilCatur detail = dbHelper.GetDetailUserByUserId(userLogin.id);
 
                 if (detail != null)
                 {

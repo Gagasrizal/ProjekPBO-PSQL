@@ -14,10 +14,10 @@ namespace ProjekPBO_PSQL
     public partial class MenuPemain : Form
     {
         // Variabel global untuk menyimpan sesi data user yang sedang login
-        private User userLogin;
+        private Admin userLogin;
 
         // Konstruktor Utama menerima data User yang dikirim dari FormLogin
-        public MenuPemain(User user)
+        public MenuPemain(Admin user)
         {
             InitializeComponent();
             this.userLogin = user;
