@@ -12,9 +12,9 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class LihatDataPembayaran : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
 
-        public LihatDataPembayaran(User user)
+        public LihatDataPembayaran(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user; // Simpan sesi admin

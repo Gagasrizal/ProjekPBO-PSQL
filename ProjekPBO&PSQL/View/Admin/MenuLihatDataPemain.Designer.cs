@@ -185,7 +185,6 @@
             // 
             // dBHelperBindingSource
             // 
-            dBHelperBindingSource.DataSource = typeof(Helpers.DBHelper);
             // 
             // comboBox1
             // 

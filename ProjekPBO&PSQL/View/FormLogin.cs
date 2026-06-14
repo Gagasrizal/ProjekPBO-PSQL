@@ -85,7 +85,7 @@ namespace ProjekPBO_PSQL
 
             try
             {
-                User user = dbHelper.AuthenticateUser(username, password);
+                AkunUser user = dbHelper.AuthenticateUser(username, password);
                 if (user == null)
                 {
                     MessageBox.Show("Username atau password salah!");

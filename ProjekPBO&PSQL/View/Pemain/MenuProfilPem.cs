@@ -13,11 +13,11 @@ namespace ProjekPBO_PSQL.View.Pemain
 {
     public partial class MenuProfilPem : Form
     {
-        private User userLogin;
+        private AkunUser userLogin;
         private DBHelper dbHelper = new DBHelper();
 
         // Konstruktor menerima data User dari form login / menu sebelumnya
-        public MenuProfilPem(User user)
+        public MenuProfilPem(AkunUser user)
         {
             InitializeComponent();
             this.userLogin = user;

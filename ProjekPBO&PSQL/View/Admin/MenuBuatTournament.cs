@@ -12,12 +12,12 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuBuatTournament : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private bool isEditMode = false;
         private int idTournamentDiedit = 0;
 
         // --- CONSTRUCTOR 1: Dipakai saat membuat turnamen baru (Normal Mode) ---
-        public MenuBuatTournament(User user)
+        public MenuBuatTournament(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;
@@ -25,7 +25,7 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         // --- CONSTRUCTOR 2: Dipakai saat mengedit turnamen (Edit Mode) ---
-        public MenuBuatTournament(User user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
+        public MenuBuatTournament(AkunUser user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
         {
             InitializeComponent();
             this.adminLogin = user;

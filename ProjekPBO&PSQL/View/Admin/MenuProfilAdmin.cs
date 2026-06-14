@@ -12,11 +12,11 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuProfilAdmin : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private DBHelper dbHelper = new DBHelper();
 
         // Konstruktor menerima data User dari MenuAdmin atau form admin sebelumnya
-        public MenuProfilAdmin(User user)
+        public MenuProfilAdmin(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;

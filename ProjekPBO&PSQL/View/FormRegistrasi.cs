@@ -168,7 +168,7 @@ namespace ProjekPBO_PSQL
                 // ========= BUNGKUS OBJEK =========
                 // ========= BUNGKUS OBJEK =========
                 // Memakai huruf kecil kembali sesuai model User yang baru diperbaiki
-                User akunBaru = new User(0, usernameInput, passwordInput, emailInput, false);
+                AkunUser akunBaru = new AkunUser(0, usernameInput, passwordInput, emailInput, false);
 
                 Detail_User detailBaru = new Detail_User(
                     0,

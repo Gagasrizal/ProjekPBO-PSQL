@@ -124,7 +124,6 @@
             // 
             // dBHelperBindingSource
             // 
-            dBHelperBindingSource.DataSource = typeof(Helpers.DBHelper);
             // 
             // roundedButton2
             // 

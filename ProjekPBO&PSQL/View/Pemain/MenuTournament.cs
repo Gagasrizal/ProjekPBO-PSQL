@@ -13,10 +13,10 @@ namespace ProjekPBO_PSQL
     public partial class MenuTournament : Form
     {
         // Variabel global untuk menyimpan sesi data user yang sedang login
-        private User userLogin;
+        private AkunUser userLogin;
 
         // Konstruktor diubah agar menerima data User yang dikirim dari form sebelumnya
-        public MenuTournament(User user)
+        public MenuTournament(AkunUser user)
         {
             InitializeComponent(); // Ini dijamin aman dan tidak error lagi!
             this.userLogin = user;  // Menyimpan sesi user aktif (seperti Bangijal)

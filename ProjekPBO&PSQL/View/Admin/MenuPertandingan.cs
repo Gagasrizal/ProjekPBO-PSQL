@@ -10,7 +10,7 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuPertandingan : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private int _idKompetisi;
         private int _babakAktif = 1;
         private string _namaTournament;
@@ -23,7 +23,7 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         // Konstruktor yang dipanggil dari form lain
-        public MenuPertandingan(User user, int idKompetisi, int babakAktif, string namaTournament) : this()
+        public MenuPertandingan(AkunUser user, int idKompetisi, int babakAktif, string namaTournament) : this()
         {
             this.adminLogin = user;
             this._idKompetisi = idKompetisi;

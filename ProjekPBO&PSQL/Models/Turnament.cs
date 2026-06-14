@@ -1,30 +1,30 @@
 ﻿public class Tournament
 {
-    public int IdKompetisi { get; set; }
-    public int IdUser { get; set; }
-    public string NamaKompetisi { get; set; }
-    public string ModeKompetisi { get; set; }
-    public int HargaPendaftaran { get; set; }
-    public string PelaksanaanPendaftaran { get; set; }
-    public DateTime TanggalPelaksanaan { get; set; }
-    public int Hadiah { get; set; }
-    public string SistemPertandingan { get; set; }
-    public int JumlahBabak { get; set; } // <--- TAMBAHKAN PROPERTY INI
-
-    // Update Constructor-nya agar urutan parameternya pas dengan yang kamu panggil
-    public Tournament(int idKompetisi, int idUser, string namaKompetisi, string modeKompetisi,
-                      int hargaPendaftaran, string pelaksanaanPendaftaran, DateTime tanggalPelaksanaan,
-                      int hadiah, string sistemPertandingan, int jumlahBabak)
+    public class Kompetisi
     {
-        IdKompetisi = idKompetisi;
-        IdUser = idUser;
-        NamaKompetisi = namaKompetisi;
-        ModeKompetisi = modeKompetisi;
-        HargaPendaftaran = hargaPendaftaran;
-        PelaksanaanPendaftaran = pelaksanaanPendaftaran;
-        TanggalPelaksanaan = tanggalPelaksanaan;
-        Hadiah = hadiah;
-        SistemPertandingan = sistemPertandingan;
-        JumlahBabak = jumlahBabak; // <--- ISI DISINI
+        public int IdKompetisi { get; set; }
+        public int IdUserPembuat { get; set; } // Admin yang membuat
+        public string NamaKompetisi { get; set; }
+        public string ModeKompetisi { get; set; } // Rapid, Blitz
+        public int HargaPendaftaran { get; set; }
+        public string PelaksanaanPendaftaran { get; set; }
+        public DateTime TanggalPelaksanaan { get; set; }
+        public int Hadiah { get; set; }
+        public string SistemPertandingan { get; set; } // Swiss, Round Robin
+        public int JumlahBabak { get; set; }
+
+        public Kompetisi(int id, int idPembuat, string nama, string mode, int harga, string infoDaftar, DateTime tglMain, int hadiah, string sistem, int babak)
+        {
+            IdKompetisi = id;
+            IdUserPembuat = idPembuat;
+            NamaKompetisi = nama;
+            ModeKompetisi = mode;
+            HargaPendaftaran = harga;
+            PelaksanaanPendaftaran = infoDaftar;
+            TanggalPelaksanaan = tglMain;
+            Hadiah = hadiah;
+            SistemPertandingan = sistem;
+            JumlahBabak = babak;
+        }
     }
 }
