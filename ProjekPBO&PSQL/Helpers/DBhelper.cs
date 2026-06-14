@@ -834,7 +834,7 @@ ORDER BY p.id_pertandingan ASC;";
 
             return dt;
         }
-        public DataTable AmbilHistoryPertandingan(int idUser)
+        public DataTable AmbilHistoryPertandingan(int idUser)//
         {
             DataTable dt = new DataTable();
             string query = @"
