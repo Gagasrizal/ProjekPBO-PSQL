@@ -25,6 +25,6 @@
         TanggalPelaksanaan = tanggalPelaksanaan;
         Hadiah = hadiah;
         SistemPertandingan = sistemPertandingan;
-        JumlahBabak = jumlahBabak; // <--- ISI DISINI
+        JumlahBabak = jumlahBabak; // <--- ISI DISINIj
     }
 }
