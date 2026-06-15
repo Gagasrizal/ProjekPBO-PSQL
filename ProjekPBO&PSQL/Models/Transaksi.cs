@@ -39,29 +39,14 @@ namespace ProjekPBO_PSQL.Models
 
         public void LakukanPembayaran(int nominal)
         {
-            if (nominal <= 0)
-                throw new ArgumentException("Nominal pembayaran harus lebih dari 0.");
-            if (nominal < _nominalTransaksi)
-                throw new Exception($"Nominal kurang! Dibutuhkan Rp{_nominalTransaksi:N0}, dibayar Rp{nominal:N0}.");
-
-            NominalTransaksi = nominal;
+            if (nominal < NominalTransaksi)
+                throw new Exception("Nominal pembayaran kurang!");
             StatusTransaksi = "Sudah Lunas";
-            TanggalTransaksi = DateTime.Now;
-
-            Console.WriteLine($"[TRANSAKSI] Pembayaran berhasil! " +
-                              $"Nominal: Rp{nominal:N0} | Metode: {BankPilihan?.NamaMetodePembayaran} | " +
-                              $"Tanggal: {TanggalTransaksi:dd/MM/yyyy HH:mm}");
         }
 
         public string CekStatusPembayaran()
         {
             return $"Status Transaksi ID {IdTransaksi}: {StatusTransaksi}";
-        }
-
-        public override string ToString()
-        {
-            return $"[Transaksi] ID: {IdTransaksi} | Nominal: Rp{NominalTransaksi:N0} | " +
-                   $"Status: {StatusTransaksi} | Tanggal: {TanggalTransaksi:dd/MM/yyyy}";
         }
     }
 }
