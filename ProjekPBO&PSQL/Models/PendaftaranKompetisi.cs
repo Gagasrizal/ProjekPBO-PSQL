@@ -13,7 +13,7 @@ namespace ProjekPBO_PSQL.Models
 
         private string _statusPendaftaran = "Belum Terdaftar";
 
-        public string StatusPendaftaran
+        public string StatusPendaftaran//
         {
             get { return _statusPendaftaran; }
             set
