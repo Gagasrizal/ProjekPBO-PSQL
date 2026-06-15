@@ -74,9 +74,6 @@ namespace ProjekPBO_PSQL.View.Pemain
             }
         }
 
-        // =======================================================================
-        // FITUR EDIT DATA (Tombol Selesai di pojok kanan atas)
-        // =======================================================================
         private void Edit_Click(object sender, EventArgs e)
         {
             // Taruh logika UPDATE database kamu di sini menggunakan DBHelper

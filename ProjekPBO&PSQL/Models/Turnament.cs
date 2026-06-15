@@ -1,4 +1,8 @@
-﻿public class Tournament
+﻿using System;
+
+
+
+public class Tournament
 {
     public int IdKompetisi { get; set; }
     public int IdUser { get; set; }
@@ -9,9 +13,9 @@
     public DateTime TanggalPelaksanaan { get; set; }
     public int Hadiah { get; set; }
     public string SistemPertandingan { get; set; }
-    public int JumlahBabak { get; set; } // <--- TAMBAHKAN PROPERTY INI
+    public int JumlahBabak { get; set; } 
 
-    // Update Constructor-nya agar urutan parameternya pas dengan yang kamu panggil
+    
     public Tournament(int idKompetisi, int idUser, string namaKompetisi, string modeKompetisi,
                       int hargaPendaftaran, string pelaksanaanPendaftaran, DateTime tanggalPelaksanaan,
                       int hadiah, string sistemPertandingan, int jumlahBabak)

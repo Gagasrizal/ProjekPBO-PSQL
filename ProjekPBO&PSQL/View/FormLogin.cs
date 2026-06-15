@@ -10,13 +10,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL
 {
     public partial class FormLogin : Form
     {
         // 1. Buat instance DBHelper agar bisa memanggil fungsi query database
-        private DBHelper dbHelper = new DBHelper();
+        private UserContext userContext = new UserContext();
 
         public FormLogin()
         {
@@ -85,7 +86,7 @@ namespace ProjekPBO_PSQL
 
             try
             {
-                User user = dbHelper.AuthenticateUser(username, password);
+                User user = userContext.AuthenticateUser(username, password);
                 if (user == null)
                 {
                     MessageBox.Show("Username atau password salah!");

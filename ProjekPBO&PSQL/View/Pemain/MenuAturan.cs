@@ -61,7 +61,7 @@ namespace ProjekPBO_PSQL.View.Pemain
         {
             MenuHistoryPermainan historyForm = new MenuHistoryPermainan(this.userLogin);
             historyForm.Show();
-            this.Close(); // Hancurkan form lama dari memori
+            this.Close();
         }
 
         private void linkLabel6_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)

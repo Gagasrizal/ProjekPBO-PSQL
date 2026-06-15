@@ -39,10 +39,10 @@ namespace ProjekPBO_PSQL
             try
             {
                 // 1. Instansiasi objek DBHelper kamu
-                ProjekPBO_PSQL.Helpers.DBHelper db = new ProjekPBO_PSQL.Helpers.DBHelper();
+                TurnamentContext turnamentContext = new TurnamentContext();
 
                 // 2. Ambil data dengan fungsi AmbilSemuaTournament() yang ada di DBHelper-mu
-                DataTable dtTournament = db.AmbilSemuaTournament();
+                DataTable dtTournament = turnamentContext.AmbilSemuaTournament();
 
                 // 3. Masukkan datanya sebagai sumber data DataGridView
                 dataGridView1.DataSource = dtTournament;

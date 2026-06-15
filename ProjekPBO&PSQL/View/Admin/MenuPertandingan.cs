@@ -61,8 +61,8 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilSemuaKompetisi();
+                TurnamentContext turnamentContext = new TurnamentContext();
+                DataTable dt = turnamentContext.AmbilSemuaKompetisi();
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
@@ -95,8 +95,8 @@ namespace ProjekPBO_PSQL.View.Admin
             if (comboBox1.SelectedValue == null) return;
             if (!int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi)) return;
 
-            DBHelper db = new DBHelper();
-            int totalBabak = db.AmbilTotalBabakTournament(idKompetisi);
+            TurnamentContext turnamentContext = new TurnamentContext();
+            int totalBabak = turnamentContext.AmbilTotalBabakTournament(idKompetisi);
 
             comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
             comboBox2.Items.Clear();
@@ -128,8 +128,8 @@ namespace ProjekPBO_PSQL.View.Admin
                     int.TryParse(teks, out babak);
                 }
 
-                DBHelper db = new DBHelper();
-                DataTable dtRaw = db.AmbilPertandinganDenganTotalPoin(idKompetisi, babak);
+                TurnamentContext turnamentContext = new TurnamentContext();
+                DataTable dtRaw = turnamentContext.AmbilPertandinganDenganTotalPoin(idKompetisi, babak);
 
                 // Susun ulang kolom sesuai tampilan yang diinginkan
                 DataTable dt = new DataTable();
@@ -236,9 +236,9 @@ namespace ProjekPBO_PSQL.View.Admin
             string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
             int babakTerpilih = Convert.ToInt32(babakRaw);
 
-            DBHelper db = new DBHelper();
+            TurnamentContext turnamentContext = new TurnamentContext();
 
-            if (db.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
+            if (turnamentContext.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
             {
                 MessageBox.Show($"Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -246,7 +246,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 return;
             }
 
-            List<int> listPemain = db.AmbilPemainTerdaftar(idKompetisi);
+            List<int> listPemain = turnamentContext.AmbilPemainTerdaftar(idKompetisi);
             if (listPemain.Count < 2)
             {
                 MessageBox.Show("Jumlah pemain tidak mencukupi (minimal 2).", "Peringatan",
@@ -274,7 +274,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show($"Jumlah pemain ganjil ({listPemain.Count}). 1 pemain mendapat BYE.",
                     "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (db.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
+            if (turnamentContext.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
             {
                 MessageBox.Show($"Berhasil generate pasangan Babak {babakTerpilih}!", "Sukses",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -323,8 +323,8 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilLeaderboardTournament(idKompetisi);
+                TurnamentContext turnamentContext = new TurnamentContext();
+                DataTable dt = turnamentContext.AmbilLeaderboardTournament(idKompetisi);
 
                 // Kasih tahu user bahwa tournament selesai
                 MessageBox.Show("🏆 Semua babak telah selesai!\nBerikut adalah Leaderboard akhir tournament.",
@@ -401,10 +401,10 @@ namespace ProjekPBO_PSQL.View.Admin
                 int idPertandingan = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
                 string hasil = comboBox3.SelectedItem.ToString();
 
-                DBHelper db = new DBHelper();
-                if (db.UpdateHasilPertandingan(idPertandingan, hasil))
+                TurnamentContext turnamentContext = new TurnamentContext();
+                if (turnamentContext.UpdateHasilPertandingan(idPertandingan, hasil))
                 {
-                    var eloInfo = db.AmbilEloSetelahUpdate(idPertandingan);
+                    var eloInfo = turnamentContext.AmbilEloSetelahUpdate(idPertandingan);
 
                     MessageBox.Show(
                         $"Hasil berhasil disimpan: {hasil}\n\n" +
@@ -419,7 +419,7 @@ namespace ProjekPBO_PSQL.View.Admin
                     // CEK APAKAH BABAK TERAKHIR DAN SEMUA SUDAH SELESAI
                     // =====================================================
                     int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-                    int totalBabak = db.AmbilTotalBabakTournament(idKompetisi);
+                    int totalBabak =turnamentContext.AmbilTotalBabakTournament(idKompetisi);
 
                     // Ambil babak sekarang dari comboBox2
                     int babakSekarang = 1;
@@ -431,7 +431,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
                     // Kalau ini babak terakhir DAN semua pertandingan sudah selesai
                     if (babakSekarang == totalBabak &&
-                        db.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
+                        turnamentContext.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
                     {
                         TampilkanLeaderboard(idKompetisi);
                     }

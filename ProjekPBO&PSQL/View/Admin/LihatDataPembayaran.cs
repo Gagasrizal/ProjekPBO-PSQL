@@ -6,7 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using ProjekPBO_PSQL.Models;
-using ProjekPBO_PSQL.Helpers; // Memastikan DBHelper bisa dipanggil
+using ProjekPBO_PSQL.Helpers;
+using ProjekPBO_PSQL.Models.Context; // Memastikan DBHelper bisa dipanggil
 
 namespace ProjekPBO_PSQL.View.Admin
 {
@@ -31,21 +32,30 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             try
             {
-                // 1. Panggil DBHelper
-                // 1. Panggil DBHelper
-                DBHelper db = new DBHelper();
+                TransaksiContext transaksiContext = new TransaksiContext();
 
-                // 2. Ambil data pembayaran lewat fungsi yang pas dengan skema database barumu
-                DataTable dtPembayaran = db.AmbilSemuaPembayaran();
+                DataTable dtPembayaran = transaksiContext.AmbilSemuaPembayaran();
 
-                // 3. Masukkan ke DataGridView admin
+                //1.Masukkan ke DataGridView admin
                 dataGridView1.DataSource = dtPembayaran;
 
-                // 4. Kunci tabel biar gak bisa diedit sembarangan oleh admin jancok haha
+                // . Kunci tabel biar gak bisa diedit sembarangan oleh admin jancok haha
                 dataGridView1.ReadOnly = true;
 
                 // 5. Pengaturan layout agar kolom otomatis memenuhi lebar layar secara rapi
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+                // 2. Ambil data pembayaran lewat fungsi yang pas dengan skema database barumu
+                //DataTable dtPembayaran = db.AmbilSemuaPembayaran();
+
+
+                // 3. 
+
+
+
+
+
 
                 // Setting seleksi baris utuh
                 dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

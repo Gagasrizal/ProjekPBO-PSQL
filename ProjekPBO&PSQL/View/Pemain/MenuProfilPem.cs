@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using ProjekPBO_PSQL.View.Pemain;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace ProjekPBO_PSQL.View.Pemain
     public partial class MenuProfilPem : Form
     {
         private User userLogin;
-        private DBHelper dbHelper = new DBHelper();
+        private Detail_UserContext detail_UserContext = new Detail_UserContext();
 
         // Konstruktor menerima data User dari form login / menu sebelumnya
         public MenuProfilPem(User user)
@@ -32,7 +33,7 @@ namespace ProjekPBO_PSQL.View.Pemain
                 label17.Text = userLogin.email;                 // Akan muncul: bangizals@turnamen.c...
 
                 // 2. Ambil detail profile berdasarkan id_user = 5
-                Detail_User detail = dbHelper.GetDetailUserByUserId(userLogin.id);
+                Detail_User detail = detail_UserContext.GetDetailUserByUserId(userLogin.id);
 
                 if (detail != null)
                 {

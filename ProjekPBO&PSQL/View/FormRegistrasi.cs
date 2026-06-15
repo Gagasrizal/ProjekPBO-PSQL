@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace ProjekPBO_PSQL
     public partial class FormRegistrasi : Form
     {
         // Instance dbHelper untuk memanggil fungsi database
-        private DBHelper dbHelper = new DBHelper();
+        private UserContext userContext = new UserContext();
 
         public FormRegistrasi()
         {
@@ -135,17 +136,17 @@ namespace ProjekPBO_PSQL
             // ========= CEK DUPLIKASI DI DATABASE =========
             try
             {
-                if (dbHelper.IsUsernameExists(usernameInput))
+                if (userContext.IsUsernameExists(usernameInput))
                 {
                     MessageBox.Show("Username sudah terpakai!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (dbHelper.IsEmailExists(emailInput))
+                if (userContext.IsEmailExists(emailInput))
                 {
                     MessageBox.Show("Email sudah terdaftar!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (dbHelper.IsNoTeleponExists(telponInput))
+                if (userContext.IsNoTeleponExists(telponInput))
                 {
                     MessageBox.Show("Nomor telepon sudah digunakan akun lain!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -174,7 +175,7 @@ namespace ProjekPBO_PSQL
                     "" // Menggunakan string kosong "" agar aman dari error NULL di PostgreSQL
                 );
 
-                bool isSukses = dbHelper.RegisterUser(akunBaru, detailBaru);
+                bool isSukses = userContext.RegisterUser(akunBaru, detailBaru);
 
                 if (isSukses)
                 {

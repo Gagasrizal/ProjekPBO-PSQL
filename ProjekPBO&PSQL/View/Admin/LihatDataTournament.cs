@@ -38,9 +38,11 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void TampilkanDataTournament()
         {
-            DBHelper db = new DBHelper();
+            TurnamentContext turnamentContext = new TurnamentContext();
+
             dataGridView1.AutoGenerateColumns = true;
-            DataTable dt = db.AmbilSemuaTournament();
+
+            DataTable dt = turnamentContext.AmbilSemuaTournament();
 
             if (dt != null)
             {
@@ -85,9 +87,9 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         private void LoadTurnamenToComboBox()
-        {
-            DBHelper db = new DBHelper();
-            DataTable dt = db.AmbilIdDanNamaTournament();
+        {                //Panggil TurnamentContext untuk mengambil data combobox
+            TurnamentContext turnamentContext = new TurnamentContext();
+            DataTable dt = turnamentContext.AmbilIdDanNamaTournament();
 
             if (dt != null && dt.Rows.Count > 0)
             {

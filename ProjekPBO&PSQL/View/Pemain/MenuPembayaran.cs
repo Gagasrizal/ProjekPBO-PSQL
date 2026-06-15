@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL.View.Pemain
 {
@@ -57,8 +58,8 @@ namespace ProjekPBO_PSQL.View.Pemain
                 Transaksi trxBaru = new Transaksi(0, idUser, idKompetisi, idMetode, nominal, "Sukses", DateTime.Now);
 
                 // 4. Kirim objek model ke DBHelper
-                DBHelper db = new DBHelper();
-                bool berhasil = db.BayarDanDaftarOtomatis(trxBaru);
+                TransaksiContext transaksiContext = new TransaksiContext();
+                bool berhasil = transaksiContext.BayarDanDaftarOtomatis(trxBaru);
 
                 if (berhasil)
                 {

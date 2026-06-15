@@ -48,9 +48,10 @@ namespace ProjekPBO_PSQL
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(703, 179);
+            label1.Location = new Point(844, 215);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(194, 34);
+            label1.Size = new Size(235, 42);
             label1.TabIndex = 0;
             label1.Text = "HyperChess";
             label1.Click += label1_Click;
@@ -58,9 +59,10 @@ namespace ProjekPBO_PSQL
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(535, 383);
+            textBox1.Location = new Point(642, 460);
+            textBox1.Margin = new Padding(4, 4, 4, 4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(526, 34);
+            textBox1.Size = new Size(630, 39);
             textBox1.TabIndex = 1;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -70,9 +72,10 @@ namespace ProjekPBO_PSQL
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Transparent;
-            label2.Location = new Point(398, 383);
+            label2.Location = new Point(478, 460);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(121, 31);
+            label2.Size = new Size(148, 38);
             label2.TabIndex = 2;
             label2.Text = "Username";
             label2.Click += label2_Click;
@@ -83,9 +86,10 @@ namespace ProjekPBO_PSQL
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Transparent;
-            label3.Location = new Point(398, 434);
+            label3.Location = new Point(478, 521);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(114, 31);
+            label3.Size = new Size(139, 38);
             label3.TabIndex = 3;
             label3.Text = "Password";
             label3.Click += label3_Click;
@@ -93,9 +97,10 @@ namespace ProjekPBO_PSQL
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(535, 434);
+            textBox2.Location = new Point(642, 521);
+            textBox2.Margin = new Padding(4, 4, 4, 4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(526, 34);
+            textBox2.Size = new Size(630, 39);
             textBox2.TabIndex = 4;
             // 
             // label4
@@ -104,9 +109,10 @@ namespace ProjekPBO_PSQL
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Arial Rounded MT Bold", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(752, 223);
+            label4.Location = new Point(902, 268);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(88, 27);
+            label4.Size = new Size(109, 32);
             label4.TabIndex = 8;
             label4.Text = "Sign In";
             label4.Click += label4_Click;
@@ -119,9 +125,10 @@ namespace ProjekPBO_PSQL
             roundedButton1.FlatAppearance.BorderSize = 0;
             roundedButton1.FlatStyle = FlatStyle.Flat;
             roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(479, 820);
+            roundedButton1.Location = new Point(575, 984);
+            roundedButton1.Margin = new Padding(4, 4, 4, 4);
             roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(645, 33);
+            roundedButton1.Size = new Size(774, 40);
             roundedButton1.TabIndex = 10;
             roundedButton1.Text = "Didn't Have Account? Sign Up Here";
             roundedButton1.TextColor = Color.White;
@@ -138,9 +145,10 @@ namespace ProjekPBO_PSQL
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(1382, 820);
+            roundedButton2.Location = new Point(1658, 984);
+            roundedButton2.Margin = new Padding(4, 4, 4, 4);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(200, 33);
+            roundedButton2.Size = new Size(240, 40);
             roundedButton2.TabIndex = 20;
             roundedButton2.Text = "Confirm";
             roundedButton2.TextColor = Color.White;
@@ -149,10 +157,11 @@ namespace ProjekPBO_PSQL
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleDimensions = new SizeF(144F, 144F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(1594, 860);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1913, 1032);
             Controls.Add(roundedButton2);
             Controls.Add(roundedButton1);
             Controls.Add(label4);
@@ -162,6 +171,7 @@ namespace ProjekPBO_PSQL
             Controls.Add(textBox1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4, 4, 4, 4);
             MaximizeBox = false;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;

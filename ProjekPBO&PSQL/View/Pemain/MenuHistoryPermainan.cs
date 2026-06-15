@@ -12,7 +12,7 @@ namespace ProjekPBO_PSQL.View.Pemain
 {
     public partial class MenuHistoryPermainan : Form
     {
-        // Variabel global untuk menyimpan sesi data user yang sedang login
+        
         private User userLogin;
 
         // Konstruktor diubah agar menerima data User dari form sebelumnya
@@ -33,8 +33,8 @@ namespace ProjekPBO_PSQL.View.Pemain
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilHistoryPertandingan(userLogin.id);
+                TurnamentContext turnamentContext = new TurnamentContext();
+                DataTable dt = turnamentContext.AmbilHistoryPertandingan(userLogin.id);
 
                 dataGridView1.DataSource = dt;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

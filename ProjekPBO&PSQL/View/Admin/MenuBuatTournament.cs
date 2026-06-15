@@ -103,16 +103,16 @@ namespace ProjekPBO_PSQL.View.Admin
                     jumlahBabakTerpilih
                 );
 
-                DBHelper db = new DBHelper();
+                TurnamentContext turnamentContext = new TurnamentContext();
                 bool sukses = false;
 
                 if (isEditMode)
                 {
-                    sukses = db.EditTournament(kompetisiBaru);
+                    sukses = turnamentContext.EditTournament(kompetisiBaru);
                 }
                 else
                 {
-                    sukses = db.TambahTournament(kompetisiBaru);
+                    sukses = turnamentContext.TambahTournament(kompetisiBaru);
                 }
 
                 if (sukses)

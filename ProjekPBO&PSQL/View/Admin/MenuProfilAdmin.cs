@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class MenuProfilAdmin : Form
     {
         private User adminLogin;
-        private DBHelper dbHelper = new DBHelper();
+        private Detail_UserContext detail_UserContext = new Detail_UserContext();
 
         // Konstruktor menerima data User dari MenuAdmin atau form admin sebelumnya
         public MenuProfilAdmin(User user)
@@ -32,7 +33,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 label17.Text = adminLogin.email;
 
                 // 2. Ambil detail user dari PostgreSQL
-                Detail_User detail = dbHelper.GetDetailUserByUserId(adminLogin.id);
+                Detail_User detail = detail_UserContext.GetDetailUserByUserId(adminLogin.id);
 
                 if (detail != null)
                 {
