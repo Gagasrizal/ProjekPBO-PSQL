@@ -79,13 +79,27 @@ namespace ProjekPBO_PSQL.Models.Context
 
             if (reader.Read())
             {
-                return new User(
-                    reader.GetInt32(0),
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetString(3),
-                    reader.GetBoolean(4)
-                );
+                int id = reader.GetInt32(0);
+                string dbUsername = reader.GetString(1);
+                string dbPassword = reader.GetString(2);
+                string email = reader.GetString(3);
+                bool isAdmin = reader.GetBoolean(4);
+
+                if (isAdmin)
+                {
+                    return new Admin(id, dbUsername, dbPassword, email);
+                }
+
+                else
+                {
+                    Detail_User profilPemain = GetDetailUserByUserId(id);
+
+                    return new Pemain(id, dbUsername, dbPassword, email, profilPemain);
+
+                }
+
+
+               
             }
 
             return null;

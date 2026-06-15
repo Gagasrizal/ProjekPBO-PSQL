@@ -45,9 +45,7 @@ namespace ProjekPBO_PSQL.View.Pemain
                     // Menampilkan tanggal dibuatnya akun Bangijal
                     label1.Text = "Account Created on " + detail.CreatedAt.ToString("dd MMM yyyy"); // Akan muncul: 06 Jun 2026
 
-                    // BONUS: Jika kamu punya TextBox atau RichTextBox untuk deskripsi ("Pemain pemula")
-                    // Silakan isi nama komponen deskripsi kamu di bawah ini, misalnya richTextBox1:
-                    // richTextBox1.Text = detail.Deskripsi;
+                    
                 }
             }
             else

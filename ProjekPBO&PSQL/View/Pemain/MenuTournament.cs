@@ -21,9 +21,9 @@ namespace ProjekPBO_PSQL
             InitializeComponent(); // Ini dijamin aman dan tidak error lagi!
             this.userLogin = user;  // Menyimpan sesi user aktif (seperti Bangijal)
 
-            // =======================================================================
-            // KUNCI UTAMA: Daftarkan secara paksa agar tombol Load & Sidebar Aktif
-            // =======================================================================
+           
+            
+            
             this.Load += new System.EventHandler(this.MenuTournament_Load);
             linkLabel1.LinkClicked += linkLabel1_LinkClicked_1; // Profil
             linkLabel2.LinkClicked += linkLabel2_LinkClicked_1; // List Tournament
@@ -31,9 +31,8 @@ namespace ProjekPBO_PSQL
             linkLabel6.LinkClicked += linkLabel6_LinkClicked_1; // Baca Peraturan
         }
 
-        // =======================================================================
-        // EVENT LOAD: MENAMPILKAN DATA DARI DATABASE KE DATAGRIDVIEW TOURNAMENT
-        // =======================================================================
+        
+        
         private void MenuTournament_Load(object sender, EventArgs e)
         {
             try
