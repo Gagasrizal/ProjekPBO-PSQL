@@ -19,11 +19,15 @@ namespace ProjekPBO_PSQL.Models
             set
             {
                 if (value != "Belum Terdaftar" && value != "Terdaftar")
-                {
                     throw new ArgumentException("Status pendaftaran hanya boleh 'Belum Terdaftar' atau 'Terdaftar'!");
-                }
                 _statusPendaftaran = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"[Pendaftaran] ID: {IdPendaftaranKompetisi} | " +
+                   $"User: {IdUser} | Kompetisi: {IdKompetisi} | Status: {StatusPendaftaran}";
         }
     }
 }

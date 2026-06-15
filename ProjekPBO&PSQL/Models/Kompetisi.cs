@@ -9,7 +9,7 @@ namespace ProjekPBO_PSQL.Models
         public int IdKompetisi { get; set; }
         public int IdUser { get; set; }
         public DateTime TanggalPelaksanaan { get; set; }
-        public string PelaksanaanPendaftaran { get; set; }
+        public string PelaksanaanPendaftaran { get; set; } = string.Empty;
 
         private string _namaKompetisi = string.Empty;
         private string _modeKompetisi = string.Empty;
@@ -34,7 +34,8 @@ namespace ProjekPBO_PSQL.Models
             get { return _modeKompetisi; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Mode kompetisi wajib diisi.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Mode kompetisi wajib diisi.");
                 _modeKompetisi = value;
             }
         }
@@ -44,7 +45,8 @@ namespace ProjekPBO_PSQL.Models
             get { return _sistemPertandingan; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Sistem pertandingan wajib diisi.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Sistem pertandingan wajib diisi.");
                 _sistemPertandingan = value;
             }
         }
@@ -54,7 +56,8 @@ namespace ProjekPBO_PSQL.Models
             get { return _hargaPendaftaran; }
             set
             {
-                if (value < 0) throw new ArgumentException("Harga pendaftaran tidak boleh minus.");
+                if (value < 0)
+                    throw new ArgumentException("Harga pendaftaran tidak boleh minus.");
                 _hargaPendaftaran = value;
             }
         }
@@ -64,7 +67,8 @@ namespace ProjekPBO_PSQL.Models
             get { return _hadiah; }
             set
             {
-                if (value < 0) throw new ArgumentException("Hadiah tidak boleh minus.");
+                if (value < 0)
+                    throw new ArgumentException("Hadiah tidak boleh minus.");
                 _hadiah = value;
             }
         }
@@ -74,9 +78,17 @@ namespace ProjekPBO_PSQL.Models
             get { return _jumlahBabak; }
             set
             {
-                if (value <= 0) throw new ArgumentException("Jumlah babak minimal 1.");
+                if (value <= 0)
+                    throw new ArgumentException("Jumlah babak minimal 1.");
                 _jumlahBabak = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"[Kompetisi] {NamaKompetisi} | Mode: {ModeKompetisi} | " +
+                   $"Sistem: {SistemPertandingan} | Babak: {JumlahBabak} | " +
+                   $"Hadiah: Rp{Hadiah:N0} | Biaya Daftar: Rp{HargaPendaftaran:N0}";
         }
     }
 }
