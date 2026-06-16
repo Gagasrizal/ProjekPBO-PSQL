@@ -87,7 +87,7 @@ namespace ProjekPBO_PSQL
             try
             {
                 AutentikasiContext autentikasiContext = new AutentikasiContext();
-                User user = autentikasiContext.AuthenticateUser(username, password);
+                AkunUser user = autentikasiContext.AuthenticateUser(username, password);
                 if (user == null)
                 {
                     MessageBox.Show("Username atau password salah!");
@@ -95,9 +95,9 @@ namespace ProjekPBO_PSQL
                 }
 
                 // Berhasil login
-                MessageBox.Show($"Selamat datang, {user.username}!");
+                MessageBox.Show($"Selamat datang, {user.Username}!");
 
-                if (user.isAdmin)
+                if (user.IsAdmin)
                 {
                     MenuAdmin adminForm = new MenuAdmin(user);
                     adminForm.Show();

@@ -13,7 +13,7 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuLihatDataPemain : Form
     {
-        private User? adminLogin;
+        private AkunUser? adminLogin;
         private int _idKompetisiTerpilih = 0;
 
         // Konstruktor bawaan — JANGAN DIHAPUS supaya GUI Designer tidak crash
@@ -23,14 +23,14 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         // Konstruktor tanpa ID kompetisi
-        public MenuLihatDataPemain(User user) : this()
+        public MenuLihatDataPemain(AkunUser user) : this()
         {
             this.adminLogin = user;
             this.Load += MenuLihatDataPemain_Load;
         }
 
         // Konstruktor dengan ID kompetisi — dipanggil dari LihatDataTournament
-        public MenuLihatDataPemain(User user, int idKompetisi) : this()
+        public MenuLihatDataPemain(AkunUser user, int idKompetisi) : this()
         {
             this.adminLogin = user;
             this._idKompetisiTerpilih = idKompetisi;

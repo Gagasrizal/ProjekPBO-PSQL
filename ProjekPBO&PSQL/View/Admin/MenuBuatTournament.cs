@@ -1,4 +1,5 @@
-﻿using ProjekPBO_PSQL.Helpers;
+﻿using ProjekPBO_PSQL.Controller;
+using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
 using ProjekPBO_PSQL.Models.Context;
 using System;
@@ -13,27 +14,34 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuBuatTournament : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin; // FIX: Menyesuaikan dengan tipe data dasar AkunUser
         private bool isEditMode = false;
         private int idTournamentDiedit = 0;
 
+        // FIX MVC: Tambahkan field readonly untuk object Controller
+        private readonly AdminController _adminController;
+
         // --- CONSTRUCTOR 1: Dipakai saat membuat turnamen baru (Normal Mode) ---
-        public MenuBuatTournament(User user)
+        public MenuBuatTournament(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;
             this.isEditMode = false;
+
+            // FIX MVC: Instansiasi controller
+            this._adminController = new AdminController();
         }
 
         // --- CONSTRUCTOR 2: Dipakai saat mengedit turnamen (Edit Mode) ---
-        public MenuBuatTournament(User user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
+        public MenuBuatTournament(AkunUser user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
         {
             InitializeComponent();
             this.adminLogin = user;
-
-            // Set status ke mode edit dan simpan ID-nya
             this.isEditMode = true;
             this.idTournamentDiedit = idKompetisi;
+
+            // FIX MVC: Instansiasi controller
+            this._adminController = new AdminController();
 
             // Ubah text tombol simpan menjadi Update
             roundedButton2.Text = "Update";
@@ -60,6 +68,9 @@ namespace ProjekPBO_PSQL.View.Admin
             TanggalPelaksanaan.Value = DateTime.Now;
         }
 
+        // =======================================================================
+        // EVENT CLICK: TOMBOL SIMPAN / UPDATE TOURNAMENT VIA CONTROLLER
+        // =======================================================================
         private void roundedButton2_Click_1(object sender, EventArgs e)
         {
             string nama = NamaTournament.Text.Trim();
@@ -89,32 +100,32 @@ namespace ProjekPBO_PSQL.View.Admin
                 string pelaksanaanPendaftaranCombined = $"{DateTime.Today:dd MMM yyyy} s.d {tanggalDitutup:dd MMM yyyy}";
 
                 int jumlahBabakTerpilih = Convert.ToInt32(Babak.SelectedItem ?? 1);
-                int idYangDipakai = isEditMode ? idTournamentDiedit : 0;
 
-                Tournament kompetisiBaru = new Tournament(
-                    idYangDipakai,
-                    1,
-                    nama,
-                    modeKompetisiCombined,
-                    harga,
-                    pelaksanaanPendaftaranCombined,
-                    tanggal,
-                    hadiah,
-                    $"Sistem Swiss",
-                    jumlahBabakTerpilih
-                );
+                // Membuat objek model data Tournament
+                Tournament kompetisiBaru = new Tournament
+                {
+                    IdKompetisi = isEditMode ? idTournamentDiedit : 0,
+                    IdUser = this.adminLogin != null ? this.adminLogin.IdUser : 1, // Mengambil ID admin yang sedang login
+                    NamaKompetisi = nama,
+                    ModeKompetisi = modeKompetisiCombined,
+                    HargaPendaftaran = harga,
+                    PelaksanaanPendaftaran = pelaksanaanPendaftaranCombined,
+                    TanggalPelaksanaan = tanggal,
+                    Hadiah = hadiah,
+                    SistemPertandingan = "Sistem Swiss",
+                    JumlahBabak = jumlahBabakTerpilih
+                };
 
-                KompetisiContext kompetisiCtx = new KompetisiContext();
                 bool sukses = false;
 
+                // FIX MVC: Eksekusi data murni dialihkan via AdminController (Bukan KompetisiContext langsung)
                 if (isEditMode)
                 {
-                    sukses = kompetisiCtx.EditTournament(kompetisiBaru);
+                    sukses = _adminController.EditTournament(kompetisiBaru);
                 }
                 else
                 {
-
-                    sukses = kompetisiCtx.TambahTournament(kompetisiBaru);
+                    sukses = _adminController.TambahTournament(kompetisiBaru);
                 }
 
                 if (sukses)
@@ -140,6 +151,10 @@ namespace ProjekPBO_PSQL.View.Admin
             {
                 MessageBox.Show("Harga Pendaftaran dan Hadiah harus berupa angka bulat saja!", "Kesalahan Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Operasi Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Metode penampung event bawaan desainer
@@ -151,6 +166,9 @@ namespace ProjekPBO_PSQL.View.Admin
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void textBox3_TextChanged(object sender, EventArgs e) { }
 
+        // =======================================================================
+        // EVENT LINKLABEL SIDEBAR (NAVIGASI)
+        // =======================================================================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
@@ -176,12 +194,8 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
-
-            // 2. Tampilkan form tujuan
+            MenuPertandingan formPertandingan = new MenuPertandingan(this.adminLogin);
             formPertandingan.Show();
-
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
     }

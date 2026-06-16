@@ -1,24 +1,35 @@
-﻿using System;
+﻿using ProjekPBO_PSQL.Controller;
+using ProjekPBO_PSQL.Helpers;
+using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ProjekPBO_PSQL.Models;
-using ProjekPBO_PSQL.Helpers;
-using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class LihatDataPembayaran : Form
     {
-        private User adminLogin;
+        // Menyimpan sesi user/admin yang sedang login
+        private AkunUser adminLogin;
 
-        public LihatDataPembayaran(User user)
+        // FIX MVC: Menambahkan field untuk memegang object Controller
+        private readonly AdminController _adminController;
+
+        public LihatDataPembayaran(AkunUser user)
         {
             InitializeComponent();
-            this.adminLogin = user; // Simpan sesi admin
+
+            // Validasi jika objek user yang dikirim ternyata null
+            this.adminLogin = user ?? throw new ArgumentNullException(nameof(user), "Sesi user tidak valid atau kosong.");
+
+            // FIX MVC: Instansiasi controller di konstruktor form
+            this._adminController = new AdminController();
+
             this.Load += new System.EventHandler(this.LihatDataPembayaran_Load);
             linkLabel1.LinkClicked += linkLabel1_LinkClicked; // Profil Admin
             linkLabel4.LinkClicked += linkLabel4_LinkClicked; // Lihat Data Tournament
@@ -26,22 +37,18 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         // =======================================================================
-        // EVENT LOAD: OTOMATIS TARIK DATA PEMBAYARAN DARI DATABASE
+        // EVENT LOAD: OTOMATIS TARIK DATA PEMBAYARAN VIA CONTROLLER
         // =======================================================================
         private void LihatDataPembayaran_Load(object sender, EventArgs e)
         {
             try
             {
-                TransaksiContext transaksiContext = new TransaksiContext();
-
-                DataTable dtPembayaran = transaksiContext.AmbilSemuaPembayaran();
+                // FIX MVC: Mengambil data pembayaran melalui Controller (Bukan dari Context langsung)
+                DataTable dtPembayaran = _adminController.AmbilSemuaPembayaran();
 
                 dataGridView1.DataSource = dtPembayaran;
-
                 dataGridView1.ReadOnly = true;
-
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
                 dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dataGridView1.MultiSelect = false;
             }
@@ -50,6 +57,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show(ex.Message, "Error Load Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
@@ -91,9 +99,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
-
-            // 2. Tampilkan form tujuan
+            MenuPertandingan formPertandingan = new MenuPertandingan(this.adminLogin);
             formPertandingan.Show();
             this.Hide();
         }

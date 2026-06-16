@@ -14,7 +14,7 @@ namespace ProjekPBO_PSQL
 {
     public partial class FormRegistrasi : Form
     {
-        // Instance dbHelper untuk memanggil fungsi database
+        // Hubungkan ke kelas AutentikasiContext yang baru saja diperbaiki
         private AutentikasiContext dbHelper = new AutentikasiContext();
 
         public FormRegistrasi()
@@ -22,120 +22,32 @@ namespace ProjekPBO_PSQL
             InitializeComponent();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-    
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void FormRegistrasi_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void roundedButton2_Click(object sender, EventArgs e)
-        {
-            FormLogin login = new FormLogin();
-            login.Show();
-            this.Hide();
-        }
-
+        // =======================================================================
+        // TOMBOL REGISTRASI (roundedButton1)
+        // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
         {
-            // Ambil semua input
+            // 1. Ambil semua data dari input form
             string namaInput = textBox1.Text.Trim();
             string usernameInput = textBox2.Text.Trim();
             string emailInput = textBox3.Text.Trim();
-            string negaraInput = comboBox1.Text.Trim();   // WAJIB, tidak boleh kosong
-            string telponInput = textBox5.Text.Trim();    // WAJIB, tidak boleh kosong
+            string negaraInput = comboBox1.Text.Trim();
+            string telponInput = textBox5.Text.Trim();
             string passwordInput = textBox6.Text.Trim();
             DateTime tanggalLahirInput = dateTimePicker1.Value;
 
-            // ========= VALIDASI WAJIB ISI (semua kecuali deskripsi) =========
-            if (string.IsNullOrEmpty(namaInput))
+            // 2. Validasi input kosong
+            if (string.IsNullOrEmpty(namaInput) || string.IsNullOrEmpty(usernameInput) ||
+                string.IsNullOrEmpty(emailInput) || string.IsNullOrEmpty(negaraInput) ||
+                string.IsNullOrEmpty(telponInput) || string.IsNullOrEmpty(passwordInput))
             {
-                MessageBox.Show("Nama lengkap wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Semua kolom data wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrEmpty(usernameInput))
-            {
-                MessageBox.Show("Username wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (string.IsNullOrEmpty(emailInput))
-            {
-                MessageBox.Show("Email wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (string.IsNullOrEmpty(negaraInput))
-            {
-                MessageBox.Show("Negara wajib dipilih!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (string.IsNullOrEmpty(telponInput))
-            {
-                MessageBox.Show("Nomor telepon wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (string.IsNullOrEmpty(passwordInput))
-            {
-                MessageBox.Show("Password wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            // Tanggal lahir: dateTimePicker pasti punya nilai, bisa ditambahkan jika perlu minimal umur
-            // Contoh validasi umur minimal 18 tahun (opsional)
-            // if (tanggalLahirInput > DateTime.Now.AddYears(-18))
-            // {
-            //     MessageBox.Show("Usia minimal 18 tahun.");
-            //     return;
-            // }
 
-            // ========= CEK DUPLIKASI DI DATABASE =========
             try
             {
+                // 3. Validasi duplikasi data ke database
                 if (dbHelper.IsUsernameExists(usernameInput))
                 {
                     MessageBox.Show("Username sudah terpakai!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -151,42 +63,39 @@ namespace ProjekPBO_PSQL
                     MessageBox.Show("Nomor telepon sudah digunakan akun lain!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                // Pengecekan password duplikat (opsional, jika mau)
-                // if (dbHelper.IsPasswordExists(passwordInput))
-                // {
-                //     MessageBox.Show("Password sudah pernah dipakai, pilih yang lain.");
-                //     return;
-                // }
 
-                // ========= BUNGKUS OBJEK =========
-                // ========= BUNGKUS OBJEK =========
-                // ========= BUNGKUS OBJEK =========
-                // Memakai huruf kecil kembali sesuai model User yang baru diperbaiki
-                User akunBaru = new User(0, usernameInput, passwordInput, emailInput, false);
+                // =======================================================================
+                // SOLUSI CS0144: Menggunakan 'Pemain' karena 'AkunUser' adalah kelas abstrak
+                // Mencocokkan 4 parameter konstruktor Pemain(id, username, password, email)
+                // =======================================================================
+                Pemain akunBaru = new Pemain(0, usernameInput, passwordInput, emailInput);
 
-                Detail_User detailBaru = new Detail_User(
-                    0,
-                    namaInput,
-                    negaraInput,
-                    telponInput,
-                    tanggalLahirInput.Date,
-                    1200,
-                    DateTime.Today,
-                    "" // Menggunakan string kosong "" agar aman dari error NULL di PostgreSQL
-                );
+                // Solusi CS1061: Membuat objek dengan properti PascalCase yang dibaca AutentikasiContext
+                ProfilCatur detailBaru = new ProfilCatur()
+                {
+                    NamaLengkap = namaInput,
+                    Negara = negaraInput,
+                    NoTelepon = telponInput,
+                    TanggalLahir = tanggalLahirInput.Date,
+                    EloRating = 1200, // Rating awal standar pemain baru
+                    Deskripsi = ""
+                };
 
-                bool isSukses = dbHelper.RegisterUser(akunBaru, detailBaru);
+                // 4. Kirim ke fungsi RegisterUser di AutentikasiContext (3 parameter wajib)
+                bool isSukses = dbHelper.RegisterUser(akunBaru, passwordInput, detailBaru);
 
                 if (isSukses)
                 {
-                    MessageBox.Show("Registrasi berhasil!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Registrasi berhasil! Silakan login.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Pindah ke Form Login
                     FormLogin loginForm = new FormLogin();
                     loginForm.Show();
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Registrasi gagal. Cek koneksi database atau data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Registrasi gagal. Cek kembali koneksi database Anda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -194,5 +103,32 @@ namespace ProjekPBO_PSQL
                 MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        // =======================================================================
+        // TOMBOL KEMBALI KE LOGIN (roundedButton2)
+        // =======================================================================
+        private void roundedButton2_Click(object sender, EventArgs e)
+        {
+            FormLogin login = new FormLogin();
+            login.Show();
+            this.Hide();
+        }
+
+        // =======================================================================
+        // PLACEHOLDER EVENT HANDLERS (Agar Designer Form Tidak Error)
+        // =======================================================================
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
+        private void textBox3_TextChanged(object sender, EventArgs e) { }
+        private void textBox5_TextChanged(object sender, EventArgs e) { }
+        private void textBox6_TextChanged(object sender, EventArgs e) { }
+        private void label7_Click(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
+        private void label3_Click(object sender, EventArgs e) { }
+        private void label6_Click(object sender, EventArgs e) { }
+        private void FormRegistrasi_Load(object sender, EventArgs e) { }
     }
 }

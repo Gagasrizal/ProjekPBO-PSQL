@@ -14,10 +14,10 @@ namespace ProjekPBO_PSQL
     public partial class MenuTournament : Form
     {
         // Variabel global untuk menyimpan sesi data user yang sedang login
-        private User userLogin;
+        private AkunUser userLogin;
 
         // Konstruktor diubah agar menerima data User yang dikirim dari form sebelumnya
-        public MenuTournament(User user)
+        public MenuTournament(AkunUser user)
         {
             InitializeComponent();
             this.userLogin = user;
@@ -97,7 +97,7 @@ namespace ProjekPBO_PSQL
 
                 // 3. Ambil ID User asli yang sedang aktif login dari sesi userLogin
                 // Catatan: Jika di class User property ID-mu menggunakan huruf besar (PascalCase), ganti .id menjadi .Id
-                int idUserLogin = this.userLogin.id;
+                int idUserLogin = this.userLogin.IdUser;
 
                 // 4. LEMPAR DATA KE MENU PEMBAYARAN
                 MenuPembayaran bayarForm = new MenuPembayaran(this.userLogin, idKompetisi, namaKompetisi, hargaPendaftaran);

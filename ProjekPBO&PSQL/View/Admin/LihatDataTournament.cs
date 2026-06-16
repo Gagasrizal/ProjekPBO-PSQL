@@ -14,10 +14,10 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class LihatDataTournament : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private int idKompetisiTerpilih = 0;
 
-        public LihatDataTournament(User user)
+        public LihatDataTournament(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;

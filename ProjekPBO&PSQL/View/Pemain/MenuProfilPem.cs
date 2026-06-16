@@ -14,11 +14,11 @@ namespace ProjekPBO_PSQL.View.Pemain
 {
     public partial class MenuProfilPem : Form
     {
-        private User userLogin;
+        private AkunUser userLogin;
         private UserContext userContext = new UserContext();
 
         // Konstruktor menerima data User dari form login / menu sebelumnya
-        public MenuProfilPem(User user)
+        public MenuProfilPem(AkunUser user)
         {
             InitializeComponent();
             this.userLogin = user;
@@ -29,21 +29,21 @@ namespace ProjekPBO_PSQL.View.Pemain
             if (userLogin != null)
             {
                 // 1. Tampilkan data dari tabel 'users' milik Bangijal
-                label12.Text = userLogin.username;              // Akan muncul: Bangijal
-                label17.Text = userLogin.email;                 // Akan muncul: bangizals@turnamen.c...
+                label12.Text = userLogin.Username;              // Akan muncul: Bangijal
+                label17.Text = userLogin.Email;                 // Akan muncul: bangizals@turnamen.c...
 
                 // 2. Ambil detail profile berdasarkan id_user = 5
-                Detail_User detail = userContext.GetDetailUserByUserId(userLogin.id);
+                ProfilCatur detail = userContext.GetDetailUserByUserId(userLogin.IdUser);
 
                 if (detail != null)
                 {
                     label14.Text = detail.Negara;                                 // Akan muncul: Indonesia
-                    label13.Text = detail.Elo_rating.ToString();                  // Akan muncul: 1200
-                    label20.Text = detail.No_telepon;                             // Akan muncul: +6482234671231
-                    label18.Text = detail.Tanggal_lahir.ToString("dd MMMM yyyy"); // Akan muncul: 28 September 1995
+                    label13.Text = detail.EloRating.ToString();                  // Akan muncul: 1200
+                    label20.Text = detail.NoTelepon;                             // Akan muncul: +6482234671231
+                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy"); // Akan muncul: 28 September 1995
 
                     // Menampilkan tanggal dibuatnya akun Bangijal
-                    label1.Text = "Account Created on " + detail.CreatedAt.ToString("dd MMM yyyy"); // Akan muncul: 06 Jun 2026
+                    label1.Text = "Account Profile Verified";
 
                     // BONUS: Jika kamu punya TextBox atau RichTextBox untuk deskripsi ("Pemain pemula")
                     // Silakan isi nama komponen deskripsi kamu di bawah ini, misalnya richTextBox1:

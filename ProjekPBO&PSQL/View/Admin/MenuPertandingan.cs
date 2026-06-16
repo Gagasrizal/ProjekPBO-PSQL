@@ -11,13 +11,13 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuPertandingan : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private int _idKompetisi = 0;
         private int _babakAktif = 1;
         private string _namaTournament = "";
 
         // Constructor Utama - Digunakan oleh semua Form Admin untuk berpindah halaman tanpa kehilangan session
-        public MenuPertandingan(User user)
+        public MenuPertandingan(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;
@@ -25,7 +25,7 @@ namespace ProjekPBO_PSQL.View.Admin
         }
 
         // Overload Constructor jika Anda ingin membuka form langsung menargetkan turnamen & babak tertentu
-        public MenuPertandingan(User user, int idKompetisi, int babakAktif, string namaTournament) : this(user)
+        public MenuPertandingan(AkunUser user, int idKompetisi, int babakAktif, string namaTournament) : this(user)
         {
             this._idKompetisi = idKompetisi;
             this._babakAktif = babakAktif;

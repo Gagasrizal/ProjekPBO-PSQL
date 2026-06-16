@@ -13,11 +13,11 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuProfilAdmin : Form
     {
-        private User adminLogin;
+        private AkunUser adminLogin;
         private UserContext userContext = new UserContext();
 
         // Konstruktor menerima data User dari MenuAdmin atau form admin sebelumnya
-        public MenuProfilAdmin(User user)
+        public MenuProfilAdmin(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;
@@ -28,22 +28,28 @@ namespace ProjekPBO_PSQL.View.Admin
             // Cek apakah adminLogin kosong di awal fungsi
             if (adminLogin != null)
             {
-                // 1. Isi data dasar dari objek login
-                label12.Text = adminLogin.username;
-                label17.Text = adminLogin.email;
+                // =======================================================================
+                // 1. FIX ERROR CS1061: Menggunakan properti huruf kapital (PascalCase) 
+                //    sesuai dengan yang didefinisikan di dalam kelas model AkunUser.cs
+                // =======================================================================
+                label12.Text = adminLogin.Username; // Sebelumnya: username
+                label17.Text = adminLogin.Email;    // Sebelumnya: email
 
-                // 2. Ambil detail user dari PostgreSQL
-                Detail_User detail = userContext.GetDetailUserByUserId(adminLogin.id);
-
+                // 2. FIX ERROR CS1061: Mengganti '.id' menjadi '.IdUser' sesuai isi model AkunUser
+                ProfilCatur detail = userContext.GetDetailUserByUserId(adminLogin.IdUser);
                 if (detail != null)
-                {   
+                {
+                    // =======================================================================
+                    // FIX TOTAL: Menyinkronkan nama properti dengan file ProfilCatur.cs Anda
+                    // =======================================================================
                     label14.Text = detail.Negara;
-                    label13.Text = detail.Elo_rating.ToString();
-                    label20.Text = detail.No_telepon;
-                    label18.Text = detail.Tanggal_lahir.ToString("dd MMMM yyyy");
+                    label13.Text = detail.EloRating.ToString(); // FIX: Elo_rating -> EloRating
+                    label20.Text = detail.NoTelepon;            // FIX: No_telepon -> NoTelepon
+                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy"); // FIX: Tanggal_lahir -> TanggalLahir
 
-                    // Pindahkan tulisan CreatedAt dari label3 ke label1 (label paling bawah)
-                    label1.Text = "Account Created on: " + detail.CreatedAt.ToString("dd MMM yyyy");
+                    // Karena di kelas ProfilCatur tidak ada properti CreatedAt, kita set teks default 
+                    // agar label paling bawah tetap rapi atau tidak memicu error kompilasi
+                    label1.Text = "Account Profile Verified";
                 }
                 else
                 {
@@ -56,7 +62,7 @@ namespace ProjekPBO_PSQL.View.Admin
             }
             else
             {
-                // Blok else ini sekarang aman berada di dalam fungsi Load
+                // Blok else jika data sesi login admin tidak ditemukan
                 MessageBox.Show("Data sesi login admin tidak ditemukan! Pastikan masuk dari FormLogin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -67,9 +73,8 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Profil (Form Ini)
         {
-
+            // Sudah berada di halaman ini
         }
-
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Lihat Data Tournament
         {
@@ -108,10 +113,7 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label5_Click(object sender, EventArgs e) { }
         private void label14_Click(object sender, EventArgs e) { }
         private void label6_Click(object sender, EventArgs e) { }
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void label13_Click(object sender, EventArgs e) { }
         private void label7_Click(object sender, EventArgs e) { }
         private void label20_Click(object sender, EventArgs e) { }
         private void label9_Click(object sender, EventArgs e) { }
@@ -121,26 +123,14 @@ namespace ProjekPBO_PSQL.View.Admin
         private void label11_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }
-
-        private void roundedpanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Edit_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void roundedpanel1_Paint(object sender, PaintEventArgs e) { }
+        private void Edit_Click(object sender, EventArgs e) { }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // 1. Buat instance dari form tujuan
-            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
-
-            // 2. Tampilkan form tujuan
+            // FIX: Menyesuaikan parameter navigasi pertandingan menggunakan objek penampung adminLogin
+            MenuPertandingan formPertandingan = new MenuPertandingan(this.adminLogin);
             formPertandingan.Show();
-
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
     }

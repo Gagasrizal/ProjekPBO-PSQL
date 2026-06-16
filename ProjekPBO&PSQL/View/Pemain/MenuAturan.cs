@@ -12,10 +12,10 @@ namespace ProjekPBO_PSQL.View.Pemain
     public partial class MenuAturan : Form
     {
         // Variabel global untuk menyimpan sesi data user yang sedang login
-        private User userLogin;
+        private AkunUser userLogin;
 
         // Konstruktor diubah agar menerima data User dari form sebelumnya
-        public MenuAturan(User user)
+        public MenuAturan(AkunUser user)
         {
             InitializeComponent();
             this.userLogin = user; // Menyimpan sesi user aktif (seperti Bangijal)

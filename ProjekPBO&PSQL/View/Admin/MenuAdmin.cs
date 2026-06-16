@@ -13,17 +13,18 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class MenuAdmin : Form
     {
         // Variabel global untuk menyimpan sesi data admin yang sedang login
-        private User adminLogin;
+        private AkunUser adminLogin;
 
         // Konstruktor menerima parameter data User dari FormLogin
-        public MenuAdmin(User user)
+        public MenuAdmin(AkunUser user)
         {
             InitializeComponent();
-            this.adminLogin = user; // Menyimpan data admin aktif
+            this.adminLogin = user ?? throw new ArgumentNullException(nameof(user), "Sesi admin tidak valid.");
         }
+
         private void MenuAdmin_Load(object sender, EventArgs e)
         {
-            // Logika awal saat halaman dashboard admin dimuat (jika ada)
+            // Logika awal saat halaman dashboard admin dimuat
         }
 
         // =======================================================================
@@ -32,13 +33,13 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Profil
         {
-            // Di sini baru benar memanggil MenuProfilAdmin
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-            this.Hide(); // Menyembunyikan dashboard Selamat Datang
+            this.Hide();
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Menu Buat Tournament
+        // 1. LINK LABEL KEDUA - UNTUK BUAT TOURNAMENT (Jangan Dihapus)
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuBuatTournament buatTournament = new MenuBuatTournament(this.adminLogin);
             buatTournament.Show();
@@ -56,11 +57,10 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
 
-            // 2. KUNCI KOORDINAT: Biar form baru numpuk persis di posisi form sekarang
+            // KUNCI KOORDINAT: Biar form baru numpuk persis di posisi form sekarang
             lihatTournament.StartPosition = FormStartPosition.Manual;
             lihatTournament.Location = this.Location;
 
-            // 3. Tampilkan form baru, lalu sembunyikan yang lama
             lihatTournament.Show();
             this.Hide();
         }
@@ -83,18 +83,15 @@ namespace ProjekPBO_PSQL.View.Admin
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); // Menutup form MenuAdmin dengan aman dan kembali ke Login awal
+                this.Close();
             }
         }
 
+        // 2. LINK LABEL KEDUA (DUPLIKAT NYA) - UNTUK MENU PERTANDINGAN (Tetap Dipertahankan agar Designer tidak Error)
         private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
-
-            // 2. Tampilkan form tujuan
+            MenuPertandingan formPertandingan = new MenuPertandingan(this.adminLogin);
             formPertandingan.Show();
-
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
     }

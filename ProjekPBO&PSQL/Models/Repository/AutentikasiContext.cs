@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
 using Npgsql;
 using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using System;
 
 namespace ProjekPBO_PSQL.Models.Context
 {
@@ -34,6 +35,7 @@ namespace ProjekPBO_PSQL.Models.Context
             long count = (long)cmd.ExecuteScalar();
             return count > 0;
         }
+
         public bool IsNoTeleponExists(string noTelepon)
         {
             if (string.IsNullOrEmpty(noTelepon)) return false;
@@ -49,7 +51,8 @@ namespace ProjekPBO_PSQL.Models.Context
             long count = (long)cmd.ExecuteScalar();
             return count > 0;
         }
-        public User AuthenticateUser(string username, string password)
+
+        public AkunUser AuthenticateUser(string username, string password)
         {
             using var conn = DBHelper.GetConnection();
             conn.Open();
@@ -66,18 +69,20 @@ namespace ProjekPBO_PSQL.Models.Context
 
             if (reader.Read())
             {
-                return new User(
-                    reader.GetInt32(0),
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetString(3),
-                    reader.GetBoolean(4)
+                // FIX CS1729: Menggunakan kelas 'Pemain' dan mencocokkan jumlah parameter 
+                // sesuai konstruktor yang ada di Pemain.cs (4 argumen wajib)
+                return new Pemain(
+                    reader.GetInt32(0),  // id
+                    reader.GetString(1), // username
+                    reader.GetString(2), // passwords
+                    reader.GetString(3)  // email
                 );
             }
             return null;
         }
 
-        public bool RegisterUser(User user, Detail_User detail)
+        // FIX: Menggunakan tipe data 'ProfilCatur' dan parameter string plainPassword terpisah
+        public bool RegisterUser(AkunUser user, string plainPassword, ProfilCatur detail)
         {
             using var conn = DBHelper.GetConnection();
             conn.Open();
@@ -90,11 +95,11 @@ namespace ProjekPBO_PSQL.Models.Context
                                      RETURNING id_user";
 
                 using var userCmd = new NpgsqlCommand(userQuery, conn);
-                // Catatan: Jika properti di class User-mu pakai huruf besar, 
-                // ubah menjadi user.Username, user.Password, user.Email
-                userCmd.Parameters.AddWithValue("@username", user.username);
-                userCmd.Parameters.AddWithValue("@password", user.password);
-                userCmd.Parameters.AddWithValue("@email", user.email);
+
+                // FIX CS1061: Menggunakan Properti berhuruf Kapital (PascalCase) dari AkunUser
+                userCmd.Parameters.AddWithValue("@username", user.Username);
+                userCmd.Parameters.AddWithValue("@password", plainPassword);
+                userCmd.Parameters.AddWithValue("@email", user.Email);
                 userCmd.Parameters.AddWithValue("@is_admin", false);
 
                 object userIdObj = userCmd.ExecuteScalar();
@@ -102,14 +107,17 @@ namespace ProjekPBO_PSQL.Models.Context
                 int idUser = Convert.ToInt32(userIdObj);
 
                 string detailQuery = @"INSERT INTO detail_user (id_user, nama_lengkap, negara, no_telepon, tanggal_lahir, elo_rating, created_at, deskripsi)
-                                       VALUES (@id_user, @nama_lengkap, @negara, @no_telepon, @tanggal_lahir, 1200, @created_at, @deskripsi)";
+                                       VALUES (@id_user, @nama_lengkap, @negara, @no_telepon, @tanggal_lahir, @elo_rating, @created_at, @deskripsi)";
 
                 using var detailCmd = new NpgsqlCommand(detailQuery, conn);
                 detailCmd.Parameters.AddWithValue("@id_user", idUser);
-                detailCmd.Parameters.AddWithValue("@nama_lengkap", detail.Nama_lengkap);
+
+                // FIX CS1061: Menggunakan properti PascalCase dari ProfilCatur Anda
+                detailCmd.Parameters.AddWithValue("@nama_lengkap", detail.NamaLengkap);
                 detailCmd.Parameters.AddWithValue("@negara", detail.Negara);
-                detailCmd.Parameters.AddWithValue("@no_telepon", detail.No_telepon);
-                detailCmd.Parameters.AddWithValue("@tanggal_lahir", detail.Tanggal_lahir.Date);
+                detailCmd.Parameters.AddWithValue("@no_telepon", detail.NoTelepon);
+                detailCmd.Parameters.AddWithValue("@tanggal_lahir", detail.TanggalLahir.Date);
+                detailCmd.Parameters.AddWithValue("@elo_rating", detail.EloRating == 0 ? 1200 : detail.EloRating);
                 detailCmd.Parameters.AddWithValue("@created_at", DateTime.Today);
                 detailCmd.Parameters.AddWithValue("@deskripsi", string.IsNullOrEmpty(detail.Deskripsi) ? (object)DBNull.Value : detail.Deskripsi);
 

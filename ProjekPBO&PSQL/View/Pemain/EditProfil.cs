@@ -12,10 +12,10 @@ namespace ProjekPBO_PSQL.View.Pemain
     public partial class EditProfil : Form
     {
         // Sesi user yang sedang login
-        private User userLogin;
+        private AkunUser userLogin;
 
         // Ubah konstruktor agar wajib menerima objek User
-        public EditProfil(User user)
+        public EditProfil(AkunUser user)
         {
             InitializeComponent();
             this.userLogin = user;
