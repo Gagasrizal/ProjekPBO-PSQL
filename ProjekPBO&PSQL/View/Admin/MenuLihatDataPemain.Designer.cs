@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuLihatDataPemain));
-            roundedButton2 = new RoundedButton();
             roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
             linkLabel1 = new LinkLabel();
-            roundedButton4 = new RoundedButton();
             dataGridView1 = new DataGridView();
             dBHelperBindingSource = new BindingSource(components);
             comboBox1 = new ComboBox();
@@ -43,27 +43,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dBHelperBindingSource).BeginInit();
             SuspendLayout();
-            // 
-            // roundedButton2
-            // 
-            roundedButton2.BackColor = Color.Transparent;
-            roundedButton2.BackgroundColor = Color.Transparent;
-            roundedButton2.BackgroundImageLayout = ImageLayout.Stretch;
-            roundedButton2.BorderColor = Color.PaleGreen;
-            roundedButton2.BorderRadius = 0;
-            roundedButton2.BorderSize = 2;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.Silver;
-            roundedButton2.Location = new Point(1322, 801);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(260, 48);
-            roundedButton2.TabIndex = 40;
-            roundedButton2.Text = "Hasil";
-            roundedButton2.TextColor = Color.Silver;
-            roundedButton2.UseVisualStyleBackColor = false;
-            roundedButton2.Click += roundedButton2_Click;
             // 
             // roundedButton1
             // 
@@ -130,35 +109,31 @@
             linkLabel1.TextAlign = ContentAlignment.TopRight;
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
-            // roundedButton4
-            // 
-            roundedButton4.BackColor = Color.Transparent;
-            roundedButton4.BackgroundColor = Color.Transparent;
-            roundedButton4.BackgroundImageLayout = ImageLayout.Stretch;
-            roundedButton4.BorderColor = Color.PaleGreen;
-            roundedButton4.BorderRadius = 0;
-            roundedButton4.BorderSize = 2;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton4.ForeColor = Color.Silver;
-            roundedButton4.Location = new Point(681, 100);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(260, 48);
-            roundedButton4.TabIndex = 43;
-            roundedButton4.Text = "Lihat";
-            roundedButton4.TextColor = Color.Silver;
-            roundedButton4.UseVisualStyleBackColor = false;
-            roundedButton4.Click += roundedButton4_Click;
-            // 
             // dataGridView1
             // 
+            dataGridView1.BackgroundColor = Color.FromArgb(58, 74, 83);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Enabled = false;
             dataGridView1.Location = new Point(296, 180);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1286, 615);
+            dataGridView1.Size = new Size(1286, 668);
             dataGridView1.TabIndex = 44;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
             // 
@@ -202,8 +177,6 @@
             ClientSize = new Size(1594, 860);
             Controls.Add(linkLabel2);
             Controls.Add(dataGridView1);
-            Controls.Add(roundedButton4);
-            Controls.Add(roundedButton2);
             Controls.Add(comboBox1);
             Controls.Add(roundedButton1);
             Controls.Add(linkLabel5);

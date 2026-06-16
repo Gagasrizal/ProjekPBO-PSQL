@@ -32,22 +32,16 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             try
             {
-                // 1. Panggil DBHelper
-                // 1. Panggil DBHelper
-                TransaksiContext transaksiCtx = new TransaksiContext();
+                TransaksiContext transaksiContext = new TransaksiContext();
 
-                DataTable dtPembayaran = transaksiCtx.AmbilSemuaPembayaran();
+                DataTable dtPembayaran = transaksiContext.AmbilSemuaPembayaran();
 
-                // 3. Masukkan ke DataGridView admin
                 dataGridView1.DataSource = dtPembayaran;
 
-                // 4. Kunci tabel biar gak bisa diedit sembarangan oleh admin jancok haha
                 dataGridView1.ReadOnly = true;
 
-                // 5. Pengaturan layout agar kolom otomatis memenuhi lebar layar secara rapi
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                // Setting seleksi baris utuh
                 dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dataGridView1.MultiSelect = false;
             }
@@ -56,22 +50,18 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show(ex.Message, "Error Load Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // =======================================================================
-        // NAVIGASI LINK LABEL SIDEBAR ADMIN
-        // =======================================================================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);
             menuProfil.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
             lihatTournament.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -105,8 +95,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
             // 2. Tampilkan form tujuan
             formPertandingan.Show();
-
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
     }

@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPertandingan));
             linkLabel5 = new LinkLabel();
             linkLabel4 = new LinkLabel();
@@ -56,7 +58,9 @@
             linkLabel5.Size = new Size(200, 68);
             linkLabel5.TabIndex = 38;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "Lihat Data\r\nPembayaran";           
+            linkLabel5.Text = "Lihat Data\r\nPembayaran";
+            linkLabel5.LinkClicked += linkLabel5_LinkClicked_1;
+            // 
             // linkLabel4
             // 
             linkLabel4.AutoSize = true;
@@ -70,6 +74,7 @@
             linkLabel4.TabIndex = 37;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked_1;
             // 
             // linkLabel1
             // 
@@ -85,6 +90,7 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked_1;
             // 
             // roundedButton1
             // 
@@ -103,15 +109,34 @@
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click_1;
             // 
             // dataGridView1
             // 
+            dataGridView1.BackgroundColor = Color.FromArgb(58, 74, 83);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Location = new Point(296, 137);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(1286, 658);
             dataGridView1.TabIndex = 40;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // comboBox3
             // 
@@ -225,6 +250,7 @@
             linkLabel2.TabIndex = 49;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Lihat Data\r\nPertandingan";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked_1;
             // 
             // MenuPertandingan
             // 

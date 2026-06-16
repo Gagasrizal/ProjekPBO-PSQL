@@ -107,7 +107,7 @@ namespace ProjekPBO_PSQL.Models.Context
                              JOIN users u ON pk.id_user = u.id_user
                              JOIN kompetisi k ON pk.id_kompetisi = k.id_kompetisi
                              JOIN metode_pembayaran m ON t.id_metode_pembayaran = m.id_metode_pembayaran
-                             ORDER BY t.id_transaksi DESC;";
+                             ORDER BY t.id_transaksi ASC;";
 
             try
             {

@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LihatDataPembayaran));
             roundedButton1 = new RoundedButton();
             linkLabel5 = new LinkLabel();
-            linkLabel4 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             dataGridView1 = new DataGridView();
             linkLabel2 = new LinkLabel();
+            linkLabel4 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -72,21 +74,6 @@
             linkLabel5.Text = "Lihat Data\r\nPembayaran";
             linkLabel5.LinkClicked += linkLabel5_LinkClicked;
             // 
-            // linkLabel4
-            // 
-            linkLabel4.AutoSize = true;
-            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
-            linkLabel4.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
-            linkLabel4.LinkColor = Color.Silver;
-            linkLabel4.Location = new Point(11, 180);
-            linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(193, 68);
-            linkLabel4.TabIndex = 25;
-            linkLabel4.TabStop = true;
-            linkLabel4.Text = "Lihat Data\r\nTournament";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
-            // 
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
@@ -105,11 +92,29 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.BackgroundColor = Color.FromArgb(58, 74, 83);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.Transparent;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Location = new Point(284, 111);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1298, 737);
+            dataGridView1.RowTemplate.Height = 35;
+            dataGridView1.Size = new Size(1298, 691);
             dataGridView1.TabIndex = 28;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -127,6 +132,21 @@
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Lihat Data\r\npertandingan";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            // 
+            // linkLabel4
+            // 
+            linkLabel4.AutoSize = true;
+            linkLabel4.BackColor = Color.FromArgb(38, 48, 54);
+            linkLabel4.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkLabel4.LinkBehavior = LinkBehavior.NeverUnderline;
+            linkLabel4.LinkColor = Color.Silver;
+            linkLabel4.Location = new Point(11, 180);
+            linkLabel4.Name = "linkLabel4";
+            linkLabel4.Size = new Size(193, 68);
+            linkLabel4.TabIndex = 25;
+            linkLabel4.TabStop = true;
+            linkLabel4.Text = "Lihat Data\r\nTournament";
+            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // LihatDataPembayaran
             // 
@@ -153,9 +173,9 @@
 
         private RoundedButton roundedButton1;
         private LinkLabel linkLabel5;
-        private LinkLabel linkLabel4;
         private LinkLabel linkLabel1;
         private DataGridView dataGridView1;
         private LinkLabel linkLabel2;
+        private LinkLabel linkLabel4;
     }
 }

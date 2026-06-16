@@ -401,7 +401,51 @@ namespace ProjekPBO_PSQL.View.Admin
             catch { }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
+            profil.Show();
+            this.Hide();
+        }
+
+        private void linkLabel4_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LihatDataTournament tournament = new LihatDataTournament(adminLogin);
+            tournament.Show();
+            this.Hide();
+        }
+
+        private void linkLabel5_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
+            pembayaran.Show();
+            this.Hide();
+        }
+
+        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
+
+            // 2. Tampilkan form tujuan
+            formPertandingan.Show();
+
+            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
+            this.Hide();
+        }
+
+        private void roundedButton1_Click_1(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Apakah kamu yakin ingin keluar?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                FormLogin login = new FormLogin();
+                login.Show();
+                this.Close();
+            }
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -419,46 +463,6 @@ namespace ProjekPBO_PSQL.View.Admin
                 }
             }
             catch { }
-        }
-
-        // ================= SIDEBAR NAVIGATION (FIKS PARAMETER SINKRON) =================
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
-            profil.Show();
-            this.Hide();
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(adminLogin);
-            lihatPemain.Show();
-            this.Hide();
-        }
-
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            LihatDataTournament tournament = new LihatDataTournament(adminLogin);
-            tournament.Show();
-            this.Hide();
-        }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
-            pembayaran.Show();
-            this.Hide();
-        }
-
-        private void roundedButton1_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Apakah kamu yakin ingin keluar?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                FormLogin login = new FormLogin();
-                login.Show();
-                this.Close();
-            }
         }
     }
 }
