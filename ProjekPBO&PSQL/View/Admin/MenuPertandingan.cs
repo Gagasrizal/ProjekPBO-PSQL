@@ -5,46 +5,40 @@ using System.Drawing;
 using System.Windows.Forms;
 using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuPertandingan : Form
     {
         private User adminLogin;
-        private int _idKompetisi;
+        private int _idKompetisi = 0;
         private int _babakAktif = 1;
-        private string _namaTournament;
+        private string _namaTournament = "";
 
-        // Konstruktor bawaan
-        public MenuPertandingan()
+        // Constructor Utama - Digunakan oleh semua Form Admin untuk berpindah halaman tanpa kehilangan session
+        public MenuPertandingan(User user)
         {
             InitializeComponent();
-            this.Load += MenuPertandingan_Load; // ← Load event di sini agar selalu terpasang
+            this.adminLogin = user;
+            this.Load += MenuPertandingan_Load;
         }
 
-        // Konstruktor yang dipanggil dari form lain
-        public MenuPertandingan(User user, int idKompetisi, int babakAktif, string namaTournament) : this()
+        // Overload Constructor jika Anda ingin membuka form langsung menargetkan turnamen & babak tertentu
+        public MenuPertandingan(User user, int idKompetisi, int babakAktif, string namaTournament) : this(user)
         {
-            this.adminLogin = user;
             this._idKompetisi = idKompetisi;
             this._babakAktif = babakAktif;
             this._namaTournament = namaTournament;
         }
 
-        // =======================================================================
-        // FORM LOAD
-        // =======================================================================
         private void MenuPertandingan_Load(object sender, EventArgs e)
         {
             IsiComboBoxHasil();
             LoadTournamentKeComboBox();
             SinkronisasiBabak();
-            // DataGridView sengaja kosong dulu — user klik Lihat baru tampil
         }
 
-        // =======================================================================
-        // ISI comboBox3 — Input Point / Hasil
-        // =======================================================================
         private void IsiComboBoxHasil()
         {
             comboBox3.Items.Clear();
@@ -54,15 +48,12 @@ namespace ProjekPBO_PSQL.View.Admin
             comboBox3.SelectedIndex = -1;
         }
 
-        // =======================================================================
-        // LOAD comboBox1 — Pilih Tournament
-        // =======================================================================
         private void LoadTournamentKeComboBox()
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilSemuaKompetisi();
+                KompetisiContext kompetisiCtx = new KompetisiContext();
+                DataTable dt = kompetisiCtx.AmbilSemuaKompetisi();
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
@@ -87,16 +78,13 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // SINKRONISASI comboBox2 — Pilih Babak
-        // =======================================================================
         private void SinkronisasiBabak()
         {
             if (comboBox1.SelectedValue == null) return;
             if (!int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi)) return;
 
-            DBHelper db = new DBHelper();
-            int totalBabak = db.AmbilTotalBabakTournament(idKompetisi);
+            KompetisiContext kompetisiCtx = new KompetisiContext();
+            int totalBabak = kompetisiCtx.AmbilTotalBabakTournament(idKompetisi);
 
             comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
             comboBox2.Items.Clear();
@@ -110,10 +98,6 @@ namespace ProjekPBO_PSQL.View.Admin
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
         }
 
-        // =======================================================================
-        // TAMPILKAN DATA PERTANDINGAN
-        // Kolom: [hidden id] | Pemain Hitam (poin) | VS | Pemain Putih (poin) | Hasil
-        // =======================================================================
         private void TampilkanDataPertandingan()
         {
             try
@@ -128,12 +112,12 @@ namespace ProjekPBO_PSQL.View.Admin
                     int.TryParse(teks, out babak);
                 }
 
-                DBHelper db = new DBHelper();
-                DataTable dtRaw = db.AmbilPertandinganDenganTotalPoin(idKompetisi, babak);
+                // FIKS: Menggunakan PertandinganContext karena method ini ada di PertandinganContext
+                PertandinganContext pertandinganCtx = new PertandinganContext();
+                DataTable dtRaw = pertandinganCtx.AmbilPertandinganDenganTotalPoin(idKompetisi, babak);
 
-                // Susun ulang kolom sesuai tampilan yang diinginkan
                 DataTable dt = new DataTable();
-                dt.Columns.Add("id_pertandingan", typeof(int));    // hidden, untuk simpan hasil
+                dt.Columns.Add("id_pertandingan", typeof(int));
                 dt.Columns.Add("Pemain Hitam", typeof(string));
                 dt.Columns.Add("VS", typeof(string));
                 dt.Columns.Add("Pemain Putih", typeof(string));
@@ -161,8 +145,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
                 if (dataGridView1.Columns.Count >= 5)
                 {
-                    // Kolom 0: id — sembunyikan, tetap dipakai untuk ambil id saat simpan hasil
-                    dataGridView1.Columns[0].Visible = false;
+                    dataGridView1.Columns[0].Visible = false; // Hidden ID
 
                     dataGridView1.Columns[1].HeaderText = "Pemain Hitam";
                     dataGridView1.Columns[1].Width = 210;
@@ -180,7 +163,6 @@ namespace ProjekPBO_PSQL.View.Admin
                     dataGridView1.Columns[4].Width = 130;
                     dataGridView1.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    // Style baris
                     dataGridView1.ColumnHeadersHeight = 36;
                     dataGridView1.RowTemplate.Height = 38;
                     dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
@@ -196,33 +178,21 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // comboBox1 — Ganti Tournament → update babak saja, tidak auto-refresh grid
-        // =======================================================================
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SinkronisasiBabak();
         }
 
-        // =======================================================================
-        // comboBox2 — Ganti Babak → tidak auto-refresh, user klik Lihat sendiri
-        // =======================================================================
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Sengaja kosong
+            // Dikocok / diganti manual lewat klik button tampilkan data
         }
 
-        // =======================================================================
-        // roundedButton4 — Tombol LIHAT
-        // =======================================================================
         private void roundedButton4_Click(object sender, EventArgs e)
         {
             TampilkanDataPertandingan();
         }
 
-        // =======================================================================
-        // roundedButton3 — Tombol MATCHMAKING
-        // =======================================================================
         private void roundedButton3_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
@@ -236,9 +206,9 @@ namespace ProjekPBO_PSQL.View.Admin
             string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
             int babakTerpilih = Convert.ToInt32(babakRaw);
 
-            DBHelper db = new DBHelper();
+            KompetisiContext kompetisiCtx = new KompetisiContext();
 
-            if (db.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
+            if (kompetisiCtx.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
             {
                 MessageBox.Show($"Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -246,7 +216,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 return;
             }
 
-            List<int> listPemain = db.AmbilPemainTerdaftar(idKompetisi);
+            List<int> listPemain = kompetisiCtx.AmbilPemainTerdaftar(idKompetisi);
             if (listPemain.Count < 2)
             {
                 MessageBox.Show("Jumlah pemain tidak mencukupi (minimal 2).", "Peringatan",
@@ -254,7 +224,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 return;
             }
 
-            // Fisher-Yates Shuffle
+            // Fisher-Yates Shuffle Matchmaking
             Random rng = new Random();
             int n = listPemain.Count;
             while (n > 1)
@@ -274,7 +244,7 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show($"Jumlah pemain ganjil ({listPemain.Count}). 1 pemain mendapat BYE.",
                     "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (db.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
+            if (kompetisiCtx.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
             {
                 MessageBox.Show($"Berhasil generate pasangan Babak {babakTerpilih}!", "Sukses",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -282,55 +252,77 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // roundedButton2 — Tombol HASIL (simpan skor)
-        // =======================================================================
-        private void DataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        private void roundedButton2_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Pilih baris pertandingan terlebih dahulu!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (comboBox3.SelectedIndex == -1 || comboBox3.SelectedItem == null)
+            {
+                MessageBox.Show("Pilih hasil di dropdown Input Point terlebih dahulu!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                // Kolom 0 = Peringkat
-                object val = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
-                if (val == null) return;
+                int idPertandingan = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+                string hasil = comboBox3.SelectedItem.ToString();
 
-                int peringkat = Convert.ToInt32(val);
+                // FIKS: Menggunakan PertandinganContext
+                PertandinganContext pertandinganCtx = new PertandinganContext();
+                KompetisiContext kompetisiCtx = new KompetisiContext();
 
-                switch (peringkat)
+                if (pertandinganCtx.UpdateHasilPertandingan(idPertandingan, hasil))
                 {
-                    case 1:
-                        // Emas
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 215, 0);
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                        break;
-                    case 2:
-                        // Perak
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(192, 192, 192);
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                        break;
-                    case 3:
-                        // Perunggu
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(205, 127, 50);
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                        break;
+                    var eloInfo = pertandinganCtx.AmbilEloSetelahUpdate(idPertandingan);
+
+                    MessageBox.Show(
+                        $"Hasil berhasil disimpan: {hasil}\n\n" +
+                        $"ELO terupdate (via Trigger):\n" +
+                        $"• {eloInfo.NamaPutih}: {eloInfo.EloPutih}\n" +
+                        $"• {eloInfo.NamaHitam}: {eloInfo.EloHitam}",
+                        "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    TampilkanDataPertandingan();
+
+                    int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
+                    int totalBabak = kompetisiCtx.AmbilTotalBabakTournament(idKompetisi);
+
+                    int babakSekarang = 1;
+                    if (comboBox2.SelectedItem != null)
+                    {
+                        string teks = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
+                        int.TryParse(teks, out babakSekarang);
+                    }
+
+                    if (babakSekarang == totalBabak && kompetisiCtx.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
+                    {
+                        TampilkanLeaderboard(idKompetisi);
+                    }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal menyimpan hasil: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        private void TampilkanLeaderboard(int idKompetisi) //group by
+
+        private void TampilkanLeaderboard(int idKompetisi)
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilLeaderboardTournament(idKompetisi);
+                KompetisiContext kompetisiCtx = new KompetisiContext();
+                DataTable dt = kompetisiCtx.AmbilLeaderboardTournament(idKompetisi);
 
-                // Kasih tahu user bahwa tournament selesai
                 MessageBox.Show("🏆 Semua babak telah selesai!\nBerikut adalah Leaderboard akhir tournament.",
                     "Tournament Selesai!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Tampilkan leaderboard di DataGridView yang sama
                 dataGridView1.AutoGenerateColumns = true;
                 dataGridView1.DataSource = dt;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
@@ -355,24 +347,21 @@ namespace ProjekPBO_PSQL.View.Admin
                     dataGridView1.Columns[3].Width = 100;
                     dataGridView1.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    // Style header
                     dataGridView1.ColumnHeadersHeight = 36;
                     dataGridView1.RowTemplate.Height = 38;
                     dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                     dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 10);
 
-                    // Warna khusus baris peringkat 1, 2, 3
-                    dataGridView1.RowPrePaint -= DataGridView1_RowPrePaint; // hindari double subscribe
+                    dataGridView1.RowPrePaint -= DataGridView1_RowPrePaint;
                     dataGridView1.RowPrePaint += DataGridView1_RowPrePaint;
 
                     dataGridView1.Refresh();
                 }
 
-                // Nonaktifkan tombol yang tidak relevan saat leaderboard tampil
                 comboBox3.Enabled = false;
                 comboBox2.Enabled = false;
-                roundedButton2.Enabled = false; // tombol Hasil
-                roundedButton3.Enabled = false; // tombol Matchmaking
+                roundedButton2.Enabled = false;
+                roundedButton3.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -380,81 +369,47 @@ namespace ProjekPBO_PSQL.View.Admin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void roundedButton2_Click(object sender, EventArgs e)
+
+        private void DataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Pilih baris pertandingan terlebih dahulu!", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (comboBox3.SelectedIndex == -1 || comboBox3.SelectedItem == null)
-            {
-                MessageBox.Show("Pilih hasil di dropdown Input Point terlebih dahulu!", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                int idPertandingan = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
-                string hasil = comboBox3.SelectedItem.ToString();
+                object val = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+                if (val == null) return;
 
-                DBHelper db = new DBHelper();
-                if (db.UpdateHasilPertandingan(idPertandingan, hasil))
+                int peringkat = Convert.ToInt32(val);
+
+                switch (peringkat)
                 {
-                    var eloInfo = db.AmbilEloSetelahUpdate(idPertandingan);
-
-                    MessageBox.Show(
-                        $"Hasil berhasil disimpan: {hasil}\n\n" +
-                        $"ELO terupdate (via Trigger):\n" +
-                        $"• {eloInfo.NamaPutih}: {eloInfo.EloPutih}\n" +
-                        $"• {eloInfo.NamaHitam}: {eloInfo.EloHitam}",
-                        "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    TampilkanDataPertandingan();
-
-                    // =====================================================
-                    // CEK APAKAH BABAK TERAKHIR DAN SEMUA SUDAH SELESAI
-                    // =====================================================
-                    int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-                    int totalBabak = db.AmbilTotalBabakTournament(idKompetisi);
-
-                    // Ambil babak sekarang dari comboBox2
-                    int babakSekarang = 1;
-                    if (comboBox2.SelectedItem != null)
-                    {
-                        string teks = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
-                        int.TryParse(teks, out babakSekarang);
-                    }
-
-                    // Kalau ini babak terakhir DAN semua pertandingan sudah selesai
-                    if (babakSekarang == totalBabak &&
-                        db.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
-                    {
-                        TampilkanLeaderboard(idKompetisi);
-                    }
+                    case 1:
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 215, 0);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                        break;
+                    case 2:
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(192, 192, 192);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                        break;
+                    case 3:
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(205, 127, 50);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                        break;
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Gagal menyimpan hasil: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
         }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
             try
             {
-                // Cells[4] = kolom "Hasil Babak ini"
                 string hasilSaatIni = dataGridView1.Rows[e.RowIndex].Cells[4].Value?.ToString();
 
-                if (!string.IsNullOrEmpty(hasilSaatIni)
-                    && hasilSaatIni != "Belum Dimainkan"
-                    && comboBox3.Items.Contains(hasilSaatIni))
+                if (!string.IsNullOrEmpty(hasilSaatIni) && hasilSaatIni != "Belum Dimainkan" && comboBox3.Items.Contains(hasilSaatIni))
                 {
                     comboBox3.SelectedItem = hasilSaatIni;
                 }
@@ -466,47 +421,38 @@ namespace ProjekPBO_PSQL.View.Admin
             catch { }
         }
 
-        // =======================================================================
-        // SIDEBAR NAVIGATION
-        // =======================================================================
+        // ================= SIDEBAR NAVIGATION (FIKS PARAMETER SINKRON) =================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-                MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
-                profil.Show();
-                this.Hide();
+            MenuProfilAdmin profil = new MenuProfilAdmin(adminLogin);
+            profil.Show();
+            this.Hide();
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-                MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(adminLogin);
-                lihatPemain.Show();
-                this.Hide();
+            MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(adminLogin);
+            lihatPemain.Show();
+            this.Hide();
         }
-
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-                LihatDataTournament tournament = new LihatDataTournament(adminLogin);
-                tournament.Show();
-                this.Hide();
+            LihatDataTournament tournament = new LihatDataTournament(adminLogin);
+            tournament.Show();
+            this.Hide();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-                LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
-                pembayaran.Show();
-                this.Hide();
+            LihatDataPembayaran pembayaran = new LihatDataPembayaran(adminLogin);
+            pembayaran.Show();
+            this.Hide();
         }
 
-        // =======================================================================
-        // LOGOUT
-        // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "Apakah kamu yakin ingin keluar?",
-                "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
+            DialogResult result = MessageBox.Show("Apakah kamu yakin ingin keluar?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 FormLogin login = new FormLogin();

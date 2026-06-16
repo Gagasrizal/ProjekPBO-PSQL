@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL.View.Admin
 {
@@ -61,8 +62,8 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilSemuaKompetisi();
+                KompetisiContext kompetisiContext = new KompetisiContext();
+                DataTable dt = kompetisiContext.AmbilSemuaKompetisi();
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
@@ -107,8 +108,8 @@ namespace ProjekPBO_PSQL.View.Admin
                 if (comboBox1.SelectedValue == null) return;
                 if (!int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi)) return;
 
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilPendaftarBerdasarkanTournament(idKompetisi);
+                KompetisiContext kompetisiContext = new KompetisiContext();
+                DataTable dt = kompetisiContext.AmbilPendaftarBerdasarkanTournament(idKompetisi);
 
                 dataGridView1.AutoGenerateColumns = true;
                 dataGridView1.DataSource = dt;
@@ -170,8 +171,8 @@ namespace ProjekPBO_PSQL.View.Admin
                     int.TryParse(teksBabak, out babak);
                 }
 
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilPertandinganPerBabak(idKompetisi, babak);
+                PertandinganContext pertandinganContext = new PertandinganContext();
+                DataTable dt = pertandinganContext.AmbilPertandinganPerBabak(idKompetisi, babak);
 
                 dataGridView1.AutoGenerateColumns = true;
                 dataGridView1.DataSource = dt;
@@ -226,8 +227,8 @@ namespace ProjekPBO_PSQL.View.Admin
 
             if (int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi))
             {
-                DBHelper db = new DBHelper();
-                int totalBabak = db.AmbilTotalBabakTournament(idKompetisi);
+                KompetisiContext kompetisiContext = new KompetisiContext();
+                int totalBabak = kompetisiContext.AmbilTotalBabakTournament(idKompetisi);
 
                 comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
                 comboBox2.Items.Clear();
@@ -275,16 +276,16 @@ namespace ProjekPBO_PSQL.View.Admin
             string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
             int babakTerpilih = Convert.ToInt32(babakRaw);
 
-            DBHelper db = new DBHelper();
+            KompetisiContext kompetisiContext = new KompetisiContext();
 
-            if (db.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
+            if (kompetisiContext.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
             {
                 MessageBox.Show($"Pertandingan Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            List<int> listPemain = db.AmbilPemainTerdaftar(idKompetisi);
+            List<int> listPemain = kompetisiContext.AmbilPemainTerdaftar(idKompetisi);
             if (listPemain.Count < 2)
             {
                 MessageBox.Show("Jumlah pemain tidak mencukupi (Minimal 2 pemain).", "Peringatan",
@@ -320,7 +321,7 @@ namespace ProjekPBO_PSQL.View.Admin
                     "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            if (db.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasanganMatch))
+            if (kompetisiContext.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasanganMatch))
             {
                 MessageBox.Show($"Berhasil generate pasangan pertandingan Babak {babakTerpilih}!", "Sukses",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -347,8 +348,8 @@ namespace ProjekPBO_PSQL.View.Admin
             string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
             int babakAktif = Convert.ToInt32(babakRaw);
 
-            DBHelper db = new DBHelper();
-            bool isSelesaiSemua = db.ApakahSemuaPertandinganSelesai(idKompetisi, babakAktif);
+            PertandinganContext pertandinganContext = new PertandinganContext();
+            bool isSelesaiSemua = pertandinganContext.ApakahSemuaPertandinganSelesai(idKompetisi, babakAktif);
 
             if (isSelesaiSemua)
             {
@@ -420,13 +421,18 @@ namespace ProjekPBO_PSQL.View.Admin
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 1. Buat instance dari form tujuan
-            MenuPertandingan formPertandingan = new MenuPertandingan();
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin); 
 
             // 2. Tampilkan form tujuan
             formPertandingan.Show();
 
             // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
+        }
+
+        private void roundedButton4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -103,16 +104,17 @@ namespace ProjekPBO_PSQL.View.Admin
                     jumlahBabakTerpilih
                 );
 
-                DBHelper db = new DBHelper();
+                KompetisiContext kompetisiCtx = new KompetisiContext();
                 bool sukses = false;
 
                 if (isEditMode)
                 {
-                    sukses = db.EditTournament(kompetisiBaru);
+                    sukses = kompetisiCtx.EditTournament(kompetisiBaru);
                 }
                 else
                 {
-                    sukses = db.TambahTournament(kompetisiBaru);
+
+                    sukses = kompetisiCtx.TambahTournament(kompetisiBaru);
                 }
 
                 if (sukses)
@@ -174,7 +176,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan();
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
 
             // 2. Tampilkan form tujuan
             formPertandingan.Show();

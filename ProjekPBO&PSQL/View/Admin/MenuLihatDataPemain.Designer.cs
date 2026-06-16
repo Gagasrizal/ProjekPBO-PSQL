@@ -149,6 +149,7 @@
             roundedButton4.Text = "Lihat";
             roundedButton4.TextColor = Color.Silver;
             roundedButton4.UseVisualStyleBackColor = false;
+            roundedButton4.Click += roundedButton4_Click;
             // 
             // dataGridView1
             // 

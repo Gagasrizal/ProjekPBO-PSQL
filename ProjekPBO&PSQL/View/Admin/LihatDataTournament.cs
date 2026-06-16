@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context; // Tambahan: Agar bisa mengakses KompetisiContext
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class LihatDataTournament : Form
     {
         private User adminLogin;
+        private int idKompetisiTerpilih = 0;
 
         public LihatDataTournament(User user)
         {
@@ -34,13 +36,13 @@ namespace ProjekPBO_PSQL.View.Admin
             TampilkanDataTournament();
             LoadTurnamenToComboBox();
         }
-        private int idKompetisiTerpilih = 0;
 
         private void TampilkanDataTournament()
         {
-            DBHelper db = new DBHelper();
+            // Perbaikan: Menggunakan KompetisiContext untuk mengambil data tournament
+            KompetisiContext kompetisiCtx = new KompetisiContext();
             dataGridView1.AutoGenerateColumns = true;
-            DataTable dt = db.AmbilSemuaTournament();
+            DataTable dt = kompetisiCtx.AmbilSemuaTournament();
 
             if (dt != null)
             {
@@ -86,8 +88,9 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void LoadTurnamenToComboBox()
         {
-            DBHelper db = new DBHelper();
-            DataTable dt = db.AmbilIdDanNamaTournament();
+            // Perbaikan: Menggunakan KompetisiContext untuk ComboBox
+            KompetisiContext kompetisiCtx = new KompetisiContext();
+            DataTable dt = kompetisiCtx.AmbilIdDanNamaTournament();
 
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -107,7 +110,6 @@ namespace ProjekPBO_PSQL.View.Admin
             if (comboBox1.SelectedIndex == -1 || comboBox1.SelectedValue == null)
                 return;
 
-            // Hanya simpan ID-nya saja, JANGAN langsung buka form baru di sini
             int.TryParse(comboBox1.SelectedValue.ToString(), out idKompetisiTerpilih);
         }
 
@@ -162,25 +164,20 @@ namespace ProjekPBO_PSQL.View.Admin
 
             try
             {
-               
                 DataGridViewRow row = dataGridView1.CurrentRow;
 
-            
                 int idKompetisi = Convert.ToInt32(row.Cells[0].Value);
                 string namaLama = row.Cells[1].Value?.ToString() ?? "";
                 int hargaLama = Convert.ToInt32(row.Cells[3].Value);
                 int hadiahLama = Convert.ToInt32(row.Cells[6].Value);
 
-               
                 MenuBuatTournament formEdit = new MenuBuatTournament(this.adminLogin, idKompetisi, namaLama, hargaLama, hadiahLama);
 
-               
                 formEdit.FormClosed += (s, args) =>
                 {
-                    TampilkanDataTournament(); 
-                    this.Show();          
+                    TampilkanDataTournament();
+                    this.Show();
                 };
-
 
                 formEdit.Show();
                 this.Hide();
@@ -193,7 +190,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void roundedButton3_Click_1(object sender, EventArgs e)
         {
-
             if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.Index < 0)
             {
                 MessageBox.Show("Silakan klik salah satu baris turnamen pada tabel terlebih dahulu untuk melihat data pemain!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -202,12 +198,8 @@ namespace ProjekPBO_PSQL.View.Admin
 
             try
             {
-   
                 DataGridViewRow row = dataGridView1.CurrentRow;
-
-
                 int idKompetisiDariTabel = Convert.ToInt32(row.Cells[0].Value);
-
 
                 MenuLihatDataPemain lihatPemain = new MenuLihatDataPemain(this.adminLogin, idKompetisiDariTabel);
                 lihatPemain.Show();
@@ -221,12 +213,9 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan();
-
-            // 2. Tampilkan form tujuan
+            // Disarankan mengirim sesi adminLogin juga jika kelas MenuPertandingan membutuhkan parameter admin
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
             formPertandingan.Show();
-
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
     }

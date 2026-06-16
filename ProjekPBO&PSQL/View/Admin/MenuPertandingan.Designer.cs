@@ -56,9 +56,7 @@
             linkLabel5.Size = new Size(200, 68);
             linkLabel5.TabIndex = 38;
             linkLabel5.TabStop = true;
-            linkLabel5.Text = "Lihat Data\r\nPembayaran";
-            linkLabel5.LinkClicked += linkLabel5_LinkClicked;
-            // 
+            linkLabel5.Text = "Lihat Data\r\nPembayaran";           
             // linkLabel4
             // 
             linkLabel4.AutoSize = true;
@@ -72,7 +70,6 @@
             linkLabel4.TabIndex = 37;
             linkLabel4.TabStop = true;
             linkLabel4.Text = "Lihat Data\r\nTournament";
-            linkLabel4.LinkClicked += linkLabel4_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -88,7 +85,6 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Profil";
             linkLabel1.TextAlign = ContentAlignment.TopRight;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // roundedButton1
             // 
@@ -107,7 +103,6 @@
             roundedButton1.Text = "LogOut";
             roundedButton1.TextColor = Color.Black;
             roundedButton1.UseVisualStyleBackColor = false;
-            roundedButton1.Click += roundedButton1_Click;
             // 
             // dataGridView1
             // 
@@ -230,7 +225,6 @@
             linkLabel2.TabIndex = 49;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Lihat Data\r\nPertandingan";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // MenuPertandingan
             // 

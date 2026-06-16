@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL
 {
@@ -85,7 +86,8 @@ namespace ProjekPBO_PSQL
 
             try
             {
-                User user = dbHelper.AuthenticateUser(username, password);
+                AutentikasiContext autentikasiContext = new AutentikasiContext();
+                User user = autentikasiContext.AuthenticateUser(username, password);
                 if (user == null)
                 {
                     MessageBox.Show("Username atau password salah!");

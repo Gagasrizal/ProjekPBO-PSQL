@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace ProjekPBO_PSQL
     public partial class FormRegistrasi : Form
     {
         // Instance dbHelper untuk memanggil fungsi database
-        private DBHelper dbHelper = new DBHelper();
+        private AutentikasiContext dbHelper = new AutentikasiContext();
 
         public FormRegistrasi()
         {

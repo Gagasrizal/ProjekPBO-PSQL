@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
-using ProjekPBO_PSQL.Models; // Memastikan objek 'User' dikenali
+using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context; // Tambahan: Agar PertandinganContext bisa dibaca
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,13 +29,14 @@ namespace ProjekPBO_PSQL.View.Pemain
             TampilkanHistoryPertandingan();
         }
 
-        // Tambah method tampil data
+        // Method tampil data menggunakan PertandinganContext
         private void TampilkanHistoryPertandingan()
         {
             try
             {
-                DBHelper db = new DBHelper();
-                DataTable dt = db.AmbilHistoryPertandingan(userLogin.id);
+                // Instansiasi objek Context yang baru
+                PertandinganContext pertandinganCtx = new PertandinganContext();
+                DataTable dt = pertandinganCtx.AmbilHistoryPertandingan(userLogin.id);
 
                 dataGridView1.DataSource = dt;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

@@ -89,7 +89,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MenuPertandingan formPertandingan = new MenuPertandingan();
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
 
             // 2. Tampilkan form tujuan
             formPertandingan.Show();

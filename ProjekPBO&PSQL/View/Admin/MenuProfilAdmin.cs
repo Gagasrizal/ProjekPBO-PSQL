@@ -1,5 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace ProjekPBO_PSQL.View.Admin
     public partial class MenuProfilAdmin : Form
     {
         private User adminLogin;
-        private DBHelper dbHelper = new DBHelper();
+        private UserContext userContext = new UserContext();
 
         // Konstruktor menerima data User dari MenuAdmin atau form admin sebelumnya
         public MenuProfilAdmin(User user)
@@ -32,10 +33,10 @@ namespace ProjekPBO_PSQL.View.Admin
                 label17.Text = adminLogin.email;
 
                 // 2. Ambil detail user dari PostgreSQL
-                Detail_User detail = dbHelper.GetDetailUserByUserId(adminLogin.id);
+                Detail_User detail = userContext.GetDetailUserByUserId(adminLogin.id);
 
                 if (detail != null)
-                {
+                {   
                     label14.Text = detail.Negara;
                     label13.Text = detail.Elo_rating.ToString();
                     label20.Text = detail.No_telepon;
@@ -134,7 +135,7 @@ namespace ProjekPBO_PSQL.View.Admin
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 1. Buat instance dari form tujuan
-            MenuPertandingan formPertandingan = new MenuPertandingan();
+            MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
 
             // 2. Tampilkan form tujuan
             formPertandingan.Show();

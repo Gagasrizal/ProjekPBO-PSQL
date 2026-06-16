@@ -5,8 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ProjekPBO_PSQL.Models; // Memastikan objek 'User' dikenali
-using ProjekPBO_PSQL.View.Pemain; // Agar bisa mengenali MenuProfilPem jika berada di folder berbeda
+using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.View.Pemain;
+using ProjekPBO_PSQL.Models.Context; // Memastikan Context bisa dibaca
 
 namespace ProjekPBO_PSQL
 {
@@ -18,8 +19,8 @@ namespace ProjekPBO_PSQL
         // Konstruktor diubah agar menerima data User yang dikirim dari form sebelumnya
         public MenuTournament(User user)
         {
-            InitializeComponent(); // Ini dijamin aman dan tidak error lagi!
-            this.userLogin = user;  // Menyimpan sesi user aktif (seperti Bangijal)
+            InitializeComponent();
+            this.userLogin = user;
 
             // =======================================================================
             // KUNCI UTAMA: Daftarkan secara paksa agar tombol Load & Sidebar Aktif
@@ -38,17 +39,17 @@ namespace ProjekPBO_PSQL
         {
             try
             {
-                // 1. Instansiasi objek DBHelper kamu
-                ProjekPBO_PSQL.Helpers.DBHelper db = new ProjekPBO_PSQL.Helpers.DBHelper();
+                // 1. Instansiasi objek KompetisiContext (Menggantikan DBHelper)
+                KompetisiContext kompetisiCtx = new KompetisiContext();
 
-                // 2. Ambil data dengan fungsi AmbilSemuaTournament() yang ada di DBHelper-mu
-                DataTable dtTournament = db.AmbilSemuaTournament();
+                // 2. Ambil data dengan fungsi AmbilSemuaTournament() yang ada di KompetisiContext
+                DataTable dtTournament = kompetisiCtx.AmbilSemuaTournament();
 
                 // 3. Masukkan datanya sebagai sumber data DataGridView
                 dataGridView1.DataSource = dtTournament;
 
                 // =======================================================================
-                // KUNCI TABEL DI SINI (Biar tidak bisa diedit njir!)
+                // KUNCI TABEL DI SINI (Biar tidak bisa diedit)
                 // =======================================================================
                 dataGridView1.ReadOnly = true;
 
@@ -92,15 +93,16 @@ namespace ProjekPBO_PSQL
                 var rowTerpilih = dataGridView1.SelectedRows[0];
                 int idKompetisi = Convert.ToInt32(rowTerpilih.Cells["id_kompetisi"].Value);
                 int hargaPendaftaran = Convert.ToInt32(rowTerpilih.Cells["harga_pendaftaran"].Value);
-                string namaKompetisi = Convert.ToString(rowTerpilih.Cells["nama_kompetisi"].Value); // Mengambil nama turnamen
+                string namaKompetisi = Convert.ToString(rowTerpilih.Cells["nama_kompetisi"].Value);
 
                 // 3. Ambil ID User asli yang sedang aktif login dari sesi userLogin
+                // Catatan: Jika di class User property ID-mu menggunakan huruf besar (PascalCase), ganti .id menjadi .Id
                 int idUserLogin = this.userLogin.id;
 
-                // 4. LEMPAR DATA KE MENU PEMBAYARAN (Solusi Utama)
+                // 4. LEMPAR DATA KE MENU PEMBAYARAN
                 MenuPembayaran bayarForm = new MenuPembayaran(this.userLogin, idKompetisi, namaKompetisi, hargaPendaftaran);
                 bayarForm.Show();
-                this.Close(); // Sembunyikan menu daftar tour agar tidak menumpuk
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -134,7 +136,7 @@ namespace ProjekPBO_PSQL
         {
             MenuAturan peraturanForm = new MenuAturan(this.userLogin);
             peraturanForm.Show();
-            this.Close(); 
+            this.Close();
         }
 
         private void roundedButton1_Click(object sender, EventArgs e)
@@ -145,7 +147,7 @@ namespace ProjekPBO_PSQL
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); 
+                this.Close();
             }
         }
     }
