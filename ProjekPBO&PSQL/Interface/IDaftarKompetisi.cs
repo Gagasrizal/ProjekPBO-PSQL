@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjekPBO_PSQL.Interface
 {
-    public interface IDaftarKompetisi//
+    public interface IDaftarKompetisi
     {
         void DaftarKompetisi(int idKompetisi);
         void BatalkanPendaftaran(int idKompetisi);
