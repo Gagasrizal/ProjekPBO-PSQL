@@ -133,26 +133,95 @@ namespace ProjekPBO_PSQL.Models.Context
             else if (hasil == "0-1") { skorPutih = 0.0; skorHitam = 1.0; }
             else if (hasil == "1/2-1/2") { skorPutih = 0.5; skorHitam = 0.5; }
 
-            string query = @"UPDATE pertandingan 
-                             SET skor_putih = @skor_putih, skor_hitam = @skor_hitam, hasil = @hasil 
-                             WHERE id_pertandingan = @id_pertandingan";
-
             try
             {
                 using var conn = DBHelper.GetConnection();
                 conn.Open();
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@skor_putih", skorPutih);
-                cmd.Parameters.AddWithValue("@skor_hitam", skorHitam);
-                cmd.Parameters.AddWithValue("@hasil", hasil);
-                cmd.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
 
-                int rowsAffected = cmd.ExecuteNonQuery();
-                return rowsAffected > 0;
+                using var trans = conn.BeginTransaction();
+
+                string queryGet = @"SELECT p.pemain_putih, p.pemain_hitam, p.hasil AS hasil_lama,
+                                   COALESCE(dp.elo_rating, 1000) AS elo_putih, 
+                                   COALESCE(dh.elo_rating, 1000) AS elo_hitam
+                            FROM pertandingan p
+                            JOIN detail_user dp ON p.pemain_putih = dp.id_user
+                            JOIN detail_user dh ON p.pemain_hitam = dh.id_user
+                            WHERE p.id_pertandingan = @id_pertandingan";
+
+                int idPemainPutih = 0, idPemainHitam = 0;
+                int eloPutihLama = 1000, eloHitamLama = 1000;
+                string hasilLama = "";
+
+                using (var cmdGet = new NpgsqlCommand(queryGet, conn, trans))
+                {
+                    cmdGet.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
+                    using var reader = cmdGet.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        idPemainPutih = Convert.ToInt32(reader["pemain_putih"]);
+                        idPemainHitam = Convert.ToInt32(reader["pemain_hitam"]);
+                        eloPutihLama = Convert.ToInt32(reader["elo_putih"]);
+                        eloHitamLama = Convert.ToInt32(reader["elo_hitam"]);
+                        hasilLama = reader["hasil_lama"].ToString();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                string queryUpdateMatch = @"UPDATE pertandingan 
+                                   SET skor_putih = @skor_putih, skor_hitam = @skor_hitam, hasil = @hasil 
+                                   WHERE id_pertandingan = @id_pertandingan";
+
+                using (var cmdMatch = new NpgsqlCommand(queryUpdateMatch, conn, trans))
+                {
+                    cmdMatch.Parameters.AddWithValue("@skor_putih", skorPutih);
+                    cmdMatch.Parameters.AddWithValue("@skor_hitam", skorHitam);
+                    cmdMatch.Parameters.AddWithValue("@hasil", hasil);
+                    cmdMatch.Parameters.AddWithValue("@id_pertandingan", idPertandingan);
+                    cmdMatch.ExecuteNonQuery();
+                }
+
+                if (hasilLama == "*" || hasilLama == "Belum Dimainkan" || string.IsNullOrEmpty(hasilLama))
+                {
+                    int eloPutihBaru = eloPutihLama;
+                    int eloHitamBaru = eloHitamLama;
+
+                    if (hasil == "1-0")
+                    {
+                        eloPutihBaru = eloPutihLama + 8;
+                        eloHitamBaru = Math.Max(0, eloHitamLama - 8); 
+                    }
+                    else if (hasil == "0-1") // Hitam Menang, Putih Kalah
+                    {
+                        eloPutihBaru = Math.Max(0, eloPutihLama - 8);
+                        eloHitamBaru = eloHitamLama + 8;
+                    }
+
+                    string queryUpdatePutih = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
+                    using (var cmdPutih = new NpgsqlCommand(queryUpdatePutih, conn, trans))
+                    {
+                        cmdPutih.Parameters.AddWithValue("@elo", eloPutihBaru);
+                        cmdPutih.Parameters.AddWithValue("@id_user", idPemainPutih);
+                        cmdPutih.ExecuteNonQuery();
+                    }
+
+                    string queryUpdateHitam = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
+                    using (var cmdHitam = new NpgsqlCommand(queryUpdateHitam, conn, trans))
+                    {
+                        cmdHitam.Parameters.AddWithValue("@elo", eloHitamBaru);
+                        cmdHitam.Parameters.AddWithValue("@id_user", idPemainHitam);
+                        cmdHitam.ExecuteNonQuery();
+                    }
+                }
+
+                trans.Commit();
+                return true;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Gagal mengupdate skor pertandingan: {ex.Message}");
+                throw new Exception($"Gagal mengupdate hasil pertandingan dan rating: {ex.Message}");
             }
         }
 
@@ -205,25 +274,54 @@ namespace ProjekPBO_PSQL.Models.Context
             }
             return ("?", 0, "?", 0);
         }
+        public List<int> AmbilDaftarPemainTournament(int idKompetisi)
+        {
+            List<int> listPemain = new List<int>();
+
+            string query = @"SELECT id_user FROM pendaftaran_kompetisi 
+                     WHERE id_kompetisi = @idKompetisi 
+                     AND (LOWER(status_pendaftaran) = 'terdaftar' 
+                          OR LOWER(status_pendaftaran) = 'lunas' 
+                          OR status_pendaftaran IS NOT NULL)";
+            try
+            {
+                using var conn = DBHelper.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    listPemain.Add(Convert.ToInt32(reader["id_user"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengambil daftar pemain aktif: {ex.Message}");
+            }
+
+            return listPemain;
+        }
 
         public DataTable AmbilHistoryPertandingan(int idUser)
         {
             DataTable dt = new DataTable();
             string query = @"SELECT k.nama_kompetisi AS ""Tournament"", p.babak AS ""Babak"",
-                                    CASE WHEN p.pemain_putih = @id_user THEN COALESCE(lawan.nama_lengkap, 'Unknown') ELSE COALESCE(lawan2.nama_lengkap, 'Unknown') END AS ""Lawan"",
-                                    CASE WHEN p.pemain_putih = @id_user THEN 'Putih' ELSE 'Hitam' END AS ""Warna"",
-                                    CASE WHEN p.hasil = 'Belum Dimainkan' THEN 'Belum Dimainkan'
-                                         WHEN p.pemain_putih = @id_user AND p.hasil = '1-0' THEN 'Menang'
-                                         WHEN p.pemain_putih = @id_user AND p.hasil = '0-1' THEN 'Kalah'
-                                         WHEN p.pemain_hitam = @id_user p.hasil = '0-1' THEN 'Menang'
-                                         WHEN p.pemain_hitam = @id_user AND p.hasil = '1-0' THEN 'Kalah'
-                                         WHEN p.hasil = '1/2-1/2' THEN 'Remis' ELSE p.hasil END AS ""Hasil""
-                             FROM pertandingan p
-                             JOIN kompetisi k ON p.id_kompetisi = k.id_kompetisi
-                             LEFT JOIN detail_user lawan  ON p.pemain_hitam = lawan.id_user
-                             LEFT JOIN detail_user lawan2 ON p.pemain_putih = lawan2.id_user
-                             WHERE p.pemain_putih = @id_user OR p.pemain_hitam = @id_user
-                             ORDER BY k.nama_kompetisi, p.babak ASC;";
+                            CASE WHEN p.pemain_putih = @id_user THEN COALESCE(lawan.nama_lengkap, 'Unknown') ELSE COALESCE(lawan2.nama_lengkap, 'Unknown') END AS ""Lawan"",
+                            CASE WHEN p.pemain_putih = @id_user THEN 'Putih' ELSE 'Hitam' END AS ""Warna"",
+                            CASE WHEN p.hasil = 'Belum Dimainkan' THEN 'Belum Dimainkan'
+                                 WHEN p.pemain_putih = @id_user AND p.hasil = '1-0' THEN 'Menang'
+                                 WHEN p.pemain_putih = @id_user AND p.hasil = '0-1' THEN 'Kalah'
+                                 WHEN p.pemain_hitam = @id_user AND p.hasil = '0-1' THEN 'Menang' -- FIX: Ditambahkan 'AND' di sini
+                                 WHEN p.pemain_hitam = @id_user AND p.hasil = '1-0' THEN 'Kalah'
+                                 WHEN p.hasil = '1/2-1/2' THEN 'Remis' ELSE p.hasil END AS ""Hasil""
+                     FROM pertandingan p
+                     JOIN kompetisi k ON p.id_kompetisi = k.id_kompetisi
+                     LEFT JOIN detail_user lawan  ON p.pemain_hitam = lawan.id_user
+                     LEFT JOIN detail_user lawan2 ON p.pemain_putih = lawan2.id_user
+                     WHERE p.pemain_putih = @id_user OR p.pemain_hitam = @id_user
+                     ORDER BY k.nama_kompetisi, p.babak ASC;";
 
             try
             {

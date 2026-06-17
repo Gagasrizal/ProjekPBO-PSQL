@@ -11,7 +11,7 @@ namespace ProjekPBO_PSQL.Models
         public int IdUser { get; set; }
         public bool IsAdmin { get; protected set; }
         public ProfilCatur Profil { get; private set; }
-
+        public DateTime CreatedAt { get; set; }
         protected AkunUser(int id, string username, string password, string email, bool isAdmin, ProfilCatur? profil = null)
         {
             IdUser = id;
@@ -56,15 +56,6 @@ namespace ProjekPBO_PSQL.Models
         }
 
         public virtual string GetRole() => "User";
-
-        /// <summary>
-        /// Mengganti data profil catur milik akun ini (dipakai untuk fitur edit profil).
-        /// </summary>
-        public void GantiProfil(ProfilCatur profilBaru)
-        {
-            ArgumentNullException.ThrowIfNull(profilBaru);
-            Profil = profilBaru;
-        }
 
         public virtual void TampilkanInfo()
         {

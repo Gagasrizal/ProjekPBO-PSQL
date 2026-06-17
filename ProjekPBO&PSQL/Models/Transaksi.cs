@@ -20,7 +20,7 @@ namespace ProjekPBO_PSQL.Models
             set
             {
                 if (value <= 0)
-                    throw new ArgumentException("Nominal transaksi harus lebih dari 0.");
+                    throw new ArgumentException("Nominal transaksi harus sesuai.");
                 _nominalTransaksi = value;
             }
         }

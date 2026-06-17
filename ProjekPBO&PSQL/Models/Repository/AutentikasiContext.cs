@@ -58,8 +58,8 @@ namespace ProjekPBO_PSQL.Models.Context
             conn.Open();
 
             string query = @"SELECT id_user, username, passwords, email, is_admin 
-                             FROM users 
-                             WHERE username = @username AND passwords = @password";
+                     FROM users 
+                     WHERE username = @username AND passwords = @password";
 
             using var cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@username", username);
@@ -69,19 +69,31 @@ namespace ProjekPBO_PSQL.Models.Context
 
             if (reader.Read())
             {
-                // FIX CS1729: Menggunakan kelas 'Pemain' dan mencocokkan jumlah parameter 
-                // sesuai konstruktor yang ada di Pemain.cs (4 argumen wajib)
-                return new Pemain(
-                    reader.GetInt32(0),  // id
-                    reader.GetString(1), // username
-                    reader.GetString(2), // passwords
-                    reader.GetString(3)  // email
-                );
+                bool isAdmin = reader.GetBoolean(4);
+
+                if (isAdmin)
+                {
+                    return new Admin(
+                        reader.GetInt32(0),  
+                        reader.GetString(1),
+                        reader.GetString(2), 
+                        reader.GetString(3)  
+                    );
+                }
+                else
+                {
+                    return new Pemain(
+                        reader.GetInt32(0),  
+                        reader.GetString(1), 
+                        reader.GetString(2), 
+                        reader.GetString(3) 
+                    );
+                }
             }
             return null;
         }
 
-        // FIX: Menggunakan tipe data 'ProfilCatur' dan parameter string plainPassword terpisah
+    
         public bool RegisterUser(AkunUser user, string plainPassword, ProfilCatur detail)
         {
             using var conn = DBHelper.GetConnection();
@@ -96,7 +108,7 @@ namespace ProjekPBO_PSQL.Models.Context
 
                 using var userCmd = new NpgsqlCommand(userQuery, conn);
 
-                // FIX CS1061: Menggunakan Properti berhuruf Kapital (PascalCase) dari AkunUser
+                
                 userCmd.Parameters.AddWithValue("@username", user.Username);
                 userCmd.Parameters.AddWithValue("@password", plainPassword);
                 userCmd.Parameters.AddWithValue("@email", user.Email);
@@ -112,7 +124,7 @@ namespace ProjekPBO_PSQL.Models.Context
                 using var detailCmd = new NpgsqlCommand(detailQuery, conn);
                 detailCmd.Parameters.AddWithValue("@id_user", idUser);
 
-                // FIX CS1061: Menggunakan properti PascalCase dari ProfilCatur Anda
+                
                 detailCmd.Parameters.AddWithValue("@nama_lengkap", detail.NamaLengkap);
                 detailCmd.Parameters.AddWithValue("@negara", detail.Negara);
                 detailCmd.Parameters.AddWithValue("@no_telepon", detail.NoTelepon);

@@ -17,10 +17,6 @@ namespace ProjekPBO_PSQL.Controller
             _kompetisiContext = new KompetisiContext();
             _transaksiContext = new TransaksiContext();
         }
-
-        // =======================================================================
-        // IMPLEMENTASI KONTRAK INTERFACE IKELOLAKOMPETISI
-        // =======================================================================
         public void TambahKompetisi(Tournament kompetisi)
         {
             if (kompetisi == null) throw new ArgumentNullException(nameof(kompetisi));
@@ -60,9 +56,7 @@ namespace ProjekPBO_PSQL.Controller
             return listTournament.AsReadOnly();
         }
 
-        // =======================================================================
-        // METHOD LAMA UNTUK FORM UI
-        // =======================================================================
+
         public bool TambahTournament(Tournament tournament) => _kompetisiContext.TambahTournament(tournament);
         public bool EditTournament(Tournament tournament) => _kompetisiContext.EditTournament(tournament);
         public DataTable AmbilSemuaTournament() => _kompetisiContext.AmbilSemuaTournament();

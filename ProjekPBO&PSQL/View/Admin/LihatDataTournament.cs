@@ -1,6 +1,6 @@
 ﻿using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
-using ProjekPBO_PSQL.Models.Context; // Tambahan: Agar bisa mengakses KompetisiContext
+using ProjekPBO_PSQL.Models.Context; 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +39,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void TampilkanDataTournament()
         {
-            // Perbaikan: Menggunakan KompetisiContext untuk mengambil data tournament
             KompetisiContext kompetisiCtx = new KompetisiContext();
             dataGridView1.AutoGenerateColumns = true;
             DataTable dt = kompetisiCtx.AmbilSemuaTournament();
@@ -88,7 +87,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void LoadTurnamenToComboBox()
         {
-            // Perbaikan: Menggunakan KompetisiContext untuk ComboBox
             KompetisiContext kompetisiCtx = new KompetisiContext();
             DataTable dt = kompetisiCtx.AmbilIdDanNamaTournament();
 
@@ -165,8 +163,17 @@ namespace ProjekPBO_PSQL.View.Admin
             try
             {
                 DataGridViewRow row = dataGridView1.CurrentRow;
-
                 int idKompetisi = Convert.ToInt32(row.Cells[0].Value);
+
+                Models.Context.KompetisiContext kompetisiCtx = new Models.Context.KompetisiContext();
+                if (kompetisiCtx.ApakahSudahAdaPendaftar(idKompetisi))
+                {
+                    MessageBox.Show("Turnamen tidak dapat diedit karena sudah ada peserta yang mendaftar!",
+                                    "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return; // STOP! Form edit tidak akan dibuka bray
+                }
+
+
                 string namaLama = row.Cells[1].Value?.ToString() ?? "";
                 int hargaLama = Convert.ToInt32(row.Cells[3].Value);
                 int hadiahLama = Convert.ToInt32(row.Cells[6].Value);
@@ -213,7 +220,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Disarankan mengirim sesi adminLogin juga jika kelas MenuPertandingan membutuhkan parameter admin
             MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
             formPertandingan.Show();
             this.Hide();

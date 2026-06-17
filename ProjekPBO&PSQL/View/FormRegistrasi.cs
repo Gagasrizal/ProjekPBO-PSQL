@@ -14,7 +14,6 @@ namespace ProjekPBO_PSQL
 {
     public partial class FormRegistrasi : Form
     {
-        // Hubungkan ke kelas AutentikasiContext yang baru saja diperbaiki
         private AutentikasiContext dbHelper = new AutentikasiContext();
 
         public FormRegistrasi()
@@ -22,9 +21,6 @@ namespace ProjekPBO_PSQL
             InitializeComponent();
         }
 
-        // =======================================================================
-        // TOMBOL REGISTRASI (roundedButton1)
-        // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
         {
             // 1. Ambil semua data dari input form
@@ -64,13 +60,8 @@ namespace ProjekPBO_PSQL
                     return;
                 }
 
-                // =======================================================================
-                // SOLUSI CS0144: Menggunakan 'Pemain' karena 'AkunUser' adalah kelas abstrak
-                // Mencocokkan 4 parameter konstruktor Pemain(id, username, password, email)
-                // =======================================================================
                 Pemain akunBaru = new Pemain(0, usernameInput, passwordInput, emailInput);
 
-                // Solusi CS1061: Membuat objek dengan properti PascalCase yang dibaca AutentikasiContext
                 ProfilCatur detailBaru = new ProfilCatur()
                 {
                     NamaLengkap = namaInput,
@@ -81,7 +72,6 @@ namespace ProjekPBO_PSQL
                     Deskripsi = ""
                 };
 
-                // 4. Kirim ke fungsi RegisterUser di AutentikasiContext (3 parameter wajib)
                 bool isSukses = dbHelper.RegisterUser(akunBaru, passwordInput, detailBaru);
 
                 if (isSukses)
@@ -104,9 +94,6 @@ namespace ProjekPBO_PSQL
             }
         }
 
-        // =======================================================================
-        // TOMBOL KEMBALI KE LOGIN (roundedButton2)
-        // =======================================================================
         private void roundedButton2_Click(object sender, EventArgs e)
         {
             FormLogin login = new FormLogin();
@@ -114,9 +101,6 @@ namespace ProjekPBO_PSQL
             this.Hide();
         }
 
-        // =======================================================================
-        // PLACEHOLDER EVENT HANDLERS (Agar Designer Form Tidak Error)
-        // =======================================================================
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void textBox3_TextChanged(object sender, EventArgs e) { }
@@ -130,5 +114,10 @@ namespace ProjekPBO_PSQL
         private void label3_Click(object sender, EventArgs e) { }
         private void label6_Click(object sender, EventArgs e) { }
         private void FormRegistrasi_Load(object sender, EventArgs e) { }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -14,25 +14,21 @@ namespace ProjekPBO_PSQL.View.Admin
 {
     public partial class MenuBuatTournament : Form
     {
-        private AkunUser adminLogin; // FIX: Menyesuaikan dengan tipe data dasar AkunUser
+        private AkunUser adminLogin; 
         private bool isEditMode = false;
         private int idTournamentDiedit = 0;
 
-        // FIX MVC: Tambahkan field readonly untuk object Controller
         private readonly AdminController _adminController;
 
-        // --- CONSTRUCTOR 1: Dipakai saat membuat turnamen baru (Normal Mode) ---
         public MenuBuatTournament(AkunUser user)
         {
             InitializeComponent();
             this.adminLogin = user;
             this.isEditMode = false;
 
-            // FIX MVC: Instansiasi controller
             this._adminController = new AdminController();
         }
 
-        // --- CONSTRUCTOR 2: Dipakai saat mengedit turnamen (Edit Mode) ---
         public MenuBuatTournament(AkunUser user, int idKompetisi, string namaLama, int hargaLama, int hadiahLama)
         {
             InitializeComponent();
@@ -40,13 +36,11 @@ namespace ProjekPBO_PSQL.View.Admin
             this.isEditMode = true;
             this.idTournamentDiedit = idKompetisi;
 
-            // FIX MVC: Instansiasi controller
             this._adminController = new AdminController();
 
-            // Ubah text tombol simpan menjadi Update
+ 
             roundedButton2.Text = "Update";
 
-            // Lempar data lama ke dalam inputan Form secara otomatis
             NamaTournament.Text = namaLama;
             HargaPendaftaran.Text = hargaLama.ToString();
             Hadiah.Text = hadiahLama.ToString();
@@ -54,7 +48,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void MenuBuatTournament_Load(object sender, EventArgs e)
         {
-            // Logika saat halaman buat turnamen pertama kali dimuat
+ 
         }
 
         private void ClearForm()
@@ -68,9 +62,6 @@ namespace ProjekPBO_PSQL.View.Admin
             TanggalPelaksanaan.Value = DateTime.Now;
         }
 
-        // =======================================================================
-        // EVENT CLICK: TOMBOL SIMPAN / UPDATE TOURNAMENT VIA CONTROLLER
-        // =======================================================================
         private void roundedButton2_Click_1(object sender, EventArgs e)
         {
             string nama = NamaTournament.Text.Trim();
@@ -81,7 +72,6 @@ namespace ProjekPBO_PSQL.View.Admin
             string hargaText = HargaPendaftaran.Text.Trim();
             string hadiahText = Hadiah.Text.Trim();
 
-            // Validasi input
             if (string.IsNullOrEmpty(nama) || string.IsNullOrEmpty(tipeGame) ||
                 string.IsNullOrEmpty(timeControl) || string.IsNullOrEmpty(babak) ||
                 string.IsNullOrEmpty(hargaText) || string.IsNullOrEmpty(hadiahText))
@@ -101,11 +91,10 @@ namespace ProjekPBO_PSQL.View.Admin
 
                 int jumlahBabakTerpilih = Convert.ToInt32(Babak.SelectedItem ?? 1);
 
-                // Membuat objek model data Tournament
                 Tournament kompetisiBaru = new Tournament
                 {
                     IdKompetisi = isEditMode ? idTournamentDiedit : 0,
-                    IdUser = this.adminLogin != null ? this.adminLogin.IdUser : 1, // Mengambil ID admin yang sedang login
+                    IdUser = this.adminLogin != null ? this.adminLogin.IdUser : 1, 
                     NamaKompetisi = nama,
                     ModeKompetisi = modeKompetisiCombined,
                     HargaPendaftaran = harga,
@@ -118,7 +107,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
                 bool sukses = false;
 
-                // FIX MVC: Eksekusi data murni dialihkan via AdminController (Bukan KompetisiContext langsung)
+
                 if (isEditMode)
                 {
                     sukses = _adminController.EditTournament(kompetisiBaru);
@@ -157,7 +146,6 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // Metode penampung event bawaan desainer
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) { }
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e) { }
@@ -166,9 +154,7 @@ namespace ProjekPBO_PSQL.View.Admin
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void textBox3_TextChanged(object sender, EventArgs e) { }
 
-        // =======================================================================
-        // EVENT LINKLABEL SIDEBAR (NAVIGASI)
-        // =======================================================================
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuProfilAdmin menuProfil = new MenuProfilAdmin(this.adminLogin);

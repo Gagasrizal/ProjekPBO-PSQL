@@ -78,10 +78,11 @@
             label2.ImageAlign = ContentAlignment.MiddleLeft;
             label2.Location = new Point(24, 18);
             label2.Name = "label2";
-            label2.Size = new Size(94, 35);
+            label2.Size = new Size(62, 35);
             label2.TabIndex = 140;
-            label2.Text = "Email\r\n";
+            label2.Text = "Hai";
             label2.TextAlign = ContentAlignment.TopCenter;
+            label2.Click += label2_Click;
             // 
             // label20
             // 
@@ -425,6 +426,7 @@
             Edit.Text = "Edit Profil";
             Edit.TextColor = Color.White;
             Edit.UseVisualStyleBackColor = false;
+            Edit.Click += Edit_Click;
             // 
             // MenuProfilPem
             // 

@@ -16,30 +16,23 @@ namespace ProjekPBO_PSQL.View.Admin
         private AkunUser? adminLogin;
         private int _idKompetisiTerpilih = 0;
 
-        // Konstruktor bawaan — JANGAN DIHAPUS supaya GUI Designer tidak crash
         public MenuLihatDataPemain()
         {
             InitializeComponent();
         }
 
-        // Konstruktor tanpa ID kompetisi
         public MenuLihatDataPemain(AkunUser user) : this()
         {
             this.adminLogin = user;
             this.Load += MenuLihatDataPemain_Load;
         }
 
-        // Konstruktor dengan ID kompetisi — dipanggil dari LihatDataTournament
         public MenuLihatDataPemain(AkunUser user, int idKompetisi) : this()
         {
             this.adminLogin = user;
             this._idKompetisiTerpilih = idKompetisi;
             this.Load += MenuLihatDataPemain_Load;
         }
-
-        // =======================================================================
-        // FORM LOAD
-        // =======================================================================
         private void MenuLihatDataPemain_Load(object sender, EventArgs e)
         {
             LoadDataTournamentToComboBox();
@@ -55,9 +48,6 @@ namespace ProjekPBO_PSQL.View.Admin
             LoadDataTournamentToComboBox();
         }
 
-        // =======================================================================
-        // LOAD COMBOBOX + PRE-SELECT TOURNAMENT
-        // =======================================================================
         private void LoadDataTournamentToComboBox()
         {
             try
@@ -72,20 +62,17 @@ namespace ProjekPBO_PSQL.View.Admin
                     return;
                 }
 
-                // Matikan event dulu agar tidak trigger saat binding
                 comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
 
                 comboBox1.DataSource = dt;
                 comboBox1.DisplayMember = "nama_kompetisi";
                 comboBox1.ValueMember = "id_kompetisi";
 
-                // Pre-select tournament yang dikirim dari LihatDataTournament
                 if (_idKompetisiTerpilih > 0)
                 {
                     comboBox1.SelectedValue = _idKompetisiTerpilih;
                 }
 
-                // Aktifkan kembali event setelah binding selesai
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
 
                 // Langsung tampilkan data pemain
@@ -98,9 +85,6 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // TAMPILKAN DATA PEMAIN YANG MENDAFTAR
-        // =======================================================================
         private void TampilkanDataPendaftar()
         {
             try
@@ -116,13 +100,11 @@ namespace ProjekPBO_PSQL.View.Admin
 
                 if (dt != null && dataGridView1.Columns.Count >= 5)
                 {
-                    // WAJIB: matikan AutoSizeColumns dulu sebelum set width manual
+ 
                     dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-                    // WAJIB: aktifkan scrollbar horizontal
                     dataGridView1.ScrollBars = ScrollBars.Both;
 
-                    // WAJIB: jangan biarkan kolom otomatis mengisi sisa ruang
                     dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
                     dataGridView1.Columns[0].HeaderText = "ID Daftar";
@@ -152,10 +134,6 @@ namespace ProjekPBO_PSQL.View.Admin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // =======================================================================
-        // TAMPILKAN DATA PERTANDINGAN PER BABAK
-        // =======================================================================
         private void TampilkanDataPertandingan()
         {
             try
@@ -217,10 +195,6 @@ namespace ProjekPBO_PSQL.View.Admin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // =======================================================================
-        // SINKRONISASI DROPDOWN BABAK
-        // =======================================================================
         private void MulaiSinkronisasiBabakDanData()
         {
             if (comboBox1.SelectedValue == null || comboBox1.SelectedIndex == -1) return;
@@ -244,10 +218,6 @@ namespace ProjekPBO_PSQL.View.Admin
                 comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             }
         }
-
-        // =======================================================================
-        // COMBOBOX EVENTS
-        // =======================================================================
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Ganti tournament → tampilkan ulang data pemain
@@ -260,9 +230,6 @@ namespace ProjekPBO_PSQL.View.Admin
             TampilkanDataPertandingan();
         }
 
-        // =======================================================================
-        // TOMBOL MATCHMAKING — Generate & acak pasangan
-        // =======================================================================
         private void roundedButton3_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
@@ -305,14 +272,12 @@ namespace ProjekPBO_PSQL.View.Admin
                 listPemain[n] = value;
             }
 
-            // Pasangkan dua-dua
             List<Tuple<int, int>> pasanganMatch = new List<Tuple<int, int>>();
             for (int i = 0; i < listPemain.Count - 1; i += 2)
             {
                 pasanganMatch.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
             }
 
-            // Notifikasi jika pemain ganjil — ada yang tidak dapat lawan (BYE)
             if (listPemain.Count % 2 != 0)
             {
                 MessageBox.Show(
@@ -331,10 +296,6 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-
-        // =======================================================================
-        // TOMBOL REKAP JUARA / CEK SEMUA PERTANDINGAN SELESAI
-        // =======================================================================
         private void roundedButton2_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
@@ -356,11 +317,6 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show(
                     "Validasi sukses! Seluruh pertandingan di babak ini telah diisi.\nMengalihkan ke Halaman Leaderboard.",
                     "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Buka Leaderboard
-                // MenuLeaderboard leaderboard = new MenuLeaderboard(adminLogin, idKompetisi);
-                // leaderboard.Show();
-                // this.Hide();
             }
             else
             {
@@ -370,9 +326,6 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // SIDEBAR NAVIGATION
-        // =======================================================================
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (adminLogin != null)
@@ -420,13 +373,10 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // 1. Buat instance dari form tujuan
             MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin); 
 
-            // 2. Tampilkan form tujuan
             formPertandingan.Show();
 
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
 

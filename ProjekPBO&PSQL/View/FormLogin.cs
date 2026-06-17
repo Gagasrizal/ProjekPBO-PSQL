@@ -2,7 +2,7 @@ using Npgsql;
 using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.View.Pemain;
 using ProjekPBO_PSQL.View.Admin;
-using ProjekPBO_PSQL.Models; // Tambahkan ini agar program mengenali objek 'User'
+using ProjekPBO_PSQL.Models; 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +16,6 @@ namespace ProjekPBO_PSQL
 {
     public partial class FormLogin : Form
     {
-        // 1. Buat instance DBHelper agar bisa memanggil fungsi query database
         private DBHelper dbHelper = new DBHelper();
 
         public FormLogin()
@@ -34,16 +33,11 @@ namespace ProjekPBO_PSQL
 
         }
 
-        // CATATAN: Pastikan nama textBox1 ini adalah TextBox untuk USERNAME kamu di Design.
-        // Jika di design namanya berbeda, sesuaikan variabel di bawah.
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        // CATATAN: Jika kamu punya textBox2 untuk PASSWORD, pastikan namanya sesuai.
-        // Di kode bawaanmu belum muncul event TextChanged untuk password, tidak apa-apa, 
-        // kita bisa langsung panggil nama komponen TextBox-nya di dalam tombol Confirm.
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -70,9 +64,6 @@ namespace ProjekPBO_PSQL
 
         }
 
-        // =======================================================================
-        // TOMBOL CONFIRM (LOGIN)
-        // =======================================================================
         private void roundedButton2_Click(object sender, EventArgs e)
         {
             string username = textBox1.Text.Trim();
@@ -115,9 +106,7 @@ namespace ProjekPBO_PSQL
                 MessageBox.Show($"Terjadi kesalahan: {ex.Message}");
             }
         }
-        // =======================================================================
-        // TOMBOL SIGN UP (PINDAH HALAMAN)
-        // =======================================================================
+
         private void roundedButton1_Click_1(object sender, EventArgs e)
         {
             FormRegistrasi registr = new FormRegistrasi();

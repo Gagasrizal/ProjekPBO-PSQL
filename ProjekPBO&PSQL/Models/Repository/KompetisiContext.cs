@@ -11,8 +11,8 @@ namespace ProjekPBO_PSQL.Models.Context
     {
         public bool TambahTournament(Tournament tournament)
         {
-            string query = @"INSERT INTO kompetisi (id_user, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak) 
-                             VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalLaksana, @hadiah, @sistemPertandingan, @babak)";
+            string query = @"INSERT INTO kompetisi (id_user_pembuat, nama_kompetisi, mode_kompetisi, harga_pendaftaran, pelaksanaan_pendaftaran, tanggal_pelaksanaan, hadiah, sistem_pertandingan, jumlah_babak) 
+                     VALUES (@idUser, @nama, @mode, @harga, @pelaksanaanDaftar, @tanggalLaksana, @hadiah, @sistemPertandingan, @babak)";
 
             try
             {
@@ -38,7 +38,6 @@ namespace ProjekPBO_PSQL.Models.Context
                 throw new Exception($"Gagal menyimpan ke tabel Tournament: {ex.Message}", ex);
             }
         }
-
         public bool EditTournament(Tournament tournament)
         {
             string query = @"UPDATE kompetisi 
@@ -119,6 +118,8 @@ namespace ProjekPBO_PSQL.Models.Context
             return dt;
         }
 
+
+
         public bool IsBabakSudahGenerated(int idKompetisi, int babak)
         {
             try
@@ -138,7 +139,28 @@ namespace ProjekPBO_PSQL.Models.Context
                 throw new Exception($"Gagal cek status babak: {ex.Message}", ex);
             }
         }
+        public bool ApakahSudahAdaPendaftar(int idKompetisi)
+        {
+            // Hitung jumlah baris pendaftaran untuk id_kompetisi ini
+            string query = "SELECT COUNT(*) FROM pendaftaran_kompetisi WHERE id_kompetisi = @idKompetisi";
 
+            try
+            {
+                using var conn = DBHelper.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+
+                long count = Convert.ToInt64(cmd.ExecuteScalar());
+
+                // Jika count > 0, artinya sudah ada yang daftar (return true)
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal mengecek pendaftar kompetisi: {ex.Message}", ex);
+            }
+        }
         public bool SimpanPertandinganGenerate(int idKompetisi, int babak, List<Tuple<int, int>> pasangan)
         {
             using var conn = DBHelper.GetConnection();

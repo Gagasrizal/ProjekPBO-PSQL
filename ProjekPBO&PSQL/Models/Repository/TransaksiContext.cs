@@ -49,59 +49,52 @@ namespace ProjekPBO_PSQL.Models.Context
             }
         }
 
-        public bool BayarDanDaftarOtomatis(Transaksi trx)
+
+public bool BayarDanDaftarOtomatis(Transaksi trx, int idUser)
         {
-            // Ambil koneksi database
             using var conn = DBHelper.GetConnection();
             conn.Open();
             using var transaction = conn.BeginTransaction();
 
             try
             {
-                // =======================================================================
-                // FIX TOTAL ERROR CS1061:
-                // Karena objek 'Transaksi' hanya membawa 'IdPendaftaranKompetisi', kita ambil
-                // data 'id_user' dan 'id_kompetisi' asli dari database terlebih dahulu.
-                // =======================================================================
-                int idUser = 0;
-                int idKompetisi = 0;
+                int idKompetisi = trx.IdPendaftaranKompetisi;
+                int idPendaftaranReal = 0;
 
-                string queryAmbilDataPendaftaran = @"SELECT id_user, id_kompetisi FROM pendaftaran_kompetisi 
-                                                     WHERE id_pendaftaran_kompetisi = @id_pendaftaran";
+                string queryCek = "SELECT id_pendaftaran_kompetisi FROM pendaftaran_kompetisi WHERE id_user = @id_user AND id_kompetisi = @id_kompetisi";
 
-                using (NpgsqlCommand cmdAmbil = new NpgsqlCommand(queryAmbilDataPendaftaran, conn))
+                using (var cmdCek = new NpgsqlCommand(queryCek, conn, transaction))
                 {
-                    cmdAmbil.Parameters.AddWithValue("@id_pendaftaran", trx.IdPendaftaranKompetisi);
-                    using NpgsqlDataReader reader = cmdAmbil.ExecuteReader();
-                    if (reader.Read())
+                    cmdCek.Parameters.AddWithValue("@id_user", idUser);
+                    cmdCek.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+
+                    var result = cmdCek.ExecuteScalar();
+                    if (result != null)
                     {
-                        idUser = Convert.ToInt32(reader["id_user"]);
-                        idKompetisi = Convert.ToInt32(reader["id_kompetisi"]);
-                    }
-                    else
-                    {
-                        // Jika data pendaftaran belum ada, maka otomatis buat pendaftaran baru 
-                        // menggunakan IdPendaftaranKompetisi sebagai representasi id_kompetisi dari Form
-                        idKompetisi = trx.IdPendaftaranKompetisi;
+                        idPendaftaranReal = Convert.ToInt32(result);
                     }
                 }
 
-                // Jika data pendaftaran belum ada (idUser masih 0), lakukan insert ke pendaftaran_kompetisi
-                int idPendaftaranReal = trx.IdPendaftaranKompetisi;
-                if (idUser == 0)
+                if (idPendaftaranReal == 0)
                 {
-                    // Asumsi: Jika data baru, kita bisa ambil user login aktif dari sistem (Metode alternatif lewat parameter)
-                    // Namun agar query insert berjalan tanpa properti tiruan, kita langsung eksekusi transaksi pembayarannya
+                    string queryInsertDaftar = @"INSERT INTO pendaftaran_kompetisi (id_user, id_kompetisi, status_pendaftaran) 
+                                         VALUES (@id_user, @id_kompetisi, @status) 
+                                         RETURNING id_pendaftaran_kompetisi";
+
+                    using var cmdInsertDaftar = new NpgsqlCommand(queryInsertDaftar, conn, transaction);
+                    cmdInsertDaftar.Parameters.AddWithValue("@id_user", idUser);
+                    cmdInsertDaftar.Parameters.AddWithValue("@id_kompetisi", idKompetisi);
+                    cmdInsertDaftar.Parameters.AddWithValue("@status", "terdaftar");
+
+                    idPendaftaranReal = Convert.ToInt32(cmdInsertDaftar.ExecuteScalar());
                 }
 
-                // Query untuk memasukkan data ke tabel transaksi PostgreSQL
                 string queryTransaksi = @"INSERT INTO transaksi (id_pendaftaran_kompetisi, id_metode_pembayaran, nominal_transaksi, status_transaksi, tanggal_transaksi) 
-                                          VALUES (@id_pendaftaran, @id_metode, @nominal, @status, @tanggal);";
+                                  VALUES (@id_pendaftaran, @id_metode, @nominal, @status, @tanggal);";
 
-                using (NpgsqlCommand cmdTrx = new NpgsqlCommand(queryTransaksi, conn))
+                using (NpgsqlCommand cmdTrx = new NpgsqlCommand(queryTransaksi, conn, transaction))
                 {
-                    // Menyelaraskan dengan penamaan properti di kelas Transaksi.cs Anda
-                    cmdTrx.Parameters.AddWithValue("@id_pendaftaran", trx.IdPendaftaranKompetisi);
+                    cmdTrx.Parameters.AddWithValue("@id_pendaftaran", idPendaftaranReal);
                     cmdTrx.Parameters.AddWithValue("@id_metode", trx.IdMetodePembayaran);
                     cmdTrx.Parameters.AddWithValue("@nominal", trx.NominalTransaksi);
                     cmdTrx.Parameters.AddWithValue("@status", trx.StatusTransaksi);
@@ -119,6 +112,8 @@ namespace ProjekPBO_PSQL.Models.Context
                 throw new Exception($"Gagal memproses transaksi (Model): {ex.Message}", ex);
             }
         }
+
+       
 
         public DataTable AmbilSemuaPembayaran()
         {

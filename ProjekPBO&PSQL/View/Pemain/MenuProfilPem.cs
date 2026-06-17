@@ -1,4 +1,5 @@
-﻿using ProjekPBO_PSQL.Helpers;
+﻿using ProjekPBO_PSQL.Controller;
+using ProjekPBO_PSQL.Helpers;
 using ProjekPBO_PSQL.Models;
 using ProjekPBO_PSQL.Models.Context;
 using ProjekPBO_PSQL.View.Pemain;
@@ -28,26 +29,38 @@ namespace ProjekPBO_PSQL.View.Pemain
         {
             if (userLogin != null)
             {
-                // 1. Tampilkan data dari tabel 'users' milik Bangijal
-                label12.Text = userLogin.Username;              // Akan muncul: Bangijal
-                label17.Text = userLogin.Email;                 // Akan muncul: bangizals@turnamen.c...
+                // 1. Tampilkan data dasar dari session login (Username & Email)
+                label12.Text = userLogin.Username;
+                label17.Text = userLogin.Email;
 
-                // 2. Ambil detail profile berdasarkan id_user = 5
-                ProfilCatur detail = userContext.GetDetailUserByUserId(userLogin.IdUser);
+                // 2. Panggil Controller untuk mengambil detail profil catur (Pola MVC)
+                ProfilController profilController = new ProfilController();
+                ProfilCatur detail = profilController.AmbilProfilPemain(userLogin.IdUser);
 
                 if (detail != null)
                 {
-                    label14.Text = detail.Negara;                                 // Akan muncul: Indonesia
-                    label13.Text = detail.EloRating.ToString();                  // Akan muncul: 1200
-                    label20.Text = detail.NoTelepon;                             // Akan muncul: +6482234671231
-                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy"); // Akan muncul: 28 September 1995
+                    // Tampilkan detail data catur ke label masing-masing
+                    label14.Text = detail.Negara;
+                    label13.Text = detail.EloRating.ToString();
+                    label20.Text = detail.NoTelepon;
+                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy");
 
-                    // Menampilkan tanggal dibuatnya akun Bangijal
-                    label1.Text = "Account Profile Verified";
+                    // =======================================================================
+                    // UTAMA 1: Mengubah Deskripsi (label2) Jadi Dinamis Dari DB
+                    // =======================================================================
+                    label2.Text = string.IsNullOrWhiteSpace(detail.Deskripsi)
+                        ? "Tidak ada deskripsi."
+                        : detail.Deskripsi;
 
-                    // BONUS: Jika kamu punya TextBox atau RichTextBox untuk deskripsi ("Pemain pemula")
-                    // Silakan isi nama komponen deskripsi kamu di bawah ini, misalnya richTextBox1:
-                    // richTextBox1.Text = detail.Deskripsi;
+                    // =======================================================================
+                    // UTAMA 2: Mengubah Created At (label1) Menggunakan userLogin.CreatedAt
+                    // =======================================================================
+                    // Jika CreatedAt bernilai default (01/01/0001), otomatis diakali pakai tanggal hari ini
+                    string tanggalBuatAkun = userLogin.CreatedAt != DateTime.MinValue
+                        ? userLogin.CreatedAt.ToString("dd MMMM yyyy")
+                        : DateTime.Now.ToString("dd MMMM yyyy");
+
+                    label1.Text = $"Account Profile Verified • Created on: {tanggalBuatAkun}";
                 }
             }
             else
@@ -55,7 +68,6 @@ namespace ProjekPBO_PSQL.View.Pemain
                 MessageBox.Show("Data sesi login tidak ditemukan! Pastikan login dari FormLogin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)// History Pertandingan
         {
@@ -142,6 +154,20 @@ namespace ProjekPBO_PSQL.View.Pemain
         }
 
         private void roundedPictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Edit_Click(object sender, EventArgs e)
+        {
+            EditProfil formEdit = new EditProfil(this.userLogin);
+
+            formEdit.Show();
+
+            this.Close();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

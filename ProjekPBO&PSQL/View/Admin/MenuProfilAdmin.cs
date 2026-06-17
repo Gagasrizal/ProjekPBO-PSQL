@@ -16,7 +16,6 @@ namespace ProjekPBO_PSQL.View.Admin
         private AkunUser adminLogin;
         private UserContext userContext = new UserContext();
 
-        // Konstruktor menerima data User dari MenuAdmin atau form admin sebelumnya
         public MenuProfilAdmin(AkunUser user)
         {
             InitializeComponent();
@@ -25,30 +24,21 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void MenuProfilAdmin_Load(object sender, EventArgs e)
         {
-            // Cek apakah adminLogin kosong di awal fungsi
             if (adminLogin != null)
             {
-                // =======================================================================
-                // 1. FIX ERROR CS1061: Menggunakan properti huruf kapital (PascalCase) 
-                //    sesuai dengan yang didefinisikan di dalam kelas model AkunUser.cs
-                // =======================================================================
-                label12.Text = adminLogin.Username; // Sebelumnya: username
-                label17.Text = adminLogin.Email;    // Sebelumnya: email
+                label12.Text = adminLogin.Username; 
+                label17.Text = adminLogin.Email;    
 
-                // 2. FIX ERROR CS1061: Mengganti '.id' menjadi '.IdUser' sesuai isi model AkunUser
                 ProfilCatur detail = userContext.GetDetailUserByUserId(adminLogin.IdUser);
                 if (detail != null)
                 {
-                    // =======================================================================
-                    // FIX TOTAL: Menyinkronkan nama properti dengan file ProfilCatur.cs Anda
-                    // =======================================================================
+ 
                     label14.Text = detail.Negara;
-                    label13.Text = detail.EloRating.ToString(); // FIX: Elo_rating -> EloRating
-                    label20.Text = detail.NoTelepon;            // FIX: No_telepon -> NoTelepon
-                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy"); // FIX: Tanggal_lahir -> TanggalLahir
+                    label13.Text = detail.EloRating.ToString(); 
+                    label20.Text = detail.NoTelepon;            
+                    label18.Text = detail.TanggalLahir.ToString("dd MMMM yyyy"); 
 
-                    // Karena di kelas ProfilCatur tidak ada properti CreatedAt, kita set teks default 
-                    // agar label paling bawah tetap rapi atau tidak memicu error kompilasi
+
                     label1.Text = "Account Profile Verified";
                 }
                 else
@@ -67,32 +57,27 @@ namespace ProjekPBO_PSQL.View.Admin
             }
         }
 
-        // =======================================================================
-        // NAVIGASI LINK LABEL SIDEBAR ADMIN (ESTAFET SISI LOGIN)
-        // =======================================================================
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Profil (Form Ini)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) 
         {
-            // Sudah berada di halaman ini
+
         }
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Lihat Data Tournament
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) 
         {
             LihatDataTournament lihatTournament = new LihatDataTournament(this.adminLogin);
             lihatTournament.Show();
             this.Hide();
         }
 
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) // Lihat Data Pembayaran
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) 
         {
             LihatDataPembayaran lihatPembayaran = new LihatDataPembayaran(this.adminLogin);
             lihatPembayaran.Show();
             this.Hide();
         }
 
-        // =======================================================================
-        // TOMBOL LOGOUT
-        // =======================================================================
+
         private void roundedButton1_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Apakah kamu yakin ingin keluar dari halaman Admin Hyper Chess?", "LogOut Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -101,13 +86,9 @@ namespace ProjekPBO_PSQL.View.Admin
             {
                 FormLogin login = new FormLogin();
                 login.Show();
-                this.Close(); // Menutup form profil admin dan kembali ke halaman login utama
+                this.Close(); 
             }
         }
-
-        // =======================================================================
-        // EVENT KLIK BAWAAN DESIGNER (JANGAN DIHAPUS)
-        // =======================================================================
         private void label4_Click(object sender, EventArgs e) { }
         private void label12_Click(object sender, EventArgs e) { }
         private void label5_Click(object sender, EventArgs e) { }
@@ -128,7 +109,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // FIX: Menyesuaikan parameter navigasi pertandingan menggunakan objek penampung adminLogin
             MenuPertandingan formPertandingan = new MenuPertandingan(this.adminLogin);
             formPertandingan.Show();
             this.Hide();

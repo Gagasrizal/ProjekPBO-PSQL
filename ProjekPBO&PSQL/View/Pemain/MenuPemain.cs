@@ -13,10 +13,8 @@ namespace ProjekPBO_PSQL
 {
     public partial class MenuPemain : Form
     {
-        // Variabel global untuk menyimpan sesi data user yang sedang login
         private AkunUser userLogin;
 
-        // Konstruktor Utama menerima data User yang dikirim dari FormLogin
         public MenuPemain(AkunUser user)
         {
             InitializeComponent();
@@ -25,12 +23,9 @@ namespace ProjekPBO_PSQL
 
         private void MenuPemain_Load(object sender, EventArgs e)
         {
-            // Bisa dikosongkan
+
         }
 
-        // =======================================================================
-        // 7. TOMBOL LOGOUT -> Menuju FormLogin.cs
-        // =======================================================================
         private void roundedButton1_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Apakah kamu yakin ingin keluar dari Hyper Chess?", "LogOut", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -47,28 +42,28 @@ namespace ProjekPBO_PSQL
         {
             MenuProfilPem formProfil = new MenuProfilPem(this.userLogin);
             formProfil.Show();
-            this.Close(); // Hancurkan form saat ini agar memori bersih
+            this.Close();
         }
 
         private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuTournament formDaftar = new MenuTournament(this.userLogin);
             formDaftar.Show();
-            this.Close(); // Hancurkan form saat ini agar memori bersih
+            this.Close(); 
         }
 
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuHistoryPermainan formHistory = new MenuHistoryPermainan(this.userLogin);
             formHistory.Show();
-            this.Close(); // Hancurkan form saat ini agar memori bersih
+            this.Close(); 
         }
 
         private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MenuAturan formAturan = new MenuAturan(this.userLogin);
             formAturan.Show();
-            this.Close(); // Hancurkan form saat ini agar memori bersih
+            this.Close(); 
         }
     }
 }

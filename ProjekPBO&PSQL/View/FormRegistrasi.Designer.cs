@@ -267,6 +267,7 @@ namespace ProjekPBO_PSQL
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(520, 36);
             comboBox1.TabIndex = 23;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // FormRegistrasi
             // 

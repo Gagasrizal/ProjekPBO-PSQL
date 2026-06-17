@@ -16,7 +16,6 @@ namespace ProjekPBO_PSQL.View.Admin
         private int _babakAktif = 1;
         private string _namaTournament = "";
 
-        // Constructor Utama - Digunakan oleh semua Form Admin untuk berpindah halaman tanpa kehilangan session
         public MenuPertandingan(AkunUser user)
         {
             InitializeComponent();
@@ -24,7 +23,6 @@ namespace ProjekPBO_PSQL.View.Admin
             this.Load += MenuPertandingan_Load;
         }
 
-        // Overload Constructor jika Anda ingin membuka form langsung menargetkan turnamen & babak tertentu
         public MenuPertandingan(AkunUser user, int idKompetisi, int babakAktif, string namaTournament) : this(user)
         {
             this._idKompetisi = idKompetisi;
@@ -111,8 +109,6 @@ namespace ProjekPBO_PSQL.View.Admin
                     string teks = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
                     int.TryParse(teks, out babak);
                 }
-
-                // FIKS: Menggunakan PertandinganContext karena method ini ada di PertandinganContext
                 PertandinganContext pertandinganCtx = new PertandinganContext();
                 DataTable dtRaw = pertandinganCtx.AmbilPertandinganDenganTotalPoin(idKompetisi, babak);
 
@@ -185,7 +181,6 @@ namespace ProjekPBO_PSQL.View.Admin
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Dikocok / diganti manual lewat klik button tampilkan data
         }
 
         private void roundedButton4_Click(object sender, EventArgs e)
@@ -207,8 +202,9 @@ namespace ProjekPBO_PSQL.View.Admin
             int babakTerpilih = Convert.ToInt32(babakRaw);
 
             KompetisiContext kompetisiCtx = new KompetisiContext();
+            PertandinganContext pertandinganCtx = new PertandinganContext();
 
-            if (kompetisiCtx.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
+            if (pertandinganCtx.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
             {
                 MessageBox.Show($"Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -216,15 +212,16 @@ namespace ProjekPBO_PSQL.View.Admin
                 return;
             }
 
-            List<int> listPemain = kompetisiCtx.AmbilPemainTerdaftar(idKompetisi);
+            List<int> listPemain = pertandinganCtx.AmbilDaftarPemainTournament(idKompetisi);
+
             if (listPemain.Count < 2)
             {
-                MessageBox.Show("Jumlah pemain tidak mencukupi (minimal 2).", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Jumlah pemain tidak mencukupi (Hanya ditemukan {listPemain.Count} pemain di database).\n\n" +
+                                "Silakan daftarkan minimal 4 pemain ke turnamen ini terlebih dahulu!",
+                                "Peringatan Matchmaking", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Fisher-Yates Shuffle Matchmaking
             Random rng = new Random();
             int n = listPemain.Count;
             while (n > 1)
@@ -244,14 +241,13 @@ namespace ProjekPBO_PSQL.View.Admin
                 MessageBox.Show($"Jumlah pemain ganjil ({listPemain.Count}). 1 pemain mendapat BYE.",
                     "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (kompetisiCtx.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
+            if (pertandinganCtx.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasangan))
             {
                 MessageBox.Show($"Berhasil generate pasangan Babak {babakTerpilih}!", "Sukses",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TampilkanDataPertandingan();
             }
         }
-
         private void roundedButton2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -273,7 +269,6 @@ namespace ProjekPBO_PSQL.View.Admin
                 int idPertandingan = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
                 string hasil = comboBox3.SelectedItem.ToString();
 
-                // FIKS: Menggunakan PertandinganContext
                 PertandinganContext pertandinganCtx = new PertandinganContext();
                 KompetisiContext kompetisiCtx = new KompetisiContext();
 
@@ -426,10 +421,8 @@ namespace ProjekPBO_PSQL.View.Admin
         {
             MenuPertandingan formPertandingan = new MenuPertandingan(adminLogin);
 
-            // 2. Tampilkan form tujuan
             formPertandingan.Show();
 
-            // 3. Sembunyikan form yang sedang aktif (opsional, agar tidak menumpuk)
             this.Hide();
         }
 

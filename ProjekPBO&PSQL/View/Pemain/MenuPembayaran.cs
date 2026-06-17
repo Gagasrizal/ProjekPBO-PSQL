@@ -1,4 +1,7 @@
-﻿using ProjekPBO_PSQL.Helpers;
+﻿using ProjekPBO_PSQL.Controller;
+using ProjekPBO_PSQL.Helpers;
+using ProjekPBO_PSQL.Models;
+using ProjekPBO_PSQL.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,8 +9,6 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ProjekPBO_PSQL.Models;
-using ProjekPBO_PSQL.Models.Context;
 
 namespace ProjekPBO_PSQL.View.Pemain
 {
@@ -32,52 +33,74 @@ public partial class MenuPembayaran : Form
     // TOMBOL UTAMA (Di desainer kamu namanya Edit_Click)
     // =======================================================================
     private void Edit_Click(object sender, EventArgs e)
-    {
-        if (MetodePembayaran.SelectedIndex == -1)
         {
-            MessageBox.Show("Silakan pilih metode pembayaran terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
-        }
+            // 1. Validasi apakah metode pembayaran sudah dipilih
+            if (MetodePembayaran.SelectedIndex == -1)
+            {
+                MessageBox.Show("Silakan pilih metode pembayaran terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-        if (string.IsNullOrEmpty(textBox1.Text))
-        {
-            MessageBox.Show("Silakan masukkan nominal pembayaran!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
-        }
+            // 2. Validasi apakah nominal kosong
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Silakan masukkan nominal pembayaran!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-        try
-        {
+            // 3. Validasi format angka (mencegah crash jika diinput huruf/karakter aneh)
+            if (!int.TryParse(textBox1.Text, out int nominalInput))
+            {
+                MessageBox.Show("Nominal pembayaran harus berupa angka seluruhnya!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 4. Tentukan biaya asli turnamen (UFC CHESS Rapid = 25000)
+            // Kerugian bandar teratasi karena ini dikirim sebagai benchmark validasi ke controller
+            int biayaAsliTurnamen = this.hargaPendaftaran;
+
+            // 5. Ambil ID Metode Pembayaran dari index komponen UI kamu
             int idMetode = MetodePembayaran.SelectedIndex + 1;
-            int nominal = Convert.ToInt32(textBox1.Text);
 
-            // =======================================================================
-            // FIX TOTAL ERROR CS1729: Menyelaraskan dengan properti asli Transaksi.cs
-            // =======================================================================
-            Transaksi trxBaru = new Transaksi()
+            try
             {
-                // Di model Anda, fieldnya bernama IdPendaftaranKompetisi, IdMetodePembayaran, dll.
-                IdPendaftaranKompetisi = this.idKompetisi,
-                IdMetodePembayaran = idMetode,
-                NominalTransaksi = nominal,
-                TanggalTransaksi = DateTime.Now,
-                StatusTransaksi = "Sudah Lunas" // FIX VALIDASI: Harus "Sudah Lunas" agar tidak memicu ArgumentException!
-            };
+                // 6. Alihkan pembuatan objek dan validasi harga ke Controller
+                TransaksiController transaksiController = new TransaksiController();
+                string hasil = transaksiController.ProsesPembayaranOtomatis(
+                    this.idKompetisi,
+                    idMetode,
+                    nominalInput,
+                    this.userLogin.IdUser,
+                    biayaAsliTurnamen
+                );
 
-            // Kirim objek model ke DBHelper Anda
-            TransaksiContext transaksiContext = new TransaksiContext();
-            bool berhasil = transaksiContext.BayarDanDaftarOtomatis(trxBaru);
+                // 7. Cek respon balik dari Controller
+                if (hasil == "SUKSES")
+                {
+                    MessageBox.Show("Pembayaran Berhasil! Anda otomatis terdaftar dan disetujui (Auto-ACC).", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (berhasil)
+                    MenuTournament tournamentForm = new MenuTournament(this.userLogin);
+                    tournamentForm.Show();
+                    this.Close();
+                }
+                else if (hasil.StartsWith("VALIDASI_GAGAL:"))
+                {
+                    // Menangkap jika harga tidak pas atau angka <= 0 tanpa bikin aplikasi force close
+                    string pesanPeringatan = hasil.Replace("VALIDASI_GAGAL:", "").Trim();
+                    MessageBox.Show(pesanPeringatan, "Peringatan Pembayaran", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    // Menangkap jika ada kegagalan query database PostgreSQL
+                    MessageBox.Show(hasil, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Pembayaran Berhasil! Anda otomatis terdaftar dan disetujui (Auto-ACC).", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Pengaman terakhir jika ada hal tidak terduga di luar logika bisnis
+                MessageBox.Show("Terjadi kesalahan sistem: " + ex.Message, "Error Global", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        catch (Exception ex)
-        {
-            // Menangkap pesan error, termasuk jika nominal <= 0 dari aturan enkapsulasi model Anda
-            MessageBox.Show(ex.Message, "Error Pembayaran", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
 
     private void roundedButton1_Click(object sender, EventArgs e)
     {
