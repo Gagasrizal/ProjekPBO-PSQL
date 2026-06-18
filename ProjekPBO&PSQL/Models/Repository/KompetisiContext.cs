@@ -118,27 +118,25 @@ namespace ProjekPBO_PSQL.Models.Context
             return dt;
         }
 
+        //public bool IsBabakSudahGenerated(int idKompetisi, int babak)
+        //{
+        //    try
+        //    {
+        //        using var conn = DBHelper.GetConnection();
+        //        conn.Open();
+        //        string query = "SELECT COUNT(*) FROM pertandingan WHERE id_kompetisi = @idKompetisi AND babak = @babak";
+        //        using var cmd = new NpgsqlCommand(query, conn);
+        //        cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+        //        cmd.Parameters.AddWithValue("@babak", babak);
 
-
-        public bool IsBabakSudahGenerated(int idKompetisi, int babak)
-        {
-            try
-            {
-                using var conn = DBHelper.GetConnection();
-                conn.Open();
-                string query = "SELECT COUNT(*) FROM pertandingan WHERE id_kompetisi = @idKompetisi AND babak = @babak";
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
-                cmd.Parameters.AddWithValue("@babak", babak);
-
-                long count = Convert.ToInt64(cmd.ExecuteScalar());
-                return count > 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Gagal cek status babak: {ex.Message}", ex);
-            }
-        }
+        //        long count = Convert.ToInt64(cmd.ExecuteScalar());
+        //        return count > 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Gagal cek status babak: {ex.Message}", ex);
+        //    }
+        //}
         public bool ApakahSudahAdaPendaftar(int idKompetisi)
         {
             // Hitung jumlah baris pendaftaran untuk id_kompetisi ini
@@ -161,78 +159,78 @@ namespace ProjekPBO_PSQL.Models.Context
                 throw new Exception($"Gagal mengecek pendaftar kompetisi: {ex.Message}", ex);
             }
         }
-        public bool SimpanPertandinganGenerate(int idKompetisi, int babak, List<Tuple<int, int>> pasangan)
-        {
-            using var conn = DBHelper.GetConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            try
-            {
-                // DISINKRONKAN: Menambahkan kolom tanggal_pertandingan agar teratur sesuai skema database
-                string query = @"INSERT INTO pertandingan (id_kompetisi, tanggal_pertandingan, babak, pemain_putih, pemain_hitam, skor_putih, skor_hitam, hasil)  
-                                 VALUES (@idKompetisi, @tanggal, @babak, @putih, @hitam, 0.00, 0.00, 'Belum Dimainkan')";
+        //public bool SimpanPertandinganGenerate(int idKompetisi, int babak, List<Tuple<int, int>> pasangan)
+        //{
+        //    using var conn = DBHelper.GetConnection();
+        //    conn.Open();
+        //    using var trans = conn.BeginTransaction();
+        //    try
+        //    {
+        //        // DISINKRONKAN: Menambahkan kolom tanggal_pertandingan agar teratur sesuai skema database
+        //        string query = @"INSERT INTO pertandingan (id_kompetisi, tanggal_pertandingan, babak, pemain_putih, pemain_hitam, skor_putih, skor_hitam, hasil)  
+        //                         VALUES (@idKompetisi, @tanggal, @babak, @putih, @hitam, 0.00, 0.00, 'Belum Dimainkan')";
 
-                foreach (var pair in pasangan)
-                {
-                    using var cmd = new NpgsqlCommand(query, conn, trans);
-                    cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
-                    cmd.Parameters.AddWithValue("@tanggal", DateTime.Today);
-                    cmd.Parameters.AddWithValue("@babak", babak);
-                    cmd.Parameters.AddWithValue("@putih", pair.Item1);
-                    cmd.Parameters.AddWithValue("@hitam", pair.Item2);
-                    cmd.ExecuteNonQuery();
-                }
+        //        foreach (var pair in pasangan)
+        //        {
+        //            using var cmd = new NpgsqlCommand(query, conn, trans);
+        //            cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+        //            cmd.Parameters.AddWithValue("@tanggal", DateTime.Today);
+        //            cmd.Parameters.AddWithValue("@babak", babak);
+        //            cmd.Parameters.AddWithValue("@putih", pair.Item1);
+        //            cmd.Parameters.AddWithValue("@hitam", pair.Item2);
+        //            cmd.ExecuteNonQuery();
+        //        }
 
-                trans.Commit();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                trans.Rollback();
-                throw new Exception($"Gagal menyimpan data generate matchmaking: {ex.Message}", ex);
-            }
-        }
+        //        trans.Commit();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        trans.Rollback();
+        //        throw new Exception($"Gagal menyimpan data generate matchmaking: {ex.Message}", ex);
+        //    }
+        //}
 
-        public bool ApakahSemuaPertandinganSelesai(int idKompetisi, int babak)
-        {
-            try
-            {
-                using var conn = DBHelper.GetConnection();
-                conn.Open();
-                string query = @"SELECT COUNT(*) FROM pertandingan 
-                                 WHERE id_kompetisi = @idKompetisi AND babak = @babak AND (hasil = 'Belum Dimainkan' OR hasil IS NULL OR hasil = '')";
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
-                cmd.Parameters.AddWithValue("@babak", babak);
+        //public bool ApakahSemuaPertandinganSelesai(int idKompetisi, int babak)
+        //{
+        //    try
+        //    {
+        //        using var conn = DBHelper.GetConnection();
+        //        conn.Open();
+        //        string query = @"SELECT COUNT(*) FROM pertandingan 
+        //                         WHERE id_kompetisi = @idKompetisi AND babak = @babak AND (hasil = 'Belum Dimainkan' OR hasil IS NULL OR hasil = '')";
+        //        using var cmd = new NpgsqlCommand(query, conn);
+        //        cmd.Parameters.AddWithValue("@idKompetisi", idKompetisi);
+        //        cmd.Parameters.AddWithValue("@babak", babak);
 
-                long count = Convert.ToInt64(cmd.ExecuteScalar());
-                return count == 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Gagal cek status penyelesaian babak: {ex.Message}", ex);
-            }
-        }
+        //        long count = Convert.ToInt64(cmd.ExecuteScalar());
+        //        return count == 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Gagal cek status penyelesaian babak: {ex.Message}", ex);
+        //    }
+        //}
 
-        public DataTable GetDaftarKompetisiAktif()
-        {
-            DataTable dt = new DataTable();
-            string query = "SELECT * FROM v_daftar_kompetisi WHERE tanggal_pelaksanaan >= CURRENT_DATE ORDER BY tanggal_pelaksanaan ASC";
+        //public DataTable GetDaftarKompetisiAktif()
+        //{
+        //    DataTable dt = new DataTable();
+        //    string query = "SELECT * FROM v_daftar_kompetisi WHERE tanggal_pelaksanaan >= CURRENT_DATE ORDER BY tanggal_pelaksanaan ASC";
 
-            try
-            {
-                using var conn = DBHelper.GetConnection();
-                conn.Open();
-                using var cmd = new NpgsqlCommand(query, conn);
-                using var adapter = new NpgsqlDataAdapter(cmd);
-                adapter.Fill(dt);
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Gagal mengambil data kompetisi aktif: {ex.Message}", ex);
-            }
-        }
+        //    try
+        //    {
+        //        using var conn = DBHelper.GetConnection();
+        //        conn.Open();
+        //        using var cmd = new NpgsqlCommand(query, conn);
+        //        using var adapter = new NpgsqlDataAdapter(cmd);
+        //        adapter.Fill(dt);
+        //        return dt;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Gagal mengambil data kompetisi aktif: {ex.Message}", ex);
+        //    }
+        //}
 
         public DataTable AmbilIdDanNamaTournament()
         {

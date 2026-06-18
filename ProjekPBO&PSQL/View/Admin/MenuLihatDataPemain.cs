@@ -195,136 +195,133 @@ namespace ProjekPBO_PSQL.View.Admin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void MulaiSinkronisasiBabakDanData()
-        {
-            if (comboBox1.SelectedValue == null || comboBox1.SelectedIndex == -1) return;
+        //private void MulaiSinkronisasiBabakDanData()
+        //{
+        //    if (comboBox1.SelectedValue == null || comboBox1.SelectedIndex == -1) return;
 
-            if (int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi))
-            {
-                KompetisiContext kompetisiContext = new KompetisiContext();
-                int totalBabak = kompetisiContext.AmbilTotalBabakTournament(idKompetisi);
+        //    if (int.TryParse(comboBox1.SelectedValue.ToString(), out int idKompetisi))
+        //    {
+        //        KompetisiContext kompetisiContext = new KompetisiContext();
+        //        int totalBabak = kompetisiContext.AmbilTotalBabakTournament(idKompetisi);
 
-                comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
-                comboBox2.Items.Clear();
+        //        comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
+        //        comboBox2.Items.Clear();
 
-                for (int i = 1; i <= totalBabak; i++)
-                {
-                    comboBox2.Items.Add($"Babak {i}");
-                }
+        //        for (int i = 1; i <= totalBabak; i++)
+        //        {
+        //            comboBox2.Items.Add($"Babak {i}");
+        //        }
 
-                if (comboBox2.Items.Count > 0)
-                    comboBox2.SelectedIndex = 0;
+        //        if (comboBox2.Items.Count > 0)
+        //            comboBox2.SelectedIndex = 0;
 
-                comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-            }
-        }
+        //        comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+        //    }
+        //}
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Ganti tournament → tampilkan ulang data pemain
             TampilkanDataPendaftar();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Ganti babak → tampilkan data pertandingan babak itu
             TampilkanDataPertandingan();
         }
 
-        private void roundedButton3_Click(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
-            {
-                MessageBox.Show("Pilih turnamen dan babak terlebih dahulu!", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+        //private void roundedButton3_Click(object sender, EventArgs e)
+        //{
+        //    if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
+        //    {
+        //        MessageBox.Show("Pilih turnamen dan babak terlebih dahulu!", "Peringatan",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        return;
+        //    }
 
-            int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-            string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
-            int babakTerpilih = Convert.ToInt32(babakRaw);
+        //    int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
+        //    string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
+        //    int babakTerpilih = Convert.ToInt32(babakRaw);
 
-            KompetisiContext kompetisiContext = new KompetisiContext();
+        //    KompetisiContext kompetisiContext = new KompetisiContext();
 
-            if (kompetisiContext.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
-            {
-                MessageBox.Show($"Pertandingan Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+        //    if (kompetisiContext.IsBabakSudahGenerated(idKompetisi, babakTerpilih))
+        //    {
+        //        MessageBox.Show($"Pertandingan Babak {babakTerpilih} sudah pernah di-generate!", "Informasi",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        return;
+        //    }
 
-            List<int> listPemain = kompetisiContext.AmbilPemainTerdaftar(idKompetisi);
-            if (listPemain.Count < 2)
-            {
-                MessageBox.Show("Jumlah pemain tidak mencukupi (Minimal 2 pemain).", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+        //    List<int> listPemain = kompetisiContext.AmbilPemainTerdaftar(idKompetisi);
+        //    if (listPemain.Count < 2)
+        //    {
+        //        MessageBox.Show("Jumlah pemain tidak mencukupi (Minimal 2 pemain).", "Peringatan",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        return;
+        //    }
 
-            // Fisher-Yates Shuffle
-            Random rng = new Random();
-            int n = listPemain.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                int value = listPemain[k];
-                listPemain[k] = listPemain[n];
-                listPemain[n] = value;
-            }
+        //    Random rng = new Random();
+        //    int n = listPemain.Count;
+        //    while (n > 1)
+        //    {
+        //        n--;
+        //        int k = rng.Next(n + 1);
+        //        int value = listPemain[k];
+        //        listPemain[k] = listPemain[n];
+        //        listPemain[n] = value;
+        //    }
 
-            List<Tuple<int, int>> pasanganMatch = new List<Tuple<int, int>>();
-            for (int i = 0; i < listPemain.Count - 1; i += 2)
-            {
-                pasanganMatch.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
-            }
+        //    List<Tuple<int, int>> pasanganMatch = new List<Tuple<int, int>>();
+        //    for (int i = 0; i < listPemain.Count - 1; i += 2)
+        //    {
+        //        pasanganMatch.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
+        //    }
 
-            if (listPemain.Count % 2 != 0)
-            {
-                MessageBox.Show(
-                    $"Jumlah pemain ganjil ({listPemain.Count} orang).\n" +
-                    $"1 pemain akan mendapat BYE (tidak dapat lawan) dan otomatis menang di babak ini.",
-                    "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        //    if (listPemain.Count % 2 != 0)
+        //    {
+        //        MessageBox.Show(
+        //            $"Jumlah pemain ganjil ({listPemain.Count} orang).\n" +
+        //            $"1 pemain akan mendapat BYE (tidak dapat lawan) dan otomatis menang di babak ini.",
+        //            "Info BYE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
 
-            if (kompetisiContext.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasanganMatch))
-            {
-                MessageBox.Show($"Berhasil generate pasangan pertandingan Babak {babakTerpilih}!", "Sukses",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    if (kompetisiContext.SimpanPertandinganGenerate(idKompetisi, babakTerpilih, pasanganMatch))
+        //    {
+        //        MessageBox.Show($"Berhasil generate pasangan pertandingan Babak {babakTerpilih}!", "Sukses",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                MulaiSinkronisasiBabakDanData();
-                TampilkanDataPertandingan();
-            }
-        }
+        //        MulaiSinkronisasiBabakDanData();
+        //        TampilkanDataPertandingan();
+        //    }
+        //}
 
-        private void roundedButton2_Click(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
-            {
-                MessageBox.Show("Pilih turnamen dan babak aktif terlebih dahulu!", "Informasi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+        //private void roundedButton2_Click(object sender, EventArgs e)
+        //{
+        //    if (comboBox1.SelectedValue == null || comboBox2.SelectedIndex == -1)
+        //    {
+        //        MessageBox.Show("Pilih turnamen dan babak aktif terlebih dahulu!", "Informasi",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        return;
+        //    }
 
-            int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
-            string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
-            int babakAktif = Convert.ToInt32(babakRaw);
+        //    int idKompetisi = Convert.ToInt32(comboBox1.SelectedValue);
+        //    string babakRaw = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
+        //    int babakAktif = Convert.ToInt32(babakRaw);
 
-            PertandinganContext pertandinganContext = new PertandinganContext();
-            bool isSelesaiSemua = pertandinganContext.ApakahSemuaPertandinganSelesai(idKompetisi, babakAktif);
+        //    PertandinganContext pertandinganContext = new PertandinganContext();
+        //    bool isSelesaiSemua = pertandinganContext.ApakahSemuaPertandinganSelesai(idKompetisi, babakAktif);
 
-            if (isSelesaiSemua)
-            {
-                MessageBox.Show(
-                    "Validasi sukses! Seluruh pertandingan di babak ini telah diisi.\nMengalihkan ke Halaman Leaderboard.",
-                    "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show(
-                    $"Akses ditolak! Masih ada pertandingan di Babak {babakAktif} yang belum diisi hasilnya.",
-                    "Gagal Rekap Juara", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-        }
+        //    if (isSelesaiSemua)
+        //    {
+        //        MessageBox.Show(
+        //            "Validasi sukses! Seluruh pertandingan di babak ini telah diisi.\nMengalihkan ke Halaman Leaderboard.",
+        //            "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show(
+        //            $"Akses ditolak! Masih ada pertandingan di Babak {babakAktif} yang belum diisi hasilnya.",
+        //            "Gagal Rekap Juara", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        //    }
+        //}
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -380,9 +377,9 @@ namespace ProjekPBO_PSQL.View.Admin
             this.Hide();
         }
 
-        private void roundedButton4_Click(object sender, EventArgs e)
-        {
+        //private void roundedButton4_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
     }
 }

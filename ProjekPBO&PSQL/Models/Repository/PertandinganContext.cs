@@ -121,8 +121,8 @@ namespace ProjekPBO_PSQL.Models.Context
             catch (Exception ex)
             {
                 transaction.Rollback();
-                System.Windows.Forms.MessageBox.Show($"Gagal menyimpan generate match: {ex.Message}");
-                return false;
+                throw new Exception($"Gagal menyimpan generate match: {ex.Message}", ex);
+                return false;   
             }
         }
 
@@ -137,10 +137,9 @@ namespace ProjekPBO_PSQL.Models.Context
             {
                 using var conn = DBHelper.GetConnection();
                 conn.Open();
-
                 using var trans = conn.BeginTransaction();
 
-                string queryGet = @"SELECT p.pemain_putih, p.pemain_hitam, p.hasil AS hasil_lama,
+                string queryGet = @"SELECT p.pemain_putih, p.pemain_hitam,
                                    COALESCE(dp.elo_rating, 1000) AS elo_putih, 
                                    COALESCE(dh.elo_rating, 1000) AS elo_hitam
                             FROM pertandingan p
@@ -149,8 +148,7 @@ namespace ProjekPBO_PSQL.Models.Context
                             WHERE p.id_pertandingan = @id_pertandingan";
 
                 int idPemainPutih = 0, idPemainHitam = 0;
-                int eloPutihLama = 1000, eloHitamLama = 1000;
-                string hasilLama = "";
+                int eloPutihSekarang = 1000, eloHitamSekarang = 1000;
 
                 using (var cmdGet = new NpgsqlCommand(queryGet, conn, trans))
                 {
@@ -160,14 +158,27 @@ namespace ProjekPBO_PSQL.Models.Context
                     {
                         idPemainPutih = Convert.ToInt32(reader["pemain_putih"]);
                         idPemainHitam = Convert.ToInt32(reader["pemain_hitam"]);
-                        eloPutihLama = Convert.ToInt32(reader["elo_putih"]);
-                        eloHitamLama = Convert.ToInt32(reader["elo_hitam"]);
-                        hasilLama = reader["hasil_lama"].ToString();
+                        eloPutihSekarang = Convert.ToInt32(reader["elo_putih"]);
+                        eloHitamSekarang = Convert.ToInt32(reader["elo_hitam"]);
                     }
                     else
                     {
                         return false;
                     }
+                }
+
+                int eloPutihBaru = eloPutihSekarang;
+                int eloHitamBaru = eloHitamSekarang;
+
+                if (hasil == "1-0") 
+                {
+                    eloPutihBaru = eloPutihSekarang + 8;
+                    eloHitamBaru = Math.Max(0, eloHitamSekarang - 8);
+                }
+                else if (hasil == "0-1") 
+                {
+                    eloPutihBaru = Math.Max(0, eloPutihSekarang - 8);
+                    eloHitamBaru = eloHitamSekarang + 8;
                 }
 
                 string queryUpdateMatch = @"UPDATE pertandingan 
@@ -183,37 +194,20 @@ namespace ProjekPBO_PSQL.Models.Context
                     cmdMatch.ExecuteNonQuery();
                 }
 
-                if (hasilLama == "*" || hasilLama == "Belum Dimainkan" || string.IsNullOrEmpty(hasilLama))
+                string queryUpdatePutih = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
+                using (var cmdPutih = new NpgsqlCommand(queryUpdatePutih, conn, trans))
                 {
-                    int eloPutihBaru = eloPutihLama;
-                    int eloHitamBaru = eloHitamLama;
+                    cmdPutih.Parameters.AddWithValue("@elo", eloPutihBaru);
+                    cmdPutih.Parameters.AddWithValue("@id_user", idPemainPutih);
+                    cmdPutih.ExecuteNonQuery();
+                }
 
-                    if (hasil == "1-0")
-                    {
-                        eloPutihBaru = eloPutihLama + 8;
-                        eloHitamBaru = Math.Max(0, eloHitamLama - 8); 
-                    }
-                    else if (hasil == "0-1") // Hitam Menang, Putih Kalah
-                    {
-                        eloPutihBaru = Math.Max(0, eloPutihLama - 8);
-                        eloHitamBaru = eloHitamLama + 8;
-                    }
-
-                    string queryUpdatePutih = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
-                    using (var cmdPutih = new NpgsqlCommand(queryUpdatePutih, conn, trans))
-                    {
-                        cmdPutih.Parameters.AddWithValue("@elo", eloPutihBaru);
-                        cmdPutih.Parameters.AddWithValue("@id_user", idPemainPutih);
-                        cmdPutih.ExecuteNonQuery();
-                    }
-
-                    string queryUpdateHitam = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
-                    using (var cmdHitam = new NpgsqlCommand(queryUpdateHitam, conn, trans))
-                    {
-                        cmdHitam.Parameters.AddWithValue("@elo", eloHitamBaru);
-                        cmdHitam.Parameters.AddWithValue("@id_user", idPemainHitam);
-                        cmdHitam.ExecuteNonQuery();
-                    }
+                string queryUpdateHitam = "UPDATE detail_user SET elo_rating = @elo WHERE id_user = @id_user";
+                using (var cmdHitam = new NpgsqlCommand(queryUpdateHitam, conn, trans))
+                {
+                    cmdHitam.Parameters.AddWithValue("@elo", eloHitamBaru);
+                    cmdHitam.Parameters.AddWithValue("@id_user", idPemainHitam);
+                    cmdHitam.ExecuteNonQuery();
                 }
 
                 trans.Commit();
@@ -221,10 +215,9 @@ namespace ProjekPBO_PSQL.Models.Context
             }
             catch (Exception ex)
             {
-                throw new Exception($"Gagal mengupdate hasil pertandingan dan rating: {ex.Message}");
+                throw new Exception($"Gagal mengupdate hasil pertandingan: {ex.Message}");
             }
         }
-
         public bool ApakahSemuaPertandinganSelesai(int idKompetisi, int babak)
         {
             string query = @"SELECT COUNT(*) FROM pertandingan 
@@ -313,7 +306,7 @@ namespace ProjekPBO_PSQL.Models.Context
                             CASE WHEN p.hasil = 'Belum Dimainkan' THEN 'Belum Dimainkan'
                                  WHEN p.pemain_putih = @id_user AND p.hasil = '1-0' THEN 'Menang'
                                  WHEN p.pemain_putih = @id_user AND p.hasil = '0-1' THEN 'Kalah'
-                                 WHEN p.pemain_hitam = @id_user AND p.hasil = '0-1' THEN 'Menang' -- FIX: Ditambahkan 'AND' di sini
+                                 WHEN p.pemain_hitam = @id_user AND p.hasil = '0-1' THEN 'Menang' 
                                  WHEN p.pemain_hitam = @id_user AND p.hasil = '1-0' THEN 'Kalah'
                                  WHEN p.hasil = '1/2-1/2' THEN 'Remis' ELSE p.hasil END AS ""Hasil""
                      FROM pertandingan p

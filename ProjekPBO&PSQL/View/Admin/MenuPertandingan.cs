@@ -250,6 +250,7 @@ namespace ProjekPBO_PSQL.View.Admin
         }
         private void roundedButton2_Click(object sender, EventArgs e)
         {
+            // 1. Validasi Input
             if (dataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Pilih baris pertandingan terlebih dahulu!", "Peringatan",
@@ -259,7 +260,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
             if (comboBox3.SelectedIndex == -1 || comboBox3.SelectedItem == null)
             {
-                MessageBox.Show("Pilih hasil di dropdown Input Point terlebih dahulu!", "Peringatan",
+                MessageBox.Show("Pilih hasil di dropdown terlebih dahulu!", "Peringatan",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -278,7 +279,7 @@ namespace ProjekPBO_PSQL.View.Admin
 
                     MessageBox.Show(
                         $"Hasil berhasil disimpan: {hasil}\n\n" +
-                        $"ELO terupdate (via Trigger):\n" +
+                        $"ELO terupdate:\n" +
                         $"• {eloInfo.NamaPutih}: {eloInfo.EloPutih}\n" +
                         $"• {eloInfo.NamaHitam}: {eloInfo.EloHitam}",
                         "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -294,17 +295,20 @@ namespace ProjekPBO_PSQL.View.Admin
                         string teks = comboBox2.SelectedItem.ToString().Replace("Babak ", "").Trim();
                         int.TryParse(teks, out babakSekarang);
                     }
-
-                    if (babakSekarang == totalBabak && kompetisiCtx.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
+                    if (babakSekarang == totalBabak && pertandinganCtx.ApakahSemuaPertandinganSelesai(idKompetisi, babakSekarang))
                     {
+                        MessageBox.Show("Semua babak telah selesai! Menampilkan Leaderboard.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         TampilkanLeaderboard(idKompetisi);
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Gagal menyimpan hasil: Data tidak ditemukan atau update gagal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Gagal menyimpan hasil: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

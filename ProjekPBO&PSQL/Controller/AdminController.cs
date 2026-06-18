@@ -11,11 +11,13 @@ namespace ProjekPBO_PSQL.Controller
     {
         private readonly KompetisiContext _kompetisiContext;
         private readonly TransaksiContext _transaksiContext;
+        private readonly PertandinganContext _pertandinganContext;
 
         public AdminController()
         {
             _kompetisiContext = new KompetisiContext();
             _transaksiContext = new TransaksiContext();
+            _pertandinganContext = new PertandinganContext();
         }
         public void TambahKompetisi(Tournament kompetisi)
         {
@@ -59,25 +61,25 @@ namespace ProjekPBO_PSQL.Controller
 
         public bool TambahTournament(Tournament tournament) => _kompetisiContext.TambahTournament(tournament);
         public bool EditTournament(Tournament tournament) => _kompetisiContext.EditTournament(tournament);
-        public DataTable AmbilSemuaTournament() => _kompetisiContext.AmbilSemuaTournament();
+        //public DataTable AmbilSemuaTournament() => _kompetisiContext.AmbilSemuaTournament();
         public DataTable AmbilSemuaPembayaran() => _transaksiContext.AmbilSemuaPembayaran();
-        public DataTable AmbilPendaftarTournament(int idKompetisi) => _kompetisiContext.AmbilPendaftarBerdasarkanTournament(idKompetisi);
+        //public DataTable AmbilPendaftarTournament(int idKompetisi) => _kompetisiContext.AmbilPendaftarBerdasarkanTournament(idKompetisi);
 
-        public bool GenerateBabakPertandingan(int idKompetisi, int babak)
-        {
-            if (_kompetisiContext.IsBabakSudahGenerated(idKompetisi, babak))
-                throw new Exception($"Pertandingan untuk Babak {babak} sudah pernah dibuat!");
+        //public bool GenerateBabakPertandingan(int idKompetisi, int babak)
+        //{
+        //    if (_kompetisiContext.IsBabakSudahGenerated(idKompetisi, babak))
+        //        throw new Exception($"Pertandingan untuk Babak {babak} sudah pernah dibuat!");
 
-            List<int> listPemain = _kompetisiContext.AmbilPemainTerdaftar(idKompetisi);
-            if (listPemain.Count < 2)
-                throw new Exception("Pemain terdaftar kurang dari 2 orang.");
+        //    List<int> listPemain = _kompetisiContext.AmbilPemainTerdaftar(idKompetisi);
+        //    if (listPemain.Count < 2)
+        //        throw new Exception("Pemain terdaftar kurang dari 2 orang.");
 
-            List<Tuple<int, int>> pasangan = new List<Tuple<int, int>>();
-            for (int i = 0; i < listPemain.Count - 1; i += 2)
-            {
-                pasangan.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
-            }
-            return _kompetisiContext.SimpanPertandinganGenerate(idKompetisi, babak, pasangan);
-        }
+        //    List<Tuple<int, int>> pasangan = new List<Tuple<int, int>>();
+        //    for (int i = 0; i < listPemain.Count - 1; i += 2)
+        //    {
+        //        pasangan.Add(new Tuple<int, int>(listPemain[i], listPemain[i + 1]));
+        //    }
+        //    return _kompetisiContext.SimpanPertandinganGenerate(idKompetisi, babak, pasangan);
+        //}
     }
 }
